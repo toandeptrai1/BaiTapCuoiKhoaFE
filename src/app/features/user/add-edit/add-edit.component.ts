@@ -12,13 +12,13 @@ export class AddEditComponent implements OnInit{
   startDate=new Date();
   endDate=new Date();
   departments!: departments[];
-  
+
   constructor(private employeeService:EmployeeService){
 
   }
   ngOnInit(): void {
     this.employeeService.getDepartments().subscribe((data) => {
-      this.departments = data;
+      this.departments = data.departments;
     });
 
   }

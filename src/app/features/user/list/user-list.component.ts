@@ -29,7 +29,7 @@ export class UserListComponent {
   constructor(private employeeService: EmployeeService) {}
   ngOnInit(): void {
     this.employeeService
-    .getEmployees(this.setUrlApi())
+      .getEmployees(this.setUrlApi())
       .pipe(
         catchError(() => {
           throw new Error('Đã xảy ra lỗi');
@@ -41,7 +41,7 @@ export class UserListComponent {
         console.log(this.totalPage);
       });
     this.employeeService.getDepartments().subscribe((data) => {
-      this.departments = data;
+      this.departments = data.departments;
     });
   }
   getDepartmentById(id: number) {
@@ -59,7 +59,7 @@ export class UserListComponent {
     console.log(this.setUrlApi());
     this.currentPage = 1;
     this.employeeService
-    .getEmployees(this.setUrlApi())
+      .getEmployees(this.setUrlApi())
       .pipe(
         catchError(() => {
           throw new Error('Đã xảy ra lỗi');
@@ -75,7 +75,7 @@ export class UserListComponent {
   goToPage(page: number) {
     this.currentPage = page;
     this.employeeService
-    .getEmployees(this.setUrlApi())
+      .getEmployees(this.setUrlApi())
       .pipe(
         catchError(() => {
           throw new Error('Đã xảy ra lỗi');
@@ -92,7 +92,6 @@ export class UserListComponent {
     return ord == 'desc';
   }
   setSortByName() {
-  
     if (this.sortByName == 'asc') {
       this.sortByName = 'desc';
     } else if (this.sortByName == 'desc') {
@@ -106,7 +105,7 @@ export class UserListComponent {
     console.log(this.orderBys);
     console.log(this.sortByName);
     this.employeeService
-    .getEmployees(this.setUrlApi())
+      .getEmployees(this.setUrlApi())
       .pipe(
         catchError(() => {
           throw new Error('Đã xảy ra lỗi');
@@ -117,7 +116,6 @@ export class UserListComponent {
       });
   }
   setSortByCertiName() {
-   
     if (this.sortByCertiName == 'asc') {
       this.sortByCertiName = 'desc';
     } else if (this.sortByCertiName == 'desc') {
@@ -130,7 +128,7 @@ export class UserListComponent {
     console.log(this.setUrlApi());
     console.log(this.orderBys);
     this.employeeService
-    .getEmployees(this.setUrlApi())
+      .getEmployees(this.setUrlApi())
       .pipe(
         catchError(() => {
           throw new Error('Đã xảy ra lỗi');
@@ -141,7 +139,6 @@ export class UserListComponent {
       });
   }
   setSortByEndDate() {
-    
     if (this.sortByEndDate == 'asc') {
       this.sortByEndDate = 'desc';
     } else if (this.sortByEndDate == 'desc') {
@@ -199,7 +196,6 @@ export class UserListComponent {
 
   // Tương tự cho các button sắp xếp khác
   changeIndexsortByName() {
-
     const sortByColumn = 'ord_employee_name';
 
     // Tìm vị trí của phần tử trong mảng
@@ -228,7 +224,6 @@ export class UserListComponent {
       // Đẩy phần tử lên đầu mảng
       this.orderBys.unshift(this.orderBys.splice(index, 1)[0]);
     }
-
   }
 
   changeIndexsortByCertiName() {
@@ -260,8 +255,6 @@ export class UserListComponent {
       // Đẩy phần tử lên đầu mảng
       this.orderBys.unshift(this.orderBys.splice(index, 1)[0]);
     }
-
-
   }
   setValueForOrderBys() {
     this.orderBys.forEach((item) => {
@@ -275,12 +268,15 @@ export class UserListComponent {
     });
   }
   setUrlApi() {
-    const baseUrl = `http://localhost:8085/employee?employee_name=${this.employeeName}&department_id=${this.departmentId}&offset=${this.currentPage-1}&limit=${this.itemsPerPage}&`;
+    const baseUrl = `http://localhost:8085/employee?employee_name=${
+      this.employeeName
+    }&department_id=${this.departmentId}&offset=${this.currentPage - 1}&limit=${
+      this.itemsPerPage
+    }&`;
     const queryString = this.orderBys
       .filter((item) => item.order !== '' && item.order !== null)
       .map((item) => `${item.column}=${item.order}`)
       .join('&');
-  
 
     let url = `${baseUrl}${queryString}`;
     if (url.endsWith('&')) {
