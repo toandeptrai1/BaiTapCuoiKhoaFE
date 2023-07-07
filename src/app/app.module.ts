@@ -10,6 +10,7 @@ import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from "@angular/common/http";
 import { TokenInterceptor } from './shared/auth/token.interceptor';
 import { FormsModule } from '@angular/forms';
+import { BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -26,8 +27,9 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   providers: [
-    TokenInterceptor
+    TokenInterceptor, BsDatepickerConfig
   ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
