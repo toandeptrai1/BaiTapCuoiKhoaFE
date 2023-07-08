@@ -7,9 +7,9 @@
                     <form class="c-form box-shadow was-validated">
                         <ul>
                             <li class="title">会員情報編集</li>
-                            <li class="box-err">
+                            <!-- <li class="box-err">
                                 <div class="box-err-content">Hiển thị lỗi chung lại đây</div>
-                            </li>
+                            </li> -->
                             <li class="form-group row d-flex">
                                 <label class="col-form-label col-sm-2"><i class="relative">カタカナ氏名:<span class="note-red">*</span></i></label>
                                 <div class="col-sm col-sm-10"><input type="text" class="form-control"></div>
@@ -31,7 +31,7 @@
                             <li class="form-group row d-flex">
                                 <label class="col-form-label col-sm-2"><i class="relative">カタカナ氏名:<span class="note-red">*</span></i></label>
                                 <div class="col-sm col-sm-10">
-                                    <input type="text" class="form-control" required>
+                                    <input type="text" class="form-control"[required]="false">
                                     <div class="invalid-feedback">Example invalid form file feedback</div>
                                 </div>
                             </li>
@@ -68,8 +68,8 @@
                                 <div class="col-sm col-sm-10">
                                     <select class="form-control">
                                         <option>選択してください</option>
-                                        <option>N 1</option>
-                                        <option>N 2</option>
+                                        <option *ngFor="let cer of certifications" [value]="cer.certificationId">{{cer.certificationName}}</option>
+                                      
                                     </select>
                                 </div>
                             </li>

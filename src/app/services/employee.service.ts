@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import {Observable } from 'rxjs';
 import { ApiResponse } from '../models/apiResponse';
 import { DepartmentResponse } from '../models/DepartmentResponse';
+import { CertificationsResponse } from '../models/CertificationsResponse';
 
 
 @Injectable({
@@ -13,6 +14,7 @@ import { DepartmentResponse } from '../models/DepartmentResponse';
 export class EmployeeService {
   urlEmployee:string="http://localhost:8085/employee"
   urlDepartment:string="http://localhost:8085/department"
+  urlCertification:string="http://localhost:8085/certification";
   constructor(private http:HttpClient) {
 
    }
@@ -30,4 +32,8 @@ export class EmployeeService {
   getDepartments():Observable<DepartmentResponse>{
     return this.http.get<DepartmentResponse>(this.urlDepartment);
   }
+  getCertification():Observable<CertificationsResponse>{
+    return this.http.get<CertificationsResponse>(this.urlCertification);
+  }
+
 }

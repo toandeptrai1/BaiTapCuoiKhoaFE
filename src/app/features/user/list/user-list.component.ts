@@ -20,7 +20,7 @@ export class UserListComponent {
   totalPage: number = 1;
   currentPage: number = 1;
   itemsPerPage: number = 4;
-  sortByName: string = '';
+  sortByName: string = 'asc';
   sortByCertiName: string = 'asc';
   sortByEndDate: string = 'asc';
   private orderBys: any[] = [

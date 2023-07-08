@@ -1,3 +1,4 @@
+import { Certification } from './../../../models/Certification';
 import { EmployeeService } from './../../../services/employee.service';
 import { departments } from './../../../models/departments';
 import { Component, OnInit } from '@angular/core';
@@ -12,6 +13,7 @@ export class AddEditComponent implements OnInit{
   startDate=new Date();
   endDate=new Date();
   departments!: departments[];
+  certifications:Certification[]=[];
 
   constructor(private employeeService:EmployeeService){
 
@@ -20,6 +22,7 @@ export class AddEditComponent implements OnInit{
     this.employeeService.getDepartments().subscribe((data) => {
       this.departments = data.departments;
     });
+    this.employeeService.getCertification().subscribe(data=>this.certifications=data.certifications);
 
   }
 
