@@ -40,7 +40,7 @@
                                             class="note-red">*</span></i></label>
                                 <div class="col-sm col-sm-10 d-flex">
                                     <div class="input-group date datepicker" >
-                                        <input class="form-control" readonly="" type="text" bsDatepicker [bsValue]="birdDate" [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }" #datepickerYMD="bsDatepicker"
+                                        <input class="form-control" readonly="" type="text" bsDatepicker  [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }" #datepickerYMD="bsDatepicker"
                                             >
                                         <span class="input-group-addon" (click)="datepickerYMD.toggle()"><i class="glyphicon glyphicon-calendar"></i></span>
                                     </div>
@@ -77,7 +77,7 @@
                                 <label class="col-form-label col-sm-2"><i class="relative">資格交付日:<span class="note-red">*</span></i></label>
                                 <div class="col-sm col-sm-10 d-flex">
                                     <div class="input-group date datepicker" >
-                                        <input class="form-control" readonly="" type="text" bsDatepicker [bsValue]="startDate" [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }" #startDatePicker="bsDatepicker"
+                                        <input class="form-control" readonly="" type="text" bsDatepicker  [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }" #startDatePicker="bsDatepicker"
                                             >
                                         <span class="input-group-addon" (click)="startDatePicker.toggle()"><i
                                                 class="glyphicon glyphicon-calendar"></i></span>
@@ -88,7 +88,7 @@
                                 <label class="col-form-label col-sm-2"><i class="relative">失効日:<span class="note-red">*</span></i></label>
                                 <div class="col-sm col-sm-10 d-flex">
                                     <div class="input-group date datepicker" >
-                                        <input class="form-control" readonly="" type="text" bsDatepicker [bsValue]="endDate"  [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }" #endDatePicker="bsDatepicker"
+                                        <input class="form-control" readonly="" type="text" bsDatepicker   [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }" #endDatePicker="bsDatepicker"
                                             >
                                         <span class="input-group-addon"(click)="endDatePicker.toggle()"><i class="glyphicon glyphicon-calendar"></i></span>
                                     </div>
