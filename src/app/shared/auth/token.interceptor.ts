@@ -30,11 +30,12 @@ export class AuthInterceptorService implements HttpInterceptor {
         request = this.addToken(request, token)
       }
     }
-    
+
     request = this.addContentType(request, 'application/json');
 
     return next.handle(request).pipe(
       catchError((error) => {
+       
         return throwError(() => new Error(error?.message));
       })
     );

@@ -4,6 +4,8 @@ import { ApiResponse } from 'src/app/models/apiResponse';
 import { departments } from 'src/app/models/departments';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { catchError } from 'rxjs';
+import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-list',
@@ -19,20 +21,22 @@ export class UserListComponent {
   currentPage: number = 1;
   itemsPerPage: number = 4;
   sortByName: string = '';
-  sortByCertiName: string = '';
-  sortByEndDate: string = '';
+  sortByCertiName: string = 'asc';
+  sortByEndDate: string = 'asc';
   private orderBys: any[] = [
     { column: 'ord_employee_name', order: this.sortByName },
     { column: 'ord_certification_name', order: this.sortByCertiName },
     { column: 'ord_end_date', order: this.sortByEndDate },
   ];
-  constructor(private employeeService: EmployeeService) {}
+  constructor(private employeeService: EmployeeService,private router: Router) {}
   ngOnInit(): void {
     this.employeeService
       .getEmployees(this.setUrlApi())
       .pipe(
-        catchError(() => {
-          throw new Error('Đã xảy ra lỗi');
+        catchError((err:HttpErrorResponse) => {
+          console.error(err);
+
+          return []
         })
       )
       .subscribe((data) => {

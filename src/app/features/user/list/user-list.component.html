@@ -2,7 +2,7 @@
   <div class="container">
     <app-header></app-header>
 
-    
+
     <div class="content">
       <div class="content-main">
         <div class="search-memb">
@@ -19,7 +19,7 @@
                   <select #select (change)="handleChange(select.value)">
                     <option value="">全て</option>
                     <option *ngFor="let dep of departments" [value]="dep.departmentId" [selected]="departmentId==(dep.departmentId+'')">{{dep.departmentName}}</option>
-                 
+
                   </select>
                 </div>
               </li>
@@ -37,7 +37,7 @@
           <div class="css-grid-table box-shadow">
             <div class="css-grid-table-header">
               <div>ID</div>
-              <div (click)=" setSortByName()">氏名 
+              <div (click)=" setSortByName()">氏名
                 <span *ngIf="isOrderASC(sortByName)">▲▽ </span>
                 <span *ngIf="!isOrderASC(sortByName)&&!isOrderDesc(sortByName)">△▽</span>
                 <span *ngIf="isOrderDesc(sortByName)">▼△</span>
@@ -73,7 +73,7 @@
                     <div>{{emp.score}}</div>
 
               </ng-container>
-            
+
 
             </div>
             <div class="pagin" *ngIf="totalPage>=1&&(data.totalRecords>data.employees.length)">

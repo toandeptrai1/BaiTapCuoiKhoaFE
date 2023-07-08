@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'user', redirectTo: 'user/list', pathMatch: 'full'},
   { path: 'user/add', component: AddEditComponent, canActivate: [AuthorizeGuard] },
   { path: 'user/list', component: UserListComponent, canActivate: [AuthorizeGuard] },
+  { path: 'systemerror', component: SystemErrorComponent },
   { path: '**', component: SystemErrorComponent },
 ];
 
