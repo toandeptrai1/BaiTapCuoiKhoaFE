@@ -9,9 +9,13 @@ import {
 import { Observable, throwError, } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { TokenUtils } from '../utils/token.utils';
+import { Router } from "@angular/router";
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
+  constructor(private router: Router){
+
+  }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = sessionStorage.getItem("access_token");
@@ -35,7 +39,19 @@ export class AuthInterceptorService implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError((error) => {
-       
+        let message = "";
+        if(error.status===500){
+          if(error.error.message.code==="ERR021"){
+              message="ソートは (ASC, DESC) でなければなりません。"
+          }
+          if(error.error.message.code==="ERR018"){
+            let param=error.error.message.params;
+            message=param+" phải là số halfsize."
+          }
+          this.router.navigate(["/systemerror"],{state:{message:message}})
+
+        }
+
         return throwError(() => new Error(error?.message));
       })
     );
