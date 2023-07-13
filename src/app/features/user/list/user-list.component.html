@@ -31,7 +31,6 @@
               </li>
             </ul>
           </form>
-          <h2 *ngIf="data.employees.length==0" style="text-align: center; margin-top: 20px;">検索条件に該当するユーザが見つかりません。(Không tim thấy user)</h2>
         </div>
         <div class="row row-table" >
           <div class="css-grid-table box-shadow">
@@ -58,7 +57,10 @@
               </div>
               <div>点数</div>
             </div>
+            <h2 *ngIf="data.employees.length==0" style="margin-top: 20px;">検索条件に該当するユーザが見つかりません。</h2>
+
             <div class="css-grid-table-body">
+
               <ng-container *ngFor="let emp of data.employees">
                   <div class="bor-l-none">
                       <a routerLink="/user/detail">{{emp.employeeId}}</a>

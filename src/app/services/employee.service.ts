@@ -18,14 +18,14 @@ export class EmployeeService {
   constructor(private http:HttpClient) {
 
    }
-  // getEmployees(employeeName:string="",departmentId:string="",page:number=0,size:number=2,sortByName:string="",sortByCertiName:string="",sortByEndDate:string=""):Observable<ApiResponse>{
+  getEmployees(employeeName:string="",departmentId:string="",page:number=0,size:number=4,sortByName:string="",sortByCertiName:string="",sortByEndDate:string=""):Observable<ApiResponse>{
 
-  //   return this.http.get<ApiResponse>(this.urlEmployee+`?employee_name=${employeeName}&department_id=${departmentId}&ord_employee_name=${sortByName}&ord_end_date=${sortByEndDate}&offset=${page}&limit=${size}&ord_certification_name=${sortByCertiName}`);
-  // }
-  getEmployees(url:string):Observable<ApiResponse>{
-
-    return this.http.get<ApiResponse>(url);
+    return this.http.get<ApiResponse>(this.urlEmployee+`?employee_name=${employeeName}&department_id=${departmentId}&ord_employee_name=${sortByName}&ord_end_date=${sortByEndDate}&offset=${page}&limit=${size}&ord_certification_name=${sortByCertiName}`);
   }
+  // getEmployees(url:string):Observable<ApiResponse>{
+
+  //   return this.http.get<ApiResponse>(url);
+  // }
   getDepartmentById(id:number){
     return this.http.get<departments>(`${this.urlDepartment}/${id}`)
   }
