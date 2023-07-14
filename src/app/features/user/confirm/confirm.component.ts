@@ -9,8 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfirmComponent implements OnInit {
   employee!: EmployeeAdd;
+  certificationName:string="";
+  departmentName:string="";
   constructor() {}
   ngOnInit(): void {
+    console.log(history.state)
     this.employee = history.state.data;
+    this.departmentName=history.state.departmentName;
+    this.certificationName=history.state.certificationName;
   }
 }

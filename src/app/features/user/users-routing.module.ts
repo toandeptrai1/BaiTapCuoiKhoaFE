@@ -1,4 +1,4 @@
-import { state } from '@angular/animations';
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SystemErrorComponent } from 'src/app/shared/component/error/system-error.component';

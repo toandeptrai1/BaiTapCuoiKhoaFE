@@ -9,6 +9,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-add-edit',
@@ -16,12 +17,16 @@ import {
   styleUrls: ['./add-edit.component.css'],
 })
 export class AddEditComponent implements OnInit {
+  bsConfig!: Partial<BsDatepickerConfig>;
   birdDate = new Date();
   startDate = new Date();
   endDate = new Date();
   departments!: departments[];
   certifications: Certification[] = [];
   addForm!: FormGroup;
+  certificationName:string="";
+  departmentName:string="";
+  submitted:boolean=false;
 
   constructor(
     private employeeService: EmployeeService,
@@ -29,6 +34,10 @@ export class AddEditComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit(): void {
+    this.bsConfig = {
+      dateInputFormat: 'YYYY-MM-DD',
+    
+    };
     this.employeeService.getDepartments().subscribe((data) => {
       this.departments = data.departments;
     });
@@ -45,6 +54,7 @@ export class AddEditComponent implements OnInit {
       employeeNameKana: new FormControl('', Validators.required),
       departmentId: new FormControl('', Validators.required),
       employeeLoginPassword: new FormControl('', Validators.required),
+      employeeConfirmPassword: new FormControl('', Validators.required),
       certifications: this.fb.group({
         certificationId: new FormControl('', Validators.required),
         certificationStartDate: new FormControl('', Validators.required),
@@ -54,8 +64,29 @@ export class AddEditComponent implements OnInit {
     });
   }
   navigateToADM005() {
-    this.router.navigate(['/user/confirm'], {
-      state: { data: this.addForm.value },
-    });
+    this.submitted=true;
+    if(this.addForm.valid){
+      this.router.navigate(['/user/confirm'], {
+        state: { data: this.addForm.value ,certificationName:this.certificationName,departmentName:this.departmentName},
+      });
+
+    }
+    
+  }
+  handleCertichange(id:any){
+
+   let certi= this.certifications.find(x=>x.certificationId==id);
+   if(certi){
+    this.certificationName=certi.certificationName;
+   }
+
+
+  }
+  handleDepartChange(id:any){
+   let depart=this.departments.find(x=>x.departmentId==id);
+   if(depart){
+    this.departmentName=depart.departmentName;
+   }
+
   }
 }

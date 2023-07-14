@@ -13,32 +13,44 @@
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">カタカナ氏名:<span
                       class="note-red">*</span></i></label>
-                <div class="col-sm col-sm-10"><input type="text" class="form-control" formControlName="employeeLoginId">
+                <div class="col-sm col-sm-10"><input type="text" class="form-control"
+                  [required]="(addForm.get('employeeLoginId')?.touched||submitted)&&addForm.get('employeeLoginId')?.errors!== undefined"
+                   formControlName="employeeLoginId">
+                  <div class="invalid-feedback" *ngIf="(addForm.get('employeeLoginId')?.touched||submitted)&&addForm.get('employeeLoginId')?.errors?.['required']">Hãy nhập カタカナ氏名</div>
+
                 </div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">グループ:<span
                       class="note-red">*</span></i></label>
                 <div class="col-sm col-sm-10">
-                  <select class="form-control" formControlName="departmentId">
+                  <select class="form-control"
+                  [required]="(addForm.get('departmentId')?.touched||submitted)&&addForm.get('departmentId')?.errors!== undefined"
+                   formControlName="departmentId" #depart (change)="handleDepartChange(depart.value)" >
                     <option>選択してください</option>
                     <option *ngFor="let dep of departments" [value]="dep.departmentId">{{dep.departmentName}}</option>
 
                   </select>
+                  <div class="invalid-feedback" *ngIf="(addForm.get('departmentId')?.touched||submitted)&&addForm.get('departmentId')?.errors?.['required']">Hãy chọn グループ</div>
                 </div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">氏名:<span
                       class="note-red">*</span></i></label>
-                <div class="col-sm col-sm-10"><input type="text" class="form-control" formControlName="employeeName">
+                <div class="col-sm col-sm-10"><input type="text" 
+                  [required]="(addForm.get('employeeName')?.touched||submitted)&&addForm.get('employeeName')?.errors!== undefined"
+                  class="form-control" formControlName="employeeName">
+                  <div class="invalid-feedback" *ngIf="(addForm.get('employeeName')?.touched||submitted)&&addForm.get('employeeName')?.errors?.['required']">Hãy nhập 氏名</div>
+
                 </div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">カタカナ氏名:<span
                       class="note-red">*</span></i></label>
                 <div class="col-sm col-sm-10">
-                  <input type="text" class="form-control" [required]="false" formControlName="employeeNameKana">
-                  <div class="invalid-feedback">Example invalid form file feedback</div>
+                  <input type="text" class="form-control" 
+                  [required]="(addForm.get('employeeNameKana')?.touched||submitted)&&addForm.get('employeeNameKana')?.errors!== undefined" formControlName="employeeNameKana">
+                  <div class="invalid-feedback" *ngIf="(addForm.get('employeeNameKana')?.touched||submitted)&&addForm.get('employeeNameKana')?.errors?.['required']">Hãy nhập カタカナ氏名</div>
                 </div>
               </li>
               <li class="form-group row d-flex">
@@ -47,45 +59,71 @@
                 <div class="col-sm col-sm-10 d-flex">
                   <div class="input-group date datepicker">
                     <input class="form-control" readonly="" type="text" bsDatepicker formControlName="employeeBirthDate"
+                  
                       [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }" #datepickerYMD="bsDatepicker">
                     <span class="input-group-addon" (click)="datepickerYMD.toggle()"><i
                         class="glyphicon glyphicon-calendar"></i></span>
                   </div>
+                  <div class="invalid-date" *ngIf="(addForm.get('employeeBirthDate')?.touched||submitted)&&addForm.get('employeeBirthDate')?.errors?.['required']">Hãy chọn 生年月日</div>
+
                 </div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">メールアドレス:<span
                       class="note-red">*</span></i></label>
-                <div class="col-sm col-sm-10"><input type="text" class="form-control" formControlName="employeeEmail">
+                <div class="col-sm col-sm-10"><input type="text" class="form-control"
+                  [required]="(addForm.get('employeeEmail')?.touched||submitted)&&addForm.get('employeeEmail')?.errors!== undefined"
+                   formControlName="employeeEmail">
+                <div class="invalid-feedback" *ngIf="(addForm.get('employeeEmail')?.touched||submitted)&&addForm.get('employeeEmail')?.errors?.['required']">Hãy nhập メールアドレス</div>
+
                 </div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">電話番号:<span
                       class="note-red">*</span></i></label>
                 <div class="col-sm col-sm-10"><input type="text" class="form-control"
-                    formControlName="employeeTelephone"></div>
+                  [required]="(addForm.get('employeeTelephone')?.touched||submitted)&&addForm.get('employeeTelephone')?.errors!== undefined"
+                    formControlName="employeeTelephone">
+                <div class="invalid-feedback" *ngIf="(addForm.get('employeeTelephone')?.touched||submitted)&&addForm.get('employeeTelephone')?.errors?.['required']">Hãy nhập 電話番号</div>
+
+                  </div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">パスワード:<span
                       class="note-red">*</span></i></label>
                 <div class="col-sm col-sm-10"><input type="text" class="form-control"
-                    formControlName="employeeLoginPassword"></div>
+                  [required]="(addForm.get('employeeLoginPassword')?.touched||submitted)&&addForm.get('employeeLoginPassword')?.errors!== undefined"
+                    formControlName="employeeLoginPassword">
+                <div class="invalid-feedback" *ngIf="(addForm.get('employeeLoginPassword')?.touched||submitted)&&addForm.get('employeeLoginPassword')?.errors?.['required']">Hãy nhập パスワード</div>
+
+                  </div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">パスワード（確認）:</i></label>
-                <div class="col-sm col-sm-10"><input type="text" class="form-control"></div>
+                <div class="col-sm col-sm-10"><input type="text" class="form-control"
+                  [required]="(addForm.get('employeeConfirmPassword')?.touched||submitted)&&addForm.get('employeeConfirmPassword')?.errors!== undefined"
+
+                   formControlName="employeeConfirmPassword">
+                <div class="invalid-feedback" *ngIf="(addForm.get('employeeConfirmPassword')?.touched||submitted)&&addForm.get('employeeConfirmPassword')?.errors?.['required']">Hãy nhập パスワード（確認）</div>
+
+                  </div>
               </li>
               <li class="title mt-12"><a href="#!">日本語能力</a></li>
               <ng-container formGroupName="certifications">
                 <li class="form-group row d-flex">
                   <label class="col-form-label col-sm-2"><i class="relative">資格:</i></label>
                   <div class="col-sm col-sm-10">
-                    <select class="form-control" formControlName="certificationId">
+                    <select class="form-control"
+                    [required]="(addForm.get('certifications')?.get('certificationId')?.touched||submitted)&&addForm.get('certifications')?.get('certificationId')?.errors!== undefined"
+
+                     formControlName="certificationId" #certi (change)="handleCertichange(certi.value)">
                       <option value="">選択してください</option>
                       <option *ngFor="let cer of certifications" [value]="cer.certificationId">{{cer.certificationName}}
                       </option>
 
                     </select>
+                    <div class="invalid-feedback" *ngIf="(addForm.get('certifications')?.get('certificationId')?.touched||submitted)&&addForm.get('certifications')?.get('certificationId')?.errors?.['required']">Hãy chọn 資格</div>
+
                   </div>
                 </li>
                 <li class="form-group row d-flex">
@@ -94,11 +132,13 @@
                   <div class="col-sm col-sm-10 d-flex">
                     <div class="input-group date datepicker">
                       <input class="form-control" readonly="" type="text" bsDatepicker
+
                         formControlName="certificationStartDate" [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }"
-                        value="2023-07-07" #startDatePicker="bsDatepicker">
+                         #startDatePicker="bsDatepicker">
                       <span class="input-group-addon" (click)="startDatePicker.toggle()"><i
                           class="glyphicon glyphicon-calendar"></i></span>
                     </div>
+                    <div class="invalid-date" *ngIf="(addForm.get('certifications.certificationStartDate')?.touched||submitted)&&addForm.get('certifications.certificationStartDate')?.errors?.['required']">Hãy chọn 資格交付日</div>
                   </div>
                 </li>
                 <li class="form-group row d-flex">
@@ -107,23 +147,31 @@
                   <div class="col-sm col-sm-10 d-flex">
                     <div class="input-group date datepicker">
                       <input class="form-control" readonly="" type="text" bsDatepicker
+                       
                         formControlName="certificationEndDate" [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }"
                         #endDatePicker="bsDatepicker">
                       <span class="input-group-addon" (click)="endDatePicker.toggle()"><i
                           class="glyphicon glyphicon-calendar"></i></span>
                     </div>
+                    <div class="invalid-date" *ngIf="(addForm.get('certifications.certificationEndDate')?.touched||submitted)&&addForm.get('certifications.certificationEndDate')?.errors?.['required']">Hãy chọn 失効日</div>
                   </div>
                 </li>
                 <li class="form-group row d-flex">
                   <label class="col-form-label col-sm-2"><i class="relative">点数:</i></label>
                   <div class="col-sm col-sm-10"><input type="text" formControlName="employeeCertificationScore"
-                      class="form-control"></div>
+               
+                    [required]="(addForm.get('certifications')?.get('employeeCertificationScore')?.touched||submitted)&&addForm.get('certifications')?.get('employeeCertificationScore')?.errors!== undefined"
+                  
+                      class="form-control">
+                    <div class="invalid-feedback" *ngIf="(addForm.get('certifications')?.get('employeeCertificationScore')?.touched||submitted)&&addForm.get('certifications')?.get('employeeCertificationScore')?.errors?.['required']">Hãy nhập 点数</div>
+
+                    </div>
                 </li>
               </ng-container>
 
               <li class="form-group row d-flex">
                 <div class="btn-group col-sm col-sm-10 ml">
-                  <button type="button" class="btn btn-primary btn-sm" (click)="navigateToADM005()">確認</button>
+                  <button  class="btn btn-primary btn-sm" (click)="navigateToADM005()">確認</button>
                   <button type="button" class="btn btn-secondary btn-sm"
                     onClick="location.href = './ADM002.html';return false;">戻る</button>
                 </div>
@@ -132,7 +180,7 @@
           </form>
         </div>
       </div>
-      <pre>{{addForm.value|json}}</pre>
+
 
     </div>
     <footer class="footer">
