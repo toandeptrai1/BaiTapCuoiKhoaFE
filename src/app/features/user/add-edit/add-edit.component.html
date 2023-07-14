@@ -1,120 +1,144 @@
 <main>
-    <div class="container">
-        <app-header></app-header>
-        <div class="content">
-            <div class="content-main">
-                <div class="row">
-                    <form class="c-form box-shadow was-validated">
-                        <ul>
-                            <li class="title">会員情報編集</li>
-                            <!-- <li class="box-err">
+  <div class="container">
+    <app-header></app-header>
+    <div class="content">
+      <div class="content-main">
+        <div class="row">
+          <form class="c-form box-shadow was-validated" [formGroup]="addForm">
+            <ul>
+              <li class="title">会員情報編集</li>
+              <!-- <li class="box-err">
                                 <div class="box-err-content">Hiển thị lỗi chung lại đây</div>
                             </li> -->
-                            <li class="form-group row d-flex">
-                                <label class="col-form-label col-sm-2"><i class="relative">カタカナ氏名:<span class="note-red">*</span></i></label>
-                                <div class="col-sm col-sm-10"><input type="text" class="form-control"></div>
-                            </li>
-                            <li class="form-group row d-flex">
-                                <label class="col-form-label col-sm-2"><i class="relative">グループ:<span class="note-red">*</span></i></label>
-                                <div class="col-sm col-sm-10">
-                                    <select class="form-control">
-                                        <option>選択してください</option>
-                                        <option *ngFor="let dep of departments" [value]="dep.departmentId">{{dep.departmentName}}</option>
-                                        
-                                    </select>
-                                </div>
-                            </li>
-                            <li class="form-group row d-flex">
-                                <label class="col-form-label col-sm-2"><i class="relative">氏名:<span class="note-red">*</span></i></label>
-                                <div class="col-sm col-sm-10"><input type="text" class="form-control"></div>
-                            </li>
-                            <li class="form-group row d-flex">
-                                <label class="col-form-label col-sm-2"><i class="relative">カタカナ氏名:<span class="note-red">*</span></i></label>
-                                <div class="col-sm col-sm-10">
-                                    <input type="text" class="form-control"[required]="false">
-                                    <div class="invalid-feedback">Example invalid form file feedback</div>
-                                </div>
-                            </li>
-                            <li class="form-group row d-flex">
-                                <label class="col-form-label col-sm-2"><i class="relative">生年月日:<span
-                                            class="note-red">*</span></i></label>
-                                <div class="col-sm col-sm-10 d-flex">
-                                    <div class="input-group date datepicker" >
-                                        <input class="form-control" readonly="" type="text" bsDatepicker  [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }" #datepickerYMD="bsDatepicker"
-                                            >
-                                        <span class="input-group-addon" (click)="datepickerYMD.toggle()"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="form-group row d-flex">
-                                <label class="col-form-label col-sm-2"><i class="relative">メールアドレス:<span class="note-red">*</span></i></label>
-                                <div class="col-sm col-sm-10"><input type="text" class="form-control"></div>
-                            </li>
-                            <li class="form-group row d-flex">
-                                <label class="col-form-label col-sm-2"><i class="relative">電話番号:<span class="note-red">*</span></i></label>
-                                <div class="col-sm col-sm-10"><input type="text" class="form-control"></div>
-                            </li>
-                            <li class="form-group row d-flex">
-                                <label class="col-form-label col-sm-2"><i class="relative">パスワード:<span class="note-red">*</span></i></label>
-                                <div class="col-sm col-sm-10"><input type="text" class="form-control"></div>
-                            </li>
-                            <li class="form-group row d-flex">
-                                <label class="col-form-label col-sm-2"><i class="relative">パスワード（確認）:</i></label>
-                                <div class="col-sm col-sm-10"><input type="text" class="form-control"></div>
-                            </li>
-                            <li class="title mt-12"><a href="#!">日本語能力</a></li>
-                            <li class="form-group row d-flex">
-                                <label class="col-form-label col-sm-2"><i class="relative">資格:</i></label>
-                                <div class="col-sm col-sm-10">
-                                    <select class="form-control">
-                                        <option>選択してください</option>
-                                        <option *ngFor="let cer of certifications" [value]="cer.certificationId">{{cer.certificationName}}</option>
-                                      
-                                    </select>
-                                </div>
-                            </li>
-                            <li class="form-group row d-flex">
-                                <label class="col-form-label col-sm-2"><i class="relative">資格交付日:<span class="note-red">*</span></i></label>
-                                <div class="col-sm col-sm-10 d-flex">
-                                    <div class="input-group date datepicker" >
-                                        <input class="form-control" readonly="" type="text" bsDatepicker  [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }" #startDatePicker="bsDatepicker"
-                                            >
-                                        <span class="input-group-addon" (click)="startDatePicker.toggle()"><i
-                                                class="glyphicon glyphicon-calendar"></i></span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="form-group row d-flex">
-                                <label class="col-form-label col-sm-2"><i class="relative">失効日:<span class="note-red">*</span></i></label>
-                                <div class="col-sm col-sm-10 d-flex">
-                                    <div class="input-group date datepicker" >
-                                        <input class="form-control" readonly="" type="text" bsDatepicker   [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }" #endDatePicker="bsDatepicker"
-                                            >
-                                        <span class="input-group-addon"(click)="endDatePicker.toggle()"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="form-group row d-flex">
-                                <label class="col-form-label col-sm-2"><i class="relative">点数:</i></label>
-                                <div class="col-sm col-sm-10"><input type="text" class="form-control"></div>
-                            </li>
-                            <li  class="form-group row d-flex">
-                                <div class="btn-group col-sm col-sm-10 ml">
-                                    <button type="button" class="btn btn-primary btn-sm" onClick="location.href = './ADM005.html';return false;">確認</button>
-                                    <button type="button" class="btn btn-secondary btn-sm" onClick="location.href = './ADM002.html';return false;">戻る</button>
-                                </div>
-                            </li>
-                        </ul>
-                    </form>
+              <li class="form-group row d-flex">
+                <label class="col-form-label col-sm-2"><i class="relative">カタカナ氏名:<span
+                      class="note-red">*</span></i></label>
+                <div class="col-sm col-sm-10"><input type="text" class="form-control" formControlName="employeeLoginId">
                 </div>
-            </div>
+              </li>
+              <li class="form-group row d-flex">
+                <label class="col-form-label col-sm-2"><i class="relative">グループ:<span
+                      class="note-red">*</span></i></label>
+                <div class="col-sm col-sm-10">
+                  <select class="form-control" formControlName="departmentId">
+                    <option>選択してください</option>
+                    <option *ngFor="let dep of departments" [value]="dep.departmentId">{{dep.departmentName}}</option>
 
+                  </select>
+                </div>
+              </li>
+              <li class="form-group row d-flex">
+                <label class="col-form-label col-sm-2"><i class="relative">氏名:<span
+                      class="note-red">*</span></i></label>
+                <div class="col-sm col-sm-10"><input type="text" class="form-control" formControlName="employeeName">
+                </div>
+              </li>
+              <li class="form-group row d-flex">
+                <label class="col-form-label col-sm-2"><i class="relative">カタカナ氏名:<span
+                      class="note-red">*</span></i></label>
+                <div class="col-sm col-sm-10">
+                  <input type="text" class="form-control" [required]="false" formControlName="employeeNameKana">
+                  <div class="invalid-feedback">Example invalid form file feedback</div>
+                </div>
+              </li>
+              <li class="form-group row d-flex">
+                <label class="col-form-label col-sm-2"><i class="relative">生年月日:<span
+                      class="note-red">*</span></i></label>
+                <div class="col-sm col-sm-10 d-flex">
+                  <div class="input-group date datepicker">
+                    <input class="form-control" readonly="" type="text" bsDatepicker formControlName="employeeBirthDate"
+                      [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }" #datepickerYMD="bsDatepicker">
+                    <span class="input-group-addon" (click)="datepickerYMD.toggle()"><i
+                        class="glyphicon glyphicon-calendar"></i></span>
+                  </div>
+                </div>
+              </li>
+              <li class="form-group row d-flex">
+                <label class="col-form-label col-sm-2"><i class="relative">メールアドレス:<span
+                      class="note-red">*</span></i></label>
+                <div class="col-sm col-sm-10"><input type="text" class="form-control" formControlName="employeeEmail">
+                </div>
+              </li>
+              <li class="form-group row d-flex">
+                <label class="col-form-label col-sm-2"><i class="relative">電話番号:<span
+                      class="note-red">*</span></i></label>
+                <div class="col-sm col-sm-10"><input type="text" class="form-control"
+                    formControlName="employeeTelephone"></div>
+              </li>
+              <li class="form-group row d-flex">
+                <label class="col-form-label col-sm-2"><i class="relative">パスワード:<span
+                      class="note-red">*</span></i></label>
+                <div class="col-sm col-sm-10"><input type="text" class="form-control"
+                    formControlName="employeeLoginPassword"></div>
+              </li>
+              <li class="form-group row d-flex">
+                <label class="col-form-label col-sm-2"><i class="relative">パスワード（確認）:</i></label>
+                <div class="col-sm col-sm-10"><input type="text" class="form-control"></div>
+              </li>
+              <li class="title mt-12"><a href="#!">日本語能力</a></li>
+              <ng-container formGroupName="certifications">
+                <li class="form-group row d-flex">
+                  <label class="col-form-label col-sm-2"><i class="relative">資格:</i></label>
+                  <div class="col-sm col-sm-10">
+                    <select class="form-control" formControlName="certificationId">
+                      <option value="">選択してください</option>
+                      <option *ngFor="let cer of certifications" [value]="cer.certificationId">{{cer.certificationName}}
+                      </option>
+
+                    </select>
+                  </div>
+                </li>
+                <li class="form-group row d-flex">
+                  <label class="col-form-label col-sm-2"><i class="relative">資格交付日:<span
+                        class="note-red">*</span></i></label>
+                  <div class="col-sm col-sm-10 d-flex">
+                    <div class="input-group date datepicker">
+                      <input class="form-control" readonly="" type="text" bsDatepicker
+                        formControlName="certificationStartDate" [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }"
+                        value="2023-07-07" #startDatePicker="bsDatepicker">
+                      <span class="input-group-addon" (click)="startDatePicker.toggle()"><i
+                          class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="form-group row d-flex">
+                  <label class="col-form-label col-sm-2"><i class="relative">失効日:<span
+                        class="note-red">*</span></i></label>
+                  <div class="col-sm col-sm-10 d-flex">
+                    <div class="input-group date datepicker">
+                      <input class="form-control" readonly="" type="text" bsDatepicker
+                        formControlName="certificationEndDate" [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }"
+                        #endDatePicker="bsDatepicker">
+                      <span class="input-group-addon" (click)="endDatePicker.toggle()"><i
+                          class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="form-group row d-flex">
+                  <label class="col-form-label col-sm-2"><i class="relative">点数:</i></label>
+                  <div class="col-sm col-sm-10"><input type="text" formControlName="employeeCertificationScore"
+                      class="form-control"></div>
+                </li>
+              </ng-container>
+
+              <li class="form-group row d-flex">
+                <div class="btn-group col-sm col-sm-10 ml">
+                  <button type="button" class="btn btn-primary btn-sm" (click)="navigateToADM005()">確認</button>
+                  <button type="button" class="btn btn-secondary btn-sm"
+                    onClick="location.href = './ADM002.html';return false;">戻る</button>
+                </div>
+              </li>
+            </ul>
+          </form>
         </div>
-        <footer class="footer">
-            <div class="content-main">
-                <p>Copyright ©　2010　ルビナソフトウエア株式会社. All rights reserved.</p>
-            </div>
-        </footer>
-    </div>
-</main>
+      </div>
+      <pre>{{addForm.value|json}}</pre>
 
+    </div>
+    <footer class="footer">
+      <div class="content-main">
+        <p>Copyright ©　2010　ルビナソフトウエア株式会社. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+</main>

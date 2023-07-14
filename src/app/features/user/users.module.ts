@@ -7,20 +7,19 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AddEditComponent } from './add-edit/add-edit.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ConfirmComponent } from './confirm/confirm.component';
 
 @NgModule({
-  declarations: [
-    UserListComponent,
-    AddEditComponent,
-  ],
+  declarations: [UserListComponent, AddEditComponent, ConfirmComponent],
   imports: [
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),
     CommonModule,
     SharedModule,
     UsersRoutingModule,
-    FormsModule
-
-  ]
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
-export class UsersModule { }
+export class UsersModule {}
