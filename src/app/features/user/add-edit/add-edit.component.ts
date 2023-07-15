@@ -10,6 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { EmployeeAdd } from 'src/app/models/EmployeeAdd';
 
 @Component({
   selector: 'app-add-edit',
@@ -24,9 +25,9 @@ export class AddEditComponent implements OnInit {
   departments!: departments[];
   certifications: Certification[] = [];
   addForm!: FormGroup;
-  certificationName:string="";
-  departmentName:string="";
-  submitted:boolean=false;
+  certificationName: string = '';
+  departmentName: string = '';
+  submitted: boolean = false;
 
   constructor(
     private employeeService: EmployeeService,
@@ -36,7 +37,6 @@ export class AddEditComponent implements OnInit {
   ngOnInit(): void {
     this.bsConfig = {
       dateInputFormat: 'YYYY-MM-DD',
-    
     };
     this.employeeService.getDepartments().subscribe((data) => {
       this.departments = data.departments;
@@ -62,31 +62,88 @@ export class AddEditComponent implements OnInit {
         employeeCertificationScore: new FormControl('', Validators.required),
       }),
     });
+    if (history.state.employee) {
+      let employee: EmployeeAdd = history.state.employee;
+      this.addForm = this.fb.group({
+        employeeName: new FormControl(
+          employee.employeeName,
+          Validators.required
+        ),
+        employeeEmail: new FormControl(
+          employee.employeeEmail,
+          Validators.required
+        ),
+        employeeLoginId: new FormControl(
+          employee.employeeLoginId,
+          Validators.required
+        ),
+        employeeTelephone: new FormControl(
+          employee.employeeTelephone,
+          Validators.required
+        ),
+        employeeBirthDate: new FormControl(
+          employee.employeeBirthDate,
+          Validators.required
+        ),
+        employeeNameKana: new FormControl(
+          employee.employeeNameKana,
+          Validators.required
+        ),
+        departmentId: new FormControl(
+          employee.departmentId,
+          Validators.required
+        ),
+        employeeLoginPassword: new FormControl(
+          employee.employeeLoginPassword,
+          Validators.required
+        ),
+        employeeConfirmPassword: new FormControl(
+          employee.employeeLoginPassword,
+          Validators.required
+        ),
+        certifications: this.fb.group({
+          certificationId: new FormControl(
+            employee.certifications.certificationId,
+            Validators.required
+          ),
+          certificationStartDate: new FormControl(
+            employee.certifications.certificationEndDate,
+            Validators.required
+          ),
+          certificationEndDate: new FormControl(
+            employee.certifications.certificationEndDate,
+            Validators.required
+          ),
+          employeeCertificationScore: new FormControl(
+            employee.certifications.employeeCertificationScore,
+            Validators.required
+          ),
+        }),
+      });
+    }
   }
   navigateToADM005() {
-    this.submitted=true;
-    if(this.addForm.valid){
+    this.submitted = true;
+    if (this.addForm.valid) {
       this.router.navigate(['/user/confirm'], {
-        state: { data: this.addForm.value ,certificationName:this.certificationName,departmentName:this.departmentName},
+        state: {
+          data: this.addForm.value,
+          certificationName: this.certificationName,
+          departmentName: this.departmentName,
+        },
       });
-
     }
-    
   }
-  handleCertichange(id:any){
-
-   let certi= this.certifications.find(x=>x.certificationId==id);
-   if(certi){
-    this.certificationName=certi.certificationName;
-   }
-
-
+  handleCertichange(id: any) {
+    let certi = this.certifications.find((x) => x.certificationId == id);
+    if (certi) {
+      this.certificationName = certi.certificationName;
+    }
   }
-  handleDepartChange(id:any){
-   let depart=this.departments.find(x=>x.departmentId==id);
-   if(depart){
-    this.departmentName=depart.departmentName;
-   }
-
+  handleDepartChange(id: any) {
+    let depart = this.departments.find((x) => x.departmentId == id);
+    if (depart) {
+      this.departmentName = depart.departmentName;
+    }
   }
 }

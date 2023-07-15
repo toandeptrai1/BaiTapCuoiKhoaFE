@@ -7,29 +7,26 @@ import { LoginComponent } from './features/authenricate/login/login.component';
 import { UsersModule } from './features/user/users.module';
 import { SystemErrorComponent } from './shared/component/error/system-error.component';
 import { SharedModule } from './shared/shared.module';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './shared/auth/token.interceptor';
 import { FormsModule } from '@angular/forms';
-import { BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import {
+  BsDatepickerModule,
+  BsDatepickerConfig,
+} from 'ngx-bootstrap/datepicker';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    SystemErrorComponent,
-  ],
+  declarations: [AppComponent, LoginComponent, SystemErrorComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     UsersModule,
     SharedModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ],
-  providers: [
-    TokenInterceptor, BsDatepickerConfig
-  ],
+  providers: [TokenInterceptor, BsDatepickerConfig],
 
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
