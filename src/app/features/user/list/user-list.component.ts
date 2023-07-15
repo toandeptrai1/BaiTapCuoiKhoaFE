@@ -1,5 +1,8 @@
+/**
+ * Copyright(C) 2023 Luvina Software Company
+ * UserListComponent.ts, July 15, 2023 Toannq
+ */
 import { Component } from '@angular/core';
-
 import { ApiResponse } from 'src/app/models/apiResponse';
 import { departments } from 'src/app/models/departments';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -12,6 +15,10 @@ import { Router } from '@angular/router';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css'],
 })
+/**
+ * Xử lý các logic và khai báo các tham số cần thiết cho UserListComponent
+ * @author Toannq
+ */
 export class UserListComponent {
   data!: ApiResponse;
   departments!: departments[];
@@ -23,8 +30,16 @@ export class UserListComponent {
   sortByName: string = 'asc';
   sortByCertiName: string = 'asc';
   sortByEndDate: string = 'asc';
-
+  /**
+   * Inject các service cần thiết
+   * @param employeeService employeeService
+   * @param router router
+   */
   constructor(private employeeService: EmployeeService,private router: Router) {}
+  /**
+   * Gán các giá trị cho các thuộc tính và xử lý các logic ban đầu khi
+   * componen render lần đâu.
+   */
   ngOnInit(): void {
     this.employeeService.getEmployees(this.employeeName,this.departmentId,this.currentPage-1,this.itemsPerPage,this.sortByName,this.sortByCertiName,this.sortByEndDate).pipe(
       catchError(()=>{
@@ -40,17 +55,23 @@ export class UserListComponent {
       this.departments = data.departments;
     });
   }
-  getDepartmentById(id: number) {
-    let department;
-    department = this.departments.find((d) => d.departmentId == id);
-    return department;
-  }
+  /**
+   * Gán lại giá trị cho departmentId
+   * @param value giá trị của departmentID
+   */
   handleChange(value: any) {
     this.departmentId = value + '';
   }
+  /**
+   * Gán lại giá trị employeeName 
+   * @param value giá trị mà người dùng nhập
+   */
   handleInput(value: any) {
     this.employeeName = value;
   }
+  /**
+   * Xử lý sự kiện button search
+   */
   onSearch() {
     this.currentPage = 1;
     this.employeeService.getEmployees(this.employeeName,this.departmentId,this.currentPage-1,this.itemsPerPage,this.sortByName,this.sortByCertiName,this.sortByEndDate).pipe(
@@ -64,6 +85,11 @@ export class UserListComponent {
     }
       );
   }
+  /**
+   * Xử lý sự kiện người dùng click 1 page number 
+   * ở vùng paging trên giao diện
+   * @param page page number 
+   */
   goToPage(page: number) {
     this.currentPage = page;
     this.employeeService.getEmployees(this.employeeName,this.departmentId,this.currentPage-1,this.itemsPerPage,this.sortByName,this.sortByCertiName,this.sortByEndDate).pipe(
@@ -77,12 +103,26 @@ export class UserListComponent {
     }
       );
   }
+  /**
+   * 
+   * @param ord thứ tự sắp xếp
+   * @returns thứ tự sắp xếp 
+   */
   isOrderASC(ord: string) {
     return ord == 'asc';
   }
+ /**
+   * 
+   * @param ord thứ tự sắp xếp
+   * @returns thứ tự sắp xếp 
+   */
   isOrderDesc(ord: string) {
     return ord == 'desc';
   }
+  /**
+   * gán lại thứ tự sắp xếp của sortByName
+   * và gọi api sắp xếp
+   */
   setSortByName() {
     if (this.sortByName == 'asc') {
       this.sortByName = 'desc';
@@ -104,6 +144,10 @@ export class UserListComponent {
     }
       );
   }
+   /**
+   * gán lại thứ tự sắp xếp của SortByCertiName
+   * và gọi api sắp xếp
+   */
   setSortByCertiName() {
     if (this.sortByCertiName == 'asc') {
       this.sortByCertiName = 'desc';
@@ -124,6 +168,10 @@ export class UserListComponent {
     }
       );
   }
+  /**
+   * gán lại thứ tự sắp xếp của SortByEndDate
+   * và gọi api sắp xếp
+   */
   setSortByEndDate() {
     if (this.sortByEndDate == 'asc') {
       this.sortByEndDate = 'desc';
