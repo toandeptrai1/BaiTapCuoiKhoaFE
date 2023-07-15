@@ -19,6 +19,6 @@ export class ConfirmComponent implements OnInit {
     this.certificationName = history.state.certificationName;
   }
   navigateToEditAdd() {
-    this.router.navigate(['/user/add'], { state: { employee: this.employee } });
+    this.router.navigate(['/user/add'], { state: { employee: this.employee ,departmentName:this.departmentName,certificationName:this.certificationName} });
   }
 }

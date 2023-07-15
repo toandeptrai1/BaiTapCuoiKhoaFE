@@ -64,6 +64,8 @@ export class AddEditComponent implements OnInit {
     });
     if (history.state.employee) {
       let employee: EmployeeAdd = history.state.employee;
+      this.departmentName=history.state.departmentName;
+      this.certificationName=history.state.certificationName;
       this.addForm = this.fb.group({
         employeeName: new FormControl(
           employee.employeeName,
@@ -122,7 +124,7 @@ export class AddEditComponent implements OnInit {
       });
     }
   }
-  navigateToADM005() {
+  navigateToConfirm() {
     this.submitted = true;
     if (this.addForm.valid) {
       this.router.navigate(['/user/confirm'], {
