@@ -9,5 +9,6 @@ export interface EmployeeAdd {
   employeeNameKana: string;
   departmentId: string;
   employeeLoginPassword: string;
-  certifications: EmployeeCertification;
+  employeeConfirmPassword: string;
+  certifications: EmployeeCertification[];
 }

@@ -8,6 +8,7 @@ import { EmployeeService } from './../../../services/employee.service';
 import { departments } from './../../../models/departments';
 import { Component, OnInit } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -22,10 +23,10 @@ import { EmployeeAdd } from 'src/app/models/EmployeeAdd';
   styleUrls: ['./add-edit.component.css'],
 })
 /**
- * Xử lý các logic và khai báo các tham số cần thiết cho 
+ * Xử lý các logic và khai báo các tham số cần thiết cho
  * AddEditComponet
  * @author Toannq
- * 
+ *
  */
 export class AddEditComponent implements OnInit {
   bsConfig!: Partial<BsDatepickerConfig>;
@@ -33,11 +34,12 @@ export class AddEditComponent implements OnInit {
   startDate = new Date();
   endDate = new Date();
   departments!: departments[];
-  certifications: Certification[] = [];
+  certificationList: Certification[] = [];
   addForm!: FormGroup;
   certificationName: string = '';
   departmentName: string = '';
   submitted: boolean = false;
+  isSelectedCerti: boolean = false;
   /**
    * Xử lý inject các service cần thiết
    * @param employeeService service employeeService
@@ -48,11 +50,12 @@ export class AddEditComponent implements OnInit {
     private employeeService: EmployeeService,
     private fb: FormBuilder,
     private router: Router
-  ) {
-
+  ) {}
+  get certifications(): FormArray {
+    return this.addForm.get('certifications') as FormArray;
   }
   /**
-   * Xử lý gán các giá trị hoặc xử lý các logic 
+   * Xử lý gán các giá trị hoặc xử lý các logic
    * khi component lần đầu được render
    */
   ngOnInit(): void {
@@ -67,7 +70,7 @@ export class AddEditComponent implements OnInit {
      */
     this.employeeService
       .getCertification()
-      .subscribe((data) => (this.certifications = data.certifications));
+      .subscribe((data) => (this.certificationList = data.certifications));
     this.addForm = this.fb.group({
       employeeName: new FormControl('', Validators.required),
       employeeEmail: new FormControl('', Validators.required),
@@ -78,21 +81,36 @@ export class AddEditComponent implements OnInit {
       departmentId: new FormControl('', Validators.required),
       employeeLoginPassword: new FormControl('', Validators.required),
       employeeConfirmPassword: new FormControl('', Validators.required),
-      certifications: this.fb.group({
-        certificationId: new FormControl('', Validators.required),
-        certificationStartDate: new FormControl('', Validators.required),
-        certificationEndDate: new FormControl('', Validators.required),
-        employeeCertificationScore: new FormControl('', Validators.required),
-      }),
+      certifications: this.fb.array([
+        this.fb.group({
+          certificationId: new FormControl(''),
+          certificationStartDate: new FormControl(''),
+          certificationEndDate: new FormControl(''),
+          employeeCertificationScore: new FormControl(''),
+        }),
+      ]),
     });
+    this.addForm.controls['certifications']
+      ?.get(0 + '')
+      ?.get('certificationStartDate')
+      ?.disable();
+    this.addForm.controls['certifications']
+      ?.get(0 + '')
+      ?.get('certificationEndDate')
+      ?.disable();
+    this.addForm.controls['certifications']
+      ?.get(0 + '')
+      ?.get('employeeCertificationScore')
+      ?.disable();
     /**
      * Gán lại giá trị được truyền từ màn confirm
      * cho form trong trường hợp back từ màn hình confirm về
      */
     if (history.state.employee) {
+      this.isSelectedCerti = true;
       let employee: EmployeeAdd = history.state.employee;
-      this.departmentName=history.state.departmentName;
-      this.certificationName=history.state.certificationName;
+      this.departmentName = history.state.departmentName;
+      this.certificationName = history.state.certificationName;
       this.addForm = this.fb.group({
         employeeName: new FormControl(
           employee.employeeName,
@@ -130,29 +148,50 @@ export class AddEditComponent implements OnInit {
           employee.employeeLoginPassword,
           Validators.required
         ),
-        certifications: this.fb.group({
-          certificationId: new FormControl(
-            employee.certifications.certificationId,
-            Validators.required
-          ),
-          certificationStartDate: new FormControl(
-            employee.certifications.certificationEndDate,
-            Validators.required
-          ),
-          certificationEndDate: new FormControl(
-            employee.certifications.certificationEndDate,
-            Validators.required
-          ),
-          employeeCertificationScore: new FormControl(
-            employee.certifications.employeeCertificationScore,
-            Validators.required
-          ),
-        }),
+        certifications: this.fb.array([
+          this.fb.group({
+            certificationId: new FormControl(
+              employee.certifications[0]
+                ? employee.certifications[0].certificationId
+                : ''
+            ),
+            certificationStartDate: new FormControl(
+              employee.certifications[0]
+                ? employee.certifications[0].certificationEndDate
+                : ''
+            ),
+            certificationEndDate: new FormControl(
+              employee.certifications[0]
+                ? employee.certifications[0].certificationEndDate
+                : ''
+            ),
+            employeeCertificationScore: new FormControl(
+              employee.certifications[0]
+                ? employee.certifications[0].employeeCertificationScore
+                : ''
+            ),
+          }),
+        ]),
       });
+      if (!employee.certifications[0].certificationId) {
+        this.isSelectedCerti = false;
+        this.addForm.controls['certifications']
+          ?.get(0 + '')
+          ?.get('certificationStartDate')
+          ?.disable();
+        this.addForm.controls['certifications']
+          ?.get(0 + '')
+          ?.get('certificationEndDate')
+          ?.disable();
+        this.addForm.controls['certifications']
+          ?.get(0 + '')
+          ?.get('employeeCertificationScore')
+          ?.disable();
+      }
     }
   }
   /**
-   * Xử lý vệc navigate sang màn hình confirm với data được lấy 
+   * Xử lý vệc navigate sang màn hình confirm với data được lấy
    * được từ giá trị mà người dùng nhập
    */
   navigateToConfirm() {
@@ -168,18 +207,147 @@ export class AddEditComponent implements OnInit {
     }
   }
   /**
-   * Xử lý việc gán lại certificationName khi thay đổi 
+   * Xử lý việc gán lại certificationName khi thay đổi
    * lựa chọn ở dropdown certification ở giao diện
-   * @param id certificationId 
+   * @param id certificationId
    */
   handleCertichange(id: any) {
-    let certi = this.certifications.find((x) => x.certificationId == id);
-    if (certi) {
-      this.certificationName = certi.certificationName;
+    let employeeAdd: EmployeeAdd = this.addForm.value;
+    if (id) {
+      this.isSelectedCerti = true;
+      let certi = this.certificationList.find((x) => x.certificationId == id);
+      let employee: EmployeeAdd = history.state.employee;
+      this.certificationName = certi?.certificationName
+        ? certi.certificationName
+        : '';
+
+      this.addForm = this.fb.group({
+        employeeName: new FormControl(
+          employeeAdd.employeeName,
+          Validators.required
+        ),
+        employeeEmail: new FormControl(
+          employeeAdd.employeeEmail,
+          Validators.required
+        ),
+        employeeLoginId: new FormControl(
+          employeeAdd.employeeLoginId,
+          Validators.required
+        ),
+        employeeTelephone: new FormControl(
+          employeeAdd.employeeTelephone,
+          Validators.required
+        ),
+        employeeBirthDate: new FormControl(
+          employeeAdd.employeeBirthDate,
+          Validators.required
+        ),
+        employeeNameKana: new FormControl(
+          employeeAdd.employeeNameKana,
+          Validators.required
+        ),
+        departmentId: new FormControl(
+          employeeAdd.departmentId,
+          Validators.required
+        ),
+        employeeLoginPassword: new FormControl(
+          employeeAdd.employeeLoginPassword,
+          Validators.required
+        ),
+        employeeConfirmPassword: new FormControl(
+          employeeAdd.employeeConfirmPassword,
+          Validators.required
+        ),
+        certifications: this.fb.array([
+          this.fb.group({
+            certificationId: new FormControl(id),
+            certificationStartDate: new FormControl('', Validators.required),
+            certificationEndDate: new FormControl('', Validators.required),
+            employeeCertificationScore: new FormControl(
+              '',
+              Validators.required
+            ),
+          }),
+        ]),
+      });
+
+      this.addForm.controls['certifications']
+        ?.get(0 + '')
+        ?.get('certificationStartDate')
+        ?.enable();
+      this.addForm.controls['certifications']
+        ?.get(0 + '')
+        ?.get('certificationEndDate')
+        ?.enable();
+      this.addForm.controls['certifications']
+        ?.get(0 + '')
+        ?.get('employeeCertificationScore')
+        ?.enable();
+    } else {
+      this.certificationName = '';
+      this.isSelectedCerti = false;
+      this.addForm = this.fb.group({
+        employeeName: new FormControl(
+          employeeAdd.employeeName,
+          Validators.required
+        ),
+        employeeEmail: new FormControl(
+          employeeAdd.employeeEmail,
+          Validators.required
+        ),
+        employeeLoginId: new FormControl(
+          employeeAdd.employeeLoginId,
+          Validators.required
+        ),
+        employeeTelephone: new FormControl(
+          employeeAdd.employeeTelephone,
+          Validators.required
+        ),
+        employeeBirthDate: new FormControl(
+          employeeAdd.employeeBirthDate,
+          Validators.required
+        ),
+        employeeNameKana: new FormControl(
+          employeeAdd.employeeNameKana,
+          Validators.required
+        ),
+        departmentId: new FormControl(
+          employeeAdd.departmentId,
+          Validators.required
+        ),
+        employeeLoginPassword: new FormControl(
+          employeeAdd.employeeLoginPassword,
+          Validators.required
+        ),
+        employeeConfirmPassword: new FormControl(
+          employeeAdd.employeeConfirmPassword,
+          Validators.required
+        ),
+        certifications: this.fb.array([
+          this.fb.group({
+            certificationId: new FormControl(''),
+            certificationStartDate: new FormControl(''),
+            certificationEndDate: new FormControl(''),
+            employeeCertificationScore: new FormControl(''),
+          }),
+        ]),
+      });
+      this.addForm.controls['certifications']
+        ?.get(0 + '')
+        ?.get('certificationStartDate')
+        ?.disable();
+      this.addForm.controls['certifications']
+        ?.get(0 + '')
+        ?.get('certificationEndDate')
+        ?.disable();
+      this.addForm.controls['certifications']
+        ?.get(0 + '')
+        ?.get('employeeCertificationScore')
+        ?.disable();
     }
   }
   /**
-   * Xử lý việc gán lại giá trị của departmentName khi thay 
+   * Xử lý việc gán lại giá trị của departmentName khi thay
    * đổi lựa chọn ở dropdown department ở giao diện
    * @param id departmentId
    */
