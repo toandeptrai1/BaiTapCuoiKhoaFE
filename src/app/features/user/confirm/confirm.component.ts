@@ -21,11 +21,9 @@ export class ConfirmComponent implements OnInit {
   departmentName: string = '';
   /**
    * Inject các service cần thiết
-   * @param router Router 
+   * @param router Router
    */
-  constructor(private router: Router) {
-
-  }
+  constructor(private router: Router) {}
   /**
    * Gán giá trị cho các biến và xử lý các logic ban đầu khi
    * component render lần đầu
@@ -40,6 +38,12 @@ export class ConfirmComponent implements OnInit {
    * Chuyển về mà EditAdd với data đã được nhận từ màn EditAdd
    */
   navigateToEditAdd() {
-    this.router.navigate(['/user/add'], { state: { employee: this.employee ,departmentName:this.departmentName,certificationName:this.certificationName} });
+    this.router.navigate(['/user/add'], {
+      state: {
+        employee: this.employee,
+        departmentName: this.departmentName,
+        certificationName: this.certificationName,
+      },
+    });
   }
 }

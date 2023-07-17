@@ -22,13 +22,19 @@ const routes: Routes = [
     component: UserListComponent,
     canActivate: [AuthorizeGuard],
   },
-  { path: 'systemerror', component: SystemErrorComponent },
-  { path: 'user', redirectTo: 'user/list', pathMatch: 'full' },
   {
-    path: '**',
-    pathMatch: 'full',
+    path: 'systemerror',
     component: SystemErrorComponent,
     data: { message: 'ページが見つかりません(Page Not Found)' },
+  },
+  {
+    path: 'user',
+    redirectTo: 'user/list',
+    pathMatch: 'full',
+  },
+  {
+    path: '**',
+    redirectTo: 'systemerror',
   },
 ];
 

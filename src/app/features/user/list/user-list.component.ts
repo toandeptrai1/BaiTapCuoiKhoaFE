@@ -9,7 +9,6 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { catchError } from 'rxjs';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -35,22 +34,35 @@ export class UserListComponent {
    * @param employeeService employeeService
    * @param router router
    */
-  constructor(private employeeService: EmployeeService,private router: Router) {}
+  constructor(
+    private employeeService: EmployeeService,
+    private router: Router
+  ) {}
   /**
    * Gán các giá trị cho các thuộc tính và xử lý các logic ban đầu khi
    * componen render lần đâu.
    */
   ngOnInit(): void {
-    this.employeeService.getEmployees(this.employeeName,this.departmentId,this.currentPage-1,this.itemsPerPage,this.sortByName,this.sortByCertiName,this.sortByEndDate).pipe(
-      catchError(()=>{
-        throw new Error("Đã xảy ra lỗi");
-      })
-    ).subscribe(data=>{
-      this.data=data;
-      this.totalPage=Math.ceil(data.totalRecords / this.itemsPerPage);
-      console.log(this.totalPage);
-    }
-      );
+    this.employeeService
+      .getEmployees(
+        this.employeeName,
+        this.departmentId,
+        this.currentPage - 1,
+        this.itemsPerPage,
+        this.sortByName,
+        this.sortByCertiName,
+        this.sortByEndDate
+      )
+      .pipe(
+        catchError(() => {
+          throw new Error('Đã xảy ra lỗi');
+        })
+      )
+      .subscribe((data) => {
+        this.data = data;
+        this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
+        console.log(this.totalPage);
+      });
     this.employeeService.getDepartments().subscribe((data) => {
       this.departments = data.departments;
     });
@@ -63,7 +75,7 @@ export class UserListComponent {
     this.departmentId = value + '';
   }
   /**
-   * Gán lại giá trị employeeName 
+   * Gán lại giá trị employeeName
    * @param value giá trị mà người dùng nhập
    */
   handleInput(value: any) {
@@ -74,47 +86,67 @@ export class UserListComponent {
    */
   onSearch() {
     this.currentPage = 1;
-    this.employeeService.getEmployees(this.employeeName,this.departmentId,this.currentPage-1,this.itemsPerPage,this.sortByName,this.sortByCertiName,this.sortByEndDate).pipe(
-      catchError(()=>{
-        throw new Error("Đã xảy ra lỗi");
-      })
-    ).subscribe(data=>{
-      this.data=data;
-      this.totalPage=Math.ceil(data.totalRecords / this.itemsPerPage);
-      console.log(this.totalPage);
-    }
-      );
+    this.employeeService
+      .getEmployees(
+        this.employeeName,
+        this.departmentId,
+        this.currentPage - 1,
+        this.itemsPerPage,
+        this.sortByName,
+        this.sortByCertiName,
+        this.sortByEndDate
+      )
+      .pipe(
+        catchError(() => {
+          throw new Error('Đã xảy ra lỗi');
+        })
+      )
+      .subscribe((data) => {
+        this.data = data;
+        this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
+        console.log(this.totalPage);
+      });
   }
   /**
-   * Xử lý sự kiện người dùng click 1 page number 
+   * Xử lý sự kiện người dùng click 1 page number
    * ở vùng paging trên giao diện
-   * @param page page number 
+   * @param page page number
    */
   goToPage(page: number) {
     this.currentPage = page;
-    this.employeeService.getEmployees(this.employeeName,this.departmentId,this.currentPage-1,this.itemsPerPage,this.sortByName,this.sortByCertiName,this.sortByEndDate).pipe(
-      catchError(()=>{
-        throw new Error("Đã xảy ra lỗi");
-      })
-    ).subscribe(data=>{
-      this.data=data;
-      this.totalPage=Math.ceil(data.totalRecords / this.itemsPerPage);
-      console.log(this.totalPage);
-    }
-      );
+    this.employeeService
+      .getEmployees(
+        this.employeeName,
+        this.departmentId,
+        this.currentPage - 1,
+        this.itemsPerPage,
+        this.sortByName,
+        this.sortByCertiName,
+        this.sortByEndDate
+      )
+      .pipe(
+        catchError(() => {
+          throw new Error('Đã xảy ra lỗi');
+        })
+      )
+      .subscribe((data) => {
+        this.data = data;
+        this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
+        console.log(this.totalPage);
+      });
   }
   /**
-   * 
+   *
    * @param ord thứ tự sắp xếp
-   * @returns thứ tự sắp xếp 
+   * @returns thứ tự sắp xếp
    */
   isOrderASC(ord: string) {
     return ord == 'asc';
   }
- /**
-   * 
+  /**
+   *
    * @param ord thứ tự sắp xếp
-   * @returns thứ tự sắp xếp 
+   * @returns thứ tự sắp xếp
    */
   isOrderDesc(ord: string) {
     return ord == 'desc';
@@ -132,19 +164,29 @@ export class UserListComponent {
       this.sortByName = 'asc';
     }
 
+    this.employeeService;
     this.employeeService
-    this.employeeService.getEmployees(this.employeeName,this.departmentId,this.currentPage-1,this.itemsPerPage,this.sortByName,this.sortByCertiName,this.sortByEndDate).pipe(
-      catchError(()=>{
-        throw new Error("Đã xảy ra lỗi");
-      })
-    ).subscribe(data=>{
-      this.data=data;
-      this.totalPage=Math.ceil(data.totalRecords / this.itemsPerPage);
-      console.log(this.totalPage);
-    }
-      );
+      .getEmployees(
+        this.employeeName,
+        this.departmentId,
+        this.currentPage - 1,
+        this.itemsPerPage,
+        this.sortByName,
+        this.sortByCertiName,
+        this.sortByEndDate
+      )
+      .pipe(
+        catchError(() => {
+          throw new Error('Đã xảy ra lỗi');
+        })
+      )
+      .subscribe((data) => {
+        this.data = data;
+        this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
+        console.log(this.totalPage);
+      });
   }
-   /**
+  /**
    * gán lại thứ tự sắp xếp của SortByCertiName
    * và gọi api sắp xếp
    */
@@ -157,16 +199,26 @@ export class UserListComponent {
       this.sortByCertiName = 'asc';
     }
 
-    this.employeeService.getEmployees(this.employeeName,this.departmentId,this.currentPage-1,this.itemsPerPage,this.sortByName,this.sortByCertiName,this.sortByEndDate).pipe(
-      catchError(()=>{
-        throw new Error("Đã xảy ra lỗi");
-      })
-    ).subscribe(data=>{
-      this.data=data;
-      this.totalPage=Math.ceil(data.totalRecords / this.itemsPerPage);
-      console.log(this.totalPage);
-    }
-      );
+    this.employeeService
+      .getEmployees(
+        this.employeeName,
+        this.departmentId,
+        this.currentPage - 1,
+        this.itemsPerPage,
+        this.sortByName,
+        this.sortByCertiName,
+        this.sortByEndDate
+      )
+      .pipe(
+        catchError(() => {
+          throw new Error('Đã xảy ra lỗi');
+        })
+      )
+      .subscribe((data) => {
+        this.data = data;
+        this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
+        console.log(this.totalPage);
+      });
   }
   /**
    * gán lại thứ tự sắp xếp của SortByEndDate
@@ -181,16 +233,25 @@ export class UserListComponent {
       this.sortByEndDate = 'asc';
     }
 
-    this.employeeService.getEmployees(this.employeeName,this.departmentId,this.currentPage-1,this.itemsPerPage,this.sortByName,this.sortByCertiName,this.sortByEndDate).pipe(
-      catchError(()=>{
-        throw new Error("Đã xảy ra lỗi");
-      })
-    ).subscribe(data=>{
-      this.data=data;
-      this.totalPage=Math.ceil(data.totalRecords / this.itemsPerPage);
-      console.log(this.totalPage);
-    }
-      );
+    this.employeeService
+      .getEmployees(
+        this.employeeName,
+        this.departmentId,
+        this.currentPage - 1,
+        this.itemsPerPage,
+        this.sortByName,
+        this.sortByCertiName,
+        this.sortByEndDate
+      )
+      .pipe(
+        catchError(() => {
+          throw new Error('Đã xảy ra lỗi');
+        })
+      )
+      .subscribe((data) => {
+        this.data = data;
+        this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
+        console.log(this.totalPage);
+      });
   }
-
 }
