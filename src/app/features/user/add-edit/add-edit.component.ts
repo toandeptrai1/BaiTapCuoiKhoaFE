@@ -90,6 +90,7 @@ export class AddEditComponent implements OnInit {
         }),
       ]),
     });
+    //disable các trường certificationStartDate,EndDate,Score
     this.addForm.controls['certifications']
       ?.get(0 + '')
       ?.get('certificationStartDate')
@@ -108,8 +109,10 @@ export class AddEditComponent implements OnInit {
      */
     if (history.state.employee) {
       this.isSelectedCerti = true;
+      //gán giá trị được lấy từ router trả về
       let employee: EmployeeAdd = history.state.employee;
       this.departmentName = history.state.departmentName;
+      //gán giá trị được lấy từ router trả về
       this.certificationName = history.state.certificationName;
       this.addForm = this.fb.group({
         employeeName: new FormControl(
@@ -157,7 +160,7 @@ export class AddEditComponent implements OnInit {
             ),
             certificationStartDate: new FormControl(
               employee.certifications[0]
-                ? employee.certifications[0].certificationEndDate
+                ? employee.certifications[0].certificationStartDate
                 : ''
             ),
             certificationEndDate: new FormControl(
@@ -213,10 +216,13 @@ export class AddEditComponent implements OnInit {
    */
   handleCertichange(id: any) {
     let employeeAdd: EmployeeAdd = this.addForm.value;
+
     if (id) {
+        //Set lại biến kiểm tra chọn certificaton dropdown hay không
       this.isSelectedCerti = true;
       let certi = this.certificationList.find((x) => x.certificationId == id);
       let employee: EmployeeAdd = history.state.employee;
+      //thêm validator cho certificationStartDate,EndDate,Score nếu chọn tiếng Nhật
       this.certificationName = certi?.certificationName
         ? certi.certificationName
         : '';
@@ -261,16 +267,14 @@ export class AddEditComponent implements OnInit {
         certifications: this.fb.array([
           this.fb.group({
             certificationId: new FormControl(id),
-            certificationStartDate: new FormControl('', Validators.required),
-            certificationEndDate: new FormControl('', Validators.required),
-            employeeCertificationScore: new FormControl(
-              '',
-              Validators.required
+            certificationStartDate: new FormControl( employeeAdd.certifications[0].certificationStartDate, Validators.required),
+            certificationEndDate: new FormControl( employeeAdd.certifications[0].certificationEndDate, Validators.required),
+            employeeCertificationScore: new FormControl(employeeAdd.certifications[0].employeeCertificationScore,Validators.required
             ),
           }),
         ]),
       });
-
+      //enable các trường certificationStartDate,EndDate,Score
       this.addForm.controls['certifications']
         ?.get(0 + '')
         ?.get('certificationStartDate')
@@ -285,7 +289,9 @@ export class AddEditComponent implements OnInit {
         ?.enable();
     } else {
       this.certificationName = '';
+      //Set lại biến kiểm tra chọn certificaton dropdown hay không
       this.isSelectedCerti = false;
+      //Set lại form nếu bỏ phần Validator của certificationStartDate,EndDate,Score
       this.addForm = this.fb.group({
         employeeName: new FormControl(
           employeeAdd.employeeName,
@@ -332,6 +338,7 @@ export class AddEditComponent implements OnInit {
           }),
         ]),
       });
+       //disable các trường certificationStartDate,EndDate,Score
       this.addForm.controls['certifications']
         ?.get(0 + '')
         ?.get('certificationStartDate')

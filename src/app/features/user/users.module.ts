@@ -9,9 +9,10 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AddEditComponent } from './add-edit/add-edit.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmComponent } from './confirm/confirm.component';
+import { CompleteComponent } from './complete/complete.component';
 
 @NgModule({
-  declarations: [UserListComponent, AddEditComponent, ConfirmComponent],
+  declarations: [UserListComponent, AddEditComponent, ConfirmComponent, CompleteComponent],
   imports: [
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),

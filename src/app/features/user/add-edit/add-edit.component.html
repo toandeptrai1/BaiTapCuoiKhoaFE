@@ -13,7 +13,7 @@
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">カタカナ氏名:<span
                       class="note-red">*</span></i></label>
-                <div class="col-sm col-sm-10"><input type="text" class="form-control"
+                <div class="col-sm col-sm-10"><input type="text" class="form-control" autofocus
                     [required]="(addForm.get('employeeLoginId')?.touched||submitted)&&addForm.get('employeeLoginId')?.errors!== undefined"
                     formControlName="employeeLoginId">
                   <div class="invalid-feedback"
@@ -67,10 +67,12 @@
                       class="note-red">*</span></i></label>
                 <div class="col-sm col-sm-10 d-flex">
                   <div class="input-group date datepicker">
+                    
                     <input class="form-control" readonly="" type="text" bsDatepicker formControlName="employeeBirthDate"
+                      [ngClass]="(addForm.get('employeeBirthDate')?.touched||submitted)&&addForm.get('employeeBirthDate')?.errors?'invalidDate':''"
                       [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }" #datepickerYMD="bsDatepicker">
-                    <span class="input-group-addon" (click)="datepickerYMD.toggle()"><i
-                        class="glyphicon glyphicon-calendar"></i></span>
+                    <span class="input-group-addon" (click)="datepickerYMD.toggle()">
+                      <i class="glyphicon glyphicon-calendar"></i></span>
                   </div>
                   <div class="invalid-date"
                     *ngIf="(addForm.get('employeeBirthDate')?.touched||submitted)&&addForm.get('employeeBirthDate')?.errors?.['required']">
@@ -149,9 +151,11 @@
                       <div class="col-sm col-sm-10 d-flex">
                         <div class="input-group date datepicker">
                           <input class="form-control" readonly="" type="text" bsDatepicker
+                          [ngClass]="(addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.errors?'invalidDate':''"
+
                             formControlName="certificationStartDate" [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }"
                             #startDatePicker="bsDatepicker">
-                          <span class="input-group-addon" (click)="startDatePicker.toggle()"><i
+                          <span class="input-group-addon" (click)="isSelectedCerti&&startDatePicker.toggle()"><i
                               class="glyphicon glyphicon-calendar"></i></span>
                         </div>
                         <div class="invalid-date"
@@ -164,10 +168,11 @@
                           <span class="note-red" *ngIf="isSelectedCerti">*</span></i></label>
                       <div class="col-sm col-sm-10 d-flex">
                         <div class="input-group date datepicker">
-                          <input class="date form-control" type="text" bsDatepicker
+                          <input class="date form-control" type="text" bsDatepicker 
+                          [ngClass]="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?'invalidDate':''"
                             formControlName="certificationEndDate" [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }"
                             #endDatePicker="bsDatepicker">
-                          <span class="input-group-addon" disabled="true" (click)="endDatePicker.toggle()"><i
+                          <span class="input-group-addon"  (click)="isSelectedCerti&&endDatePicker.toggle()"><i
                               class="glyphicon glyphicon-calendar"></i></span>
                         </div>
                         <div class="invalid-date"
@@ -202,7 +207,7 @@
                 </div>
               </li>
             </ul>
-            <pre>{{addForm.value|json}}</pre>
+          
           </form>
         </div>
       </div>

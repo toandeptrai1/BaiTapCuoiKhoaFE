@@ -5,6 +5,7 @@ import { UserListComponent } from './list/user-list.component';
 import { AuthorizeGuard } from '../../shared/auth/authorize.guard';
 import { AddEditComponent } from './add-edit/add-edit.component';
 import { ConfirmComponent } from './confirm/confirm.component';
+import { CompleteComponent } from './complete/complete.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,11 @@ const routes: Routes = [
   {
     path: 'user/confirm',
     component: ConfirmComponent,
+    canActivate: [AuthorizeGuard],
+  },
+  {
+    path: 'user/complete',
+    component: CompleteComponent,
     canActivate: [AuthorizeGuard],
   },
   {

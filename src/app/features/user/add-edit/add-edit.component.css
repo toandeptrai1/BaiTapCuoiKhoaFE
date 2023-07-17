@@ -6,3 +6,7 @@
     position: absolute;
     bottom: -18px;
   }
+
+.invalidDate{
+  border-color: #c00;
+}

@@ -43,6 +43,7 @@ export class UserListComponent {
    * componen render lần đâu.
    */
   ngOnInit(): void {
+    
     this.employeeService
       .getEmployees(
         this.employeeName,

@@ -59,20 +59,20 @@
             </div>
             <h2 *ngIf="data.employees.length==0" style="margin-top: 20px;">検索条件に該当するユーザが見つかりません。</h2>
 
-            <div class="css-grid-table-body">
+            <div class="css-grid-table-body" *ngIf="data.employees">
 
-              <ng-container *ngFor="let emp of data.employees">
+              <ng-container  *ngFor="let emp of data.employees">
                   <div class="bor-l-none">
                       <a routerLink="/user/detail">{{emp.employeeId}}</a>
                     </div>
-                    <div>{{emp.employeeName}}</div>
-                    <div>{{emp.employeeBirthDate}}</div>
-                    <div>{{emp.departmentName }}</div>
-                    <div>{{emp.employeeEmail}}</div>
-                    <div>{{emp.employeeTelephone}}</div>
-                    <div>{{emp.certificationName}}</div>
-                    <div>{{emp.endDate}}</div>
-                    <div>{{emp.score}}</div>
+                    <div class="wrap_text">{{emp.employeeName}}</div>
+                    <div class="wrap_text">{{emp.employeeBirthDate}}</div>
+                    <div class="wrap_text">{{emp.departmentName }}</div>
+                    <div class="wrap_text">{{emp.employeeEmail}}</div>
+                    <div class="wrap_text">{{emp.employeeTelephone}}</div>
+                    <div class="wrap_text">{{emp.certificationName}}</div>
+                    <div class="wrap_text">{{emp.endDate}}</div>
+                    <div class="wrap_text">{{emp.score}}</div>
 
               </ng-container>
 

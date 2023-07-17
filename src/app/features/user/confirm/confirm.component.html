@@ -11,6 +11,9 @@
                 <p>情報確認</p>
                 <p>入力された情報をＯＫボタンクリックでＤＢへ保存してください</p>
               </li>
+              <li class="box-err" *ngIf="errorMessage">
+                  <div class="box-err-content">{{errorMessage}}</div>
+              </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">アカウント名</label>
                 <div class="col-sm col-sm-10">{{employee.employeeLoginId}}</div>
@@ -61,7 +64,7 @@
               <li class="form-group row d-flex">
                 <div class="btn-group col-sm col-sm-10 ml">
                   <button type="button" class="btn btn-primary btn-sm"
-                    onClick="location.href = './ADM006.html';return false;">OK</button>
+                   (click)="addEmployee()">OK</button>
                   <button type="button" class="btn btn-secondary btn-sm" (click)="navigateToEditAdd()">戻る</button>
                 </div>
               </li>
