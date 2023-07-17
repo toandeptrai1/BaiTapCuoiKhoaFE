@@ -136,7 +136,7 @@ export class AddEditComponent implements OnInit {
             Validators.required
           ),
           certificationStartDate: new FormControl(
-            employee.certifications.certificationEndDate,
+            employee.certifications.certificationStartDate,
             Validators.required
           ),
           certificationEndDate: new FormControl(
