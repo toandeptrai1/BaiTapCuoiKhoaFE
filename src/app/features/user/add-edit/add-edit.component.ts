@@ -40,6 +40,12 @@ export class AddEditComponent implements OnInit {
   departmentName: string = '';
   submitted: boolean = false;
   isSelectedCerti: boolean = false;
+  katakana_map = {
+    "ア": "a", "イ": "i", "ウ": "u", "エ": "e", "オ": "o",
+    "カ": "ka", "キ": "ki", "ク": "ku", "ケ": "ke", "コ": "ko",
+   
+  }
+
   /**
    * Xử lý inject các service cần thiết
    * @param employeeService service employeeService
@@ -72,12 +78,12 @@ export class AddEditComponent implements OnInit {
       .getCertification()
       .subscribe((data) => (this.certificationList = data.certifications));
     this.addForm = this.fb.group({
-      employeeName: new FormControl('', Validators.required),
+      employeeName: new FormControl('', [Validators.required,Validators.maxLength(125)]),
       employeeEmail: new FormControl('', Validators.required),
-      employeeLoginId: new FormControl('', Validators.required),
+      employeeLoginId: new FormControl('', [Validators.required,Validators.maxLength(50),Validators.pattern(/^[a-zA-Z_][a-zA-Z0-9_]*$/)]),
       employeeTelephone: new FormControl('', Validators.required),
       employeeBirthDate: new FormControl('', Validators.required),
-      employeeNameKana: new FormControl('', Validators.required),
+      employeeNameKana: new FormControl('', [Validators.required,Validators.maxLength(125),Validators.pattern('[ぁ-んァ-ン一-龯々〆〤ー・｜｡-ﾟ]+')]),
       departmentId: new FormControl('', Validators.required),
       employeeLoginPassword: new FormControl('', Validators.required),
       employeeConfirmPassword: new FormControl('', Validators.required),
@@ -117,15 +123,15 @@ export class AddEditComponent implements OnInit {
       this.addForm = this.fb.group({
         employeeName: new FormControl(
           employee.employeeName,
-          Validators.required
+          [Validators.required,Validators.maxLength(125)]
         ),
         employeeEmail: new FormControl(
           employee.employeeEmail,
-          Validators.required
+          [Validators.required,Validators.maxLength(125),Validators.email]
         ),
         employeeLoginId: new FormControl(
           employee.employeeLoginId,
-          Validators.required
+          [Validators.required,Validators.maxLength(50),Validators.pattern(/^[a-zA-Z_][a-zA-Z0-9_]*$/)]
         ),
         employeeTelephone: new FormControl(
           employee.employeeTelephone,
@@ -137,7 +143,7 @@ export class AddEditComponent implements OnInit {
         ),
         employeeNameKana: new FormControl(
           employee.employeeNameKana,
-          Validators.required
+          [Validators.required,Validators.maxLength(125),Validators.pattern('[ぁ-んァ-ン一-龯々〆〤ー・｜｡-ﾟ]+')]
         ),
         departmentId: new FormControl(
           employee.departmentId,
@@ -230,7 +236,7 @@ export class AddEditComponent implements OnInit {
       this.addForm = this.fb.group({
         employeeName: new FormControl(
           employeeAdd.employeeName,
-          Validators.required
+          [Validators.required,Validators.maxLength(125)]
         ),
         employeeEmail: new FormControl(
           employeeAdd.employeeEmail,
@@ -238,7 +244,7 @@ export class AddEditComponent implements OnInit {
         ),
         employeeLoginId: new FormControl(
           employeeAdd.employeeLoginId,
-          Validators.required
+          [Validators.required,Validators.maxLength(50),Validators.pattern(/^[a-zA-Z_][a-zA-Z0-9_]*$/)]
         ),
         employeeTelephone: new FormControl(
           employeeAdd.employeeTelephone,
@@ -250,7 +256,7 @@ export class AddEditComponent implements OnInit {
         ),
         employeeNameKana: new FormControl(
           employeeAdd.employeeNameKana,
-          Validators.required
+          [Validators.required,Validators.maxLength(125),Validators.pattern('[ぁ-んァ-ン一-龯々〆〤ー・｜｡-ﾟ]+')]
         ),
         departmentId: new FormControl(
           employeeAdd.departmentId,
@@ -295,7 +301,7 @@ export class AddEditComponent implements OnInit {
       this.addForm = this.fb.group({
         employeeName: new FormControl(
           employeeAdd.employeeName,
-          Validators.required
+          [Validators.required,Validators.maxLength(125)]
         ),
         employeeEmail: new FormControl(
           employeeAdd.employeeEmail,
@@ -303,7 +309,7 @@ export class AddEditComponent implements OnInit {
         ),
         employeeLoginId: new FormControl(
           employeeAdd.employeeLoginId,
-          Validators.required
+          [Validators.required,Validators.maxLength(125),Validators.pattern('[ぁ-んァ-ン一-龯々〆〤ー・｜｡-ﾟ]+')]
         ),
         employeeTelephone: new FormControl(
           employeeAdd.employeeTelephone,
@@ -315,7 +321,7 @@ export class AddEditComponent implements OnInit {
         ),
         employeeNameKana: new FormControl(
           employeeAdd.employeeNameKana,
-          Validators.required
+          [Validators.required,Validators.maxLength(125),Validators.pattern('[ぁ-んァ-ン一-龯々〆〤ー・｜｡-ﾟ]+')]
         ),
         departmentId: new FormControl(
           employeeAdd.departmentId,
