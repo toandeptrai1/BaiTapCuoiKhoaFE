@@ -14,20 +14,19 @@
                 <label class="col-form-label col-sm-2"><i class="relative">カタカナ氏名:<span
                       class="note-red">*</span></i></label>
                 <div class="col-sm col-sm-10"><input type="text" class="form-control" autofocus
-                    [ngClass]="(addForm.get('employeeLoginId')?.touched||submitted)&&addForm.get('employeeLoginId')?.errors?'invalid_input':''"
-                
+                    [ngClass]="(addForm.get('employeeLoginId')?.touched||addForm.get('employeeLoginId')?.dirty||submitted)&&addForm.get('employeeLoginId')?.errors?'invalid_input':''"
                     formControlName="employeeLoginId">
                   <div class="invalid_message"
-                    *ngIf="(addForm.get('employeeLoginId')?.touched||submitted)&&addForm.get('employeeLoginId')?.errors?.['required']">
+                    *ngIf="(addForm.get('employeeLoginId')?.touched||addForm.get('employeeLoginId')?.dirty||submitted)&&addForm.get('employeeLoginId')?.errors?.['required']">
                     Hãy nhập カタカナ氏名</div>
-                    <div class="invalid_message"
-                    *ngIf="(addForm.get('employeeLoginId')?.touched||submitted)&&addForm.get('employeeLoginId')?.errors?.['maxlength']">
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeLoginId')?.touched||addForm.get('employeeLoginId')?.dirty||submitted)&&addForm.get('employeeLoginId')?.errors?.['maxlength']">
                     カタカナ氏名 không được vượt quá 50 ký tự.</div>
-                    <div class="invalid_message"
-                    *ngIf="(addForm.get('employeeLoginId')?.touched||submitted)&&addForm.get('employeeLoginId')?.errors?.['pattern']">
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeLoginId')?.touched||addForm.get('employeeLoginId')?.dirty||submitted)&&addForm.get('employeeLoginId')?.errors?.['pattern']">
                     カタカナ氏名 bị sai.</div>
-                   
-                    
+
+
                 </div>
               </li>
               <li class="form-group row d-flex">
@@ -35,14 +34,14 @@
                       class="note-red">*</span></i></label>
                 <div class="col-sm col-sm-10">
                   <select class="form-control"
-                    [required]="(addForm.get('departmentId')?.touched||submitted)&&addForm.get('departmentId')?.errors!== undefined"
+                    [required]="(addForm.get('departmentId')?.touched||addForm.get('departmentId')?.dirty||submitted)&&addForm.get('departmentId')?.errors!== undefined"
                     formControlName="departmentId" #depart (change)="handleDepartChange(depart.value)">
                     <option value="">選択してください</option>
                     <option *ngFor="let dep of departments" [value]="dep.departmentId">{{dep.departmentName}}</option>
 
                   </select>
                   <div class="invalid-feedback"
-                    *ngIf="(addForm.get('departmentId')?.touched||submitted)&&addForm.get('departmentId')?.errors?.['required']">
+                    *ngIf="(addForm.get('departmentId')?.touched||addForm.get('departmentId')?.dirty||submitted)&&addForm.get('departmentId')?.errors?.['required']">
                     Hãy chọn グループ</div>
                 </div>
               </li>
@@ -50,14 +49,14 @@
                 <label class="col-form-label col-sm-2"><i class="relative">氏名:<span
                       class="note-red">*</span></i></label>
                 <div class="col-sm col-sm-10"><input type="text"
-                    [ngClass]="(addForm.get('employeeName')?.touched||submitted)&&addForm.get('employeeName')?.errors?'invalid_input':''"
+                    [ngClass]="(addForm.get('employeeName')?.touched||addForm.get('employeeName')?.dirty||submitted)&&addForm.get('employeeName')?.errors?'invalid_input':''"
                     class="form-control" formControlName="employeeName">
                   <div class="invalid_message"
-                    *ngIf="(addForm.get('employeeName')?.touched||submitted)&&addForm.get('employeeName')?.errors?.['required']">
+                    *ngIf="(addForm.get('employeeName')?.touched||addForm.get('employeeName')?.dirty||submitted)&&addForm.get('employeeName')?.errors?.['required']">
                     Hãy nhập 氏名</div>
                   <div class="invalid_message"
-                    *ngIf="(addForm.get('employeeName')?.touched||submitted)&&addForm.get('employeeName')?.errors?.['maxlength']">
-                   氏名 không được vượt quá 125 ký tự.</div>
+                    *ngIf="(addForm.get('employeeName')?.touched||addForm.get('employeeName')?.dirty||submitted)&&addForm.get('employeeName')?.errors?.['maxlength']">
+                    氏名 không được vượt quá 125 ký tự.</div>
 
                 </div>
               </li>
@@ -66,17 +65,16 @@
                       class="note-red">*</span></i></label>
                 <div class="col-sm col-sm-10">
                   <input type="text" class="form-control"
-                     [ngClass]="(addForm.get('employeeNameKana')?.touched||submitted)&&addForm.get('employeeNameKana')?.errors?'invalid_input':''"
-                   
+                    [ngClass]="(addForm.get('employeeNameKana')?.touched||addForm.get('employeeNameKana')?.dirty||submitted)&&addForm.get('employeeNameKana')?.errors?'invalid_input':''"
                     formControlName="employeeNameKana">
                   <div class="invalid_message"
-                    *ngIf="(addForm.get('employeeNameKana')?.touched||submitted)&&addForm.get('employeeNameKana')?.errors?.['required']">
+                    *ngIf="(addForm.get('employeeNameKana')?.touched||addForm.get('employeeNameKana')?.dirty||submitted)&&addForm.get('employeeNameKana')?.errors?.['required']">
                     Hãy nhập カタカナ氏名</div>
-                    <div class="invalid_message"
-                    *ngIf="(addForm.get('employeeNameKana')?.touched||submitted)&&addForm.get('employeeNameKana')?.errors?.['maxlength']">
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeNameKana')?.touched||addForm.get('employeeNameKana')?.dirty||submitted)&&addForm.get('employeeNameKana')?.errors?.['maxlength']">
                     カタカナ氏名 không được vượt quá 125 ký tự.</div>
-                    <div class="invalid_message"
-                    *ngIf="(addForm.get('employeeNameKana')?.touched||submitted)&&addForm.get('employeeNameKana')?.errors?.['pattern']">
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeNameKana')?.touched||addForm.get('employeeNameKana')?.dirty||submitted)&&addForm.get('employeeNameKana')?.errors?.['pattern']">
                     カタカナ氏名 phải là ký tự kana.</div>
                 </div>
               </li>
@@ -85,15 +83,15 @@
                       class="note-red">*</span></i></label>
                 <div class="col-sm col-sm-10 d-flex">
                   <div class="input-group date datepicker">
-                    
+
                     <input class="form-control" readonly="" type="text" bsDatepicker formControlName="employeeBirthDate"
-                      [ngClass]="(addForm.get('employeeBirthDate')?.touched||submitted)&&addForm.get('employeeBirthDate')?.errors?'invalidDate':''"
+                      [ngClass]="(addForm.get('employeeBirthDate')?.touched||addForm.get('employeeBirthDate')?.dirty||submitted)&&addForm.get('employeeBirthDate')?.errors?'invalidDate':''"
                       [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }" #datepickerYMD="bsDatepicker">
                     <span class="input-group-addon" (click)="datepickerYMD.toggle()">
                       <i class="glyphicon glyphicon-calendar"></i></span>
                   </div>
                   <div class="invalid_message"
-                    *ngIf="(addForm.get('employeeBirthDate')?.touched||submitted)&&addForm.get('employeeBirthDate')?.errors?.['required']">
+                    *ngIf="(addForm.get('employeeBirthDate')?.touched||addForm.get('employeeBirthDate')?.dirty||submitted)&&addForm.get('employeeBirthDate')?.errors?.['required']">
                     Hãy chọn 生年月日</div>
 
                 </div>
@@ -102,11 +100,17 @@
                 <label class="col-form-label col-sm-2"><i class="relative">メールアドレス:<span
                       class="note-red">*</span></i></label>
                 <div class="col-sm col-sm-10"><input type="text" class="form-control"
-                    [required]="(addForm.get('employeeEmail')?.touched||submitted)&&addForm.get('employeeEmail')?.errors!== undefined"
+                    [ngClass]="(addForm.get('employeeEmail')?.touched||addForm.get('employeeEmail')?.dirty||submitted)&&addForm.get('employeeEmail')?.errors?'invalid_input':''"
                     formControlName="employeeEmail">
-                  <div class="invalid-feedback"
-                    *ngIf="(addForm.get('employeeEmail')?.touched||submitted)&&addForm.get('employeeEmail')?.errors?.['required']">
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeEmail')?.touched||addForm.get('employeeEmail')?.dirty||submitted)&&addForm.get('employeeEmail')?.errors?.['required']">
                     Hãy nhập メールアドレス</div>
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeEmail')?.touched||addForm.get('employeeEmail')?.dirty||submitted)&&addForm.get('employeeEmail')?.errors?.['maxlength']">
+                    メールアドレス không được vượt quá 125 ký tự.</div>
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeEmail')?.touched||addForm.get('employeeEmail')?.dirty||submitted)&&addForm.get('employeeEmail')?.errors?.['email']">
+                    メールアドレス phải là email.</div>
 
                 </div>
               </li>
@@ -114,11 +118,17 @@
                 <label class="col-form-label col-sm-2"><i class="relative">電話番号:<span
                       class="note-red">*</span></i></label>
                 <div class="col-sm col-sm-10"><input type="text" class="form-control"
-                    [required]="(addForm.get('employeeTelephone')?.touched||submitted)&&addForm.get('employeeTelephone')?.errors!== undefined"
+                    [ngClass]="(addForm.get('employeeTelephone')?.touched||addForm.get('employeeTelephone')?.dirty||submitted)&&addForm.get('employeeTelephone')?.errors?'invalid_input':''"
                     formControlName="employeeTelephone">
-                  <div class="invalid-feedback"
-                    *ngIf="(addForm.get('employeeTelephone')?.touched||submitted)&&addForm.get('employeeTelephone')?.errors?.['required']">
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeTelephone')?.touched||addForm.get('employeeTelephone')?.dirty||submitted)&&addForm.get('employeeTelephone')?.errors?.['required']">
                     Hãy nhập 電話番号</div>
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeTelephone')?.touched||addForm.get('employeeTelephone')?.dirty||submitted)&&addForm.get('employeeTelephone')?.errors?.['maxlength']">
+                    電話番号 không được vượt quá 50 ký tự.</div>
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeTelephone')?.touched||addForm.get('employeeTelephone')?.dirty||submitted)&&addForm.get('employeeTelephone')?.errors?.['pattern']">
+                    電話番号 chỉ chấp nhận ký tự 1 byte.</div>
 
                 </div>
               </li>
@@ -126,22 +136,38 @@
                 <label class="col-form-label col-sm-2"><i class="relative">パスワード:<span
                       class="note-red">*</span></i></label>
                 <div class="col-sm col-sm-10"><input type="text" class="form-control"
-                    [required]="(addForm.get('employeeLoginPassword')?.touched||submitted)&&addForm.get('employeeLoginPassword')?.errors!== undefined"
+                    [ngClass]="(addForm.get('employeeLoginPassword')?.touched||addForm.get('employeeLoginPassword')?.dirty||submitted)&&addForm.get('employeeLoginPassword')?.errors?'invalid_input':''"
                     formControlName="employeeLoginPassword">
-                  <div class="invalid-feedback"
-                    *ngIf="(addForm.get('employeeLoginPassword')?.touched||submitted)&&addForm.get('employeeLoginPassword')?.errors?.['required']">
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeLoginPassword')?.touched||addForm.get('employeeLoginPassword')?.dirty||submitted)&&addForm.get('employeeLoginPassword')?.errors?.['required']">
                     Hãy nhập パスワード</div>
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeLoginPassword')?.touched||addForm.get('employeeLoginPassword')?.dirty||submitted)&&addForm.get('employeeLoginPassword')?.errors?.['minlength']">
+                    パスワード phải lớn hơn hoặc bằng 8 và nhỏ hơn hoặc bằng 50 ký tự.</div>
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeLoginPassword')?.touched||addForm.get('employeeLoginPassword')?.dirty||submitted)&&addForm.get('employeeLoginPassword')?.errors?.['maxlength']">
+                    パスワード phải lớn hơn hoặc bằng 8 và nhỏ hơn hoặc bằng 50 ký tự.</div>
 
                 </div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">パスワード（確認）:</i></label>
                 <div class="col-sm col-sm-10"><input type="text" class="form-control"
-                    [required]="(addForm.get('employeeConfirmPassword')?.touched||submitted)&&addForm.get('employeeConfirmPassword')?.errors!== undefined"
+                    [ngClass]="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)&&addForm.get('employeeConfirmPassword')?.errors?'invalid_input':''"
                     formControlName="employeeConfirmPassword">
                   <div class="invalid-feedback"
-                    *ngIf="(addForm.get('employeeConfirmPassword')?.touched||submitted)&&addForm.get('employeeConfirmPassword')?.errors?.['required']">
+                    *ngIf="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)&&addForm.get('employeeConfirmPassword')?.errors?.['required']">
                     Hãy nhập パスワード（確認）</div>
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)&&addForm.get('employeeConfirmPassword')?.errors?.['minlength']">
+                    パスワード phải lớn hơn hoặc bằng 8 và nhỏ hơn hoặc bằng 50 ký tự.</div>
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)&&addForm.get('employeeConfirmPassword')?.errors?.['maxlength']">
+                    パスワード phải lớn hơn hoặc bằng 8 và nhỏ hơn hoặc bằng 50 ký tự.</div>
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)&&addForm.get('employeeConfirmPassword')?.errors?.['mustMatch']">
+                    Mật khẩu xác nhận không đúng.</div>
+
 
                 </div>
               </li>
@@ -159,7 +185,7 @@
                             {{cer.certificationName}}
                           </option>
 
-                        </select> 
+                        </select>
 
                       </div>
                     </li>
@@ -169,8 +195,7 @@
                       <div class="col-sm col-sm-10 d-flex">
                         <div class="input-group date datepicker">
                           <input class="form-control" readonly="" type="text" bsDatepicker
-                          [ngClass]="(addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.errors?'invalidDate':''"
-
+                            [ngClass]="(addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.errors?'invalidDate':''"
                             formControlName="certificationStartDate" [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }"
                             #startDatePicker="bsDatepicker">
                           <span class="input-group-addon" (click)="isSelectedCerti&&startDatePicker.toggle()"><i
@@ -186,27 +211,35 @@
                           <span class="note-red" *ngIf="isSelectedCerti">*</span></i></label>
                       <div class="col-sm col-sm-10 d-flex">
                         <div class="input-group date datepicker">
-                          <input class="date form-control" type="text" bsDatepicker 
-                          [ngClass]="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?'invalidDate':''"
+                          <input class="date form-control" type="text" bsDatepicker
+                            [ngClass]="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?'invalidDate':''"
                             formControlName="certificationEndDate" [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }"
                             #endDatePicker="bsDatepicker">
-                          <span class="input-group-addon"  (click)="isSelectedCerti&&endDatePicker.toggle()"><i
+                          <span class="input-group-addon" (click)="isSelectedCerti&&endDatePicker.toggle()"><i
                               class="glyphicon glyphicon-calendar"></i></span>
                         </div>
+
                         <div class="invalid_message"
                           *ngIf="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?.['required']">
                           Hãy chọn 失効日</div>
+                        <div class="invalid_message"
+                          *ngIf="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?.['dateInvalid']">
+                          失効日 phải lớn hơn 資格交付日.</div>
                       </div>
+
                     </li>
                     <li class="form-group row d-flex">
                       <label class="col-form-label col-sm-2"><i class="relative">点数: <span class="note-red"
                             *ngIf="isSelectedCerti">*</span></i></label>
                       <div class="col-sm col-sm-10"><input type="text" formControlName="employeeCertificationScore"
-                          [required]="(addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.errors!== undefined"
+                          [ngClass]="(addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.touched||addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.dirty||submitted)&&addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.errors?'invalid_input':''"
                           class="form-control">
-                        <div class="invalid-feedback"
-                          *ngIf="(addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.errors?.['required']">
+                        <div class="invalid_message"
+                          *ngIf="(addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.touched||addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.dirty||submitted)&&addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.errors?.['required']">
                           Hãy nhập 点数</div>
+                        <div class="invalid_message"
+                          *ngIf="(addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.touched||addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.dirty||submitted)&&addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.errors?.['pattern']">
+                          点数 phải là số halfsize.</div>
 
                       </div>
                     </li>
@@ -225,7 +258,7 @@
                 </div>
               </li>
             </ul>
-          
+
           </form>
         </div>
       </div>
