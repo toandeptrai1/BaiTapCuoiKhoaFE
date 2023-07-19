@@ -8,7 +8,7 @@ export function CertificationValidator(
     const control = formGroup.controls['certifications'].get('0')?.get(controlName);
     const compareControl = formGroup.controls['certifications'].get('0')?.get(compareControlName);
 
-    if (new Date(control?.value) > new Date(compareControl?.value)) {
+    if (new Date(control?.value) >= new Date(compareControl?.value)) {
 
       compareControl?.setErrors({ dateInvalid: true });
     } else {

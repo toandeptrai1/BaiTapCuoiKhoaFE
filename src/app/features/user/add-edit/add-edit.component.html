@@ -24,7 +24,7 @@
                     カタカナ氏名 không được vượt quá 50 ký tự.</div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeLoginId')?.touched||addForm.get('employeeLoginId')?.dirty||submitted)&&addForm.get('employeeLoginId')?.errors?.['pattern']">
-                    カタカナ氏名 bị sai.</div>
+                    カタカナ氏名 chi chấp nhận các ký tự (a-z, A-Z, 0-9 và _). Ký tự đầu tiên không phải là số.</div>
 
 
                 </div>

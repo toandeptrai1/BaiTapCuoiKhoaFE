@@ -235,6 +235,7 @@ export class AddEditComponent implements OnInit {
         }
       );
       if (!employee.certifications[0].certificationId) {
+        console.log("it work");
         this.isSelectedCerti = false;
         this.addForm.controls['certifications']
           ?.get(0 + '')
