@@ -111,6 +111,7 @@ export class AddEditComponent implements OnInit {
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(50),
+          PasswordValidator
         ]),
         certifications: this.fb.array([
           this.fb.group({
@@ -120,13 +121,8 @@ export class AddEditComponent implements OnInit {
             employeeCertificationScore: new FormControl(''),
           }),
         ]),
-      },
-      {
-        validator: PasswordValidator(
-          'employeeLoginPassword',
-          'employeeConfirmPassword'
-        ),
       }
+
     );
     //disable các trường certificationStartDate,EndDate,Score
     this.addForm.controls['certifications']
@@ -145,97 +141,55 @@ export class AddEditComponent implements OnInit {
      * Gán lại giá trị được truyền từ màn confirm
      * cho form trong trường hợp back từ màn hình confirm về
      */
+    console.log(history.state)
     if (history.state.employee) {
+
       this.isSelectedCerti = true;
       //gán giá trị được lấy từ router trả về
       let employee: EmployeeAdd = history.state.employee;
       this.departmentName = history.state.departmentName;
+
       //gán giá trị được lấy từ router trả về
       this.certificationName = history.state.certificationName;
-      this.addForm = this.fb.group(
-        {
-          employeeName: new FormControl(employee.employeeName, [
-            Validators.required,
-            Validators.maxLength(125),
-          ]),
-          employeeEmail: new FormControl(employee.employeeEmail, [
-            Validators.required,
-            Validators.maxLength(125),
-            Validators.email,
-          ]),
-          employeeLoginId: new FormControl(employee.employeeLoginId, [
-            Validators.required,
-            Validators.maxLength(50),
-            Validators.pattern(/^[a-zA-Z_][a-zA-Z0-9_]*$/),
-          ]),
-          employeeTelephone: new FormControl(employee.employeeTelephone, [
-            Validators.required,
-            Validators.maxLength(50),
-            Validators.pattern('[a-zA-Z0-9!-/:-@\\[-`{-~]+'),
-          ]),
-          employeeBirthDate: new FormControl(
-            employee.employeeBirthDate,
-            Validators.required
-          ),
-          employeeNameKana: new FormControl(employee.employeeNameKana, [
-            Validators.required,
-            Validators.maxLength(125),
-            Validators.pattern('[ぁ-んァ-ン一-龯々〆〤ー・｜｡-ﾟ]+'),
-          ]),
-          departmentId: new FormControl(
-            employee.departmentId,
-            Validators.required
-          ),
-          employeeLoginPassword: new FormControl(
-            employee.employeeLoginPassword,
-            [
-              Validators.required,
-              Validators.minLength(8),
-              Validators.maxLength(50),
-            ]
-          ),
-          employeeConfirmPassword: new FormControl(
-            employee.employeeLoginPassword,
-            [
-              Validators.required,
-              Validators.minLength(8),
-              Validators.maxLength(50),
-            ]
-          ),
-          certifications: this.fb.array([
-            this.fb.group({
-              certificationId: new FormControl(
-                employee.certifications[0]
-                  ? employee.certifications[0].certificationId
-                  : ''
-              ),
-              certificationStartDate: new FormControl(
-                employee.certifications[0]
-                  ? employee.certifications[0].certificationStartDate
-                  : ''
-              ),
-              certificationEndDate: new FormControl(
-                employee.certifications[0]
-                  ? employee.certifications[0].certificationEndDate
-                  : ''
-              ),
-              employeeCertificationScore: new FormControl(
-                employee.certifications[0]
-                  ? employee.certifications[0].employeeCertificationScore
-                  : ''
-              ),
-            }),
-          ]),
-        },
-        {
-          validator: PasswordValidator(
-            'employeeLoginPassword',
-            'employeeConfirmPassword'
-          ),
-        }
-      );
-      if (!employee.certifications[0].certificationId) {
-        console.log("it work");
+      this.addForm.get("employeeName")?.setValue(employee.employeeName);
+      this.addForm.get("employeeEmail")?.setValue(employee.employeeEmail);
+      this.addForm.get("employeeLoginId")?.setValue(employee.employeeLoginId);
+      this.addForm.get("employeeBirthDate")?.setValue(employee.employeeBirthDate);
+      this.addForm.get("departmentId")?.setValue(employee.departmentId);
+      this.addForm.get("employeeTelephone")?.setValue(employee.employeeTelephone);
+      this.addForm.get("employeeNameKana")?.setValue(employee.employeeNameKana);
+      this.addForm.get("employeeLoginPassword")?.setValue(employee.employeeLoginPassword);
+      this.addForm.get("employeeConfirmPassword")?.setValue(employee.employeeLoginPassword);
+      const certificationForm = this.certifications.at(0) as FormGroup;
+      if (this.certificationName) {
+        certificationForm.get("certificationId")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationId : '')
+        certificationForm.get("certificationStartDate")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationStartDate : '')
+        certificationForm.get("certificationEndDate")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationEndDate : '')
+        certificationForm.get("employeeCertificationScore")?.patchValue(employee.certifications[0] ? employee.certifications[0].employeeCertificationScore : '')
+        certificationForm.get("certificationStartDate")?.setValidators([Validators.required])
+        certificationForm.get("certificationEndDate")?.setValidators([Validators.required, CertificationValidator])
+        certificationForm.get("employeeCertificationScore")?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')])
+        this.addForm.controls['certifications']
+          ?.get(0 + '')
+          ?.get('certificationStartDate')
+          ?.enable();
+        this.addForm.controls['certifications']
+          ?.get(0 + '')
+          ?.get('certificationEndDate')
+          ?.enable();
+        this.addForm.controls['certifications']
+          ?.get(0 + '')
+          ?.get('employeeCertificationScore')
+          ?.enable();
+
+      }
+      if (!this.certificationName) {
+        certificationForm.get("certificationId")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationId : '')
+        certificationForm.get("certificationStartDate")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationStartDate : '')
+        certificationForm.get("certificationEndDate")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationEndDate : '')
+        certificationForm.get("employeeCertificationScore")?.patchValue(employee.certifications[0] ? employee.certifications[0].employeeCertificationScore : '')
+
+
         this.isSelectedCerti = false;
         this.addForm.controls['certifications']
           ?.get(0 + '')
@@ -275,6 +229,7 @@ export class AddEditComponent implements OnInit {
    */
   handleCertichange(id: any) {
     let employeeAdd: EmployeeAdd = this.addForm.value;
+    const certificationsForm = this.addForm.get("certifications") as FormArray;
 
     if (id) {
       //Set lại biến kiểm tra chọn certificaton dropdown hay không
@@ -282,85 +237,24 @@ export class AddEditComponent implements OnInit {
       let certi = this.certificationList.find((x) => x.certificationId == id);
       let employee: EmployeeAdd = history.state.employee;
       //thêm validator cho certificationStartDate,EndDate,Score nếu chọn tiếng Nhật
-      this.certificationName = certi?.certificationName
-        ? certi.certificationName
-        : '';
-
-      this.addForm = this.fb.group(
-        {
-          employeeName: new FormControl(employeeAdd.employeeName, [
-            Validators.required,
-            Validators.maxLength(125),
-          ]),
-          employeeEmail: new FormControl(employeeAdd.employeeEmail, [
-            Validators.required,
-            Validators.maxLength(125),
-            Validators.email,
-          ]),
-          employeeLoginId: new FormControl(employeeAdd.employeeLoginId, [
-            Validators.required,
-            Validators.maxLength(50),
-            Validators.pattern(/^[a-zA-Z_][a-zA-Z0-9_]*$/),
-          ]),
-          employeeTelephone: new FormControl(employeeAdd.employeeTelephone, [
-            Validators.required,
-            Validators.maxLength(50),
-            Validators.pattern('[a-zA-Z0-9!-/:-@\\[-`{-~]+'),
-          ]),
-          employeeBirthDate: new FormControl(
-            employeeAdd.employeeBirthDate,
-            Validators.required
-          ),
-          employeeNameKana: new FormControl(employeeAdd.employeeNameKana, [
-            Validators.required,
-            Validators.maxLength(125),
-            Validators.pattern('[ぁ-んァ-ン一-龯々〆〤ー・｜｡-ﾟ]+'),
-          ]),
-          departmentId: new FormControl(
-            employeeAdd.departmentId,
-            Validators.required
-          ),
-          employeeLoginPassword: new FormControl(
-            employeeAdd.employeeLoginPassword,
-            [
-              Validators.required,
-              Validators.minLength(8),
-              Validators.maxLength(50),
-            ]
-          ),
-          employeeConfirmPassword: new FormControl(
-            employeeAdd.employeeConfirmPassword,
-            [
-              Validators.required,
-              Validators.minLength(8),
-              Validators.maxLength(50),
-            ]
-          ),
-          certifications: this.fb.array([
-            this.fb.group({
-              certificationId: new FormControl(id),
-              certificationStartDate: new FormControl(
-                employeeAdd.certifications[0].certificationStartDate,
-                Validators.required
-              ),
-              certificationEndDate: new FormControl(
-                employeeAdd.certifications[0].certificationEndDate,
-                Validators.required
-              ),
-              employeeCertificationScore: new FormControl(
-                employeeAdd.certifications[0].employeeCertificationScore,
-                [Validators.required, Validators.pattern('^[0-9]+$')]
-              ),
-            }),
-          ]),
-        },
-        {
-          validator: [PasswordValidator(
-            'employeeLoginPassword',
-            'employeeConfirmPassword'
-          ), CertificationValidator('certificationStartDate', 'certificationEndDate')]
-        }
-      );
+      this.certificationName = certi?.certificationName ? certi.certificationName : '';
+      certificationsForm.clear();
+      const certificationFormGroup = this.fb.group({
+        certificationId: new FormControl(id),
+        certificationStartDate: new FormControl(
+          employeeAdd.certifications[0].certificationStartDate,
+          Validators.required
+        ),
+        certificationEndDate: new FormControl(
+          employeeAdd.certifications[0].certificationEndDate,
+          [Validators.required, CertificationValidator]
+        ),
+        employeeCertificationScore: new FormControl(
+          employeeAdd.certifications[0].employeeCertificationScore,
+          [Validators.required, Validators.pattern('^[0-9]+$')]
+        ),
+      });
+      certificationsForm.push(certificationFormGroup)
       //enable các trường certificationStartDate,EndDate,Score
       this.addForm.controls['certifications']
         ?.get(0 + '')
@@ -379,72 +273,16 @@ export class AddEditComponent implements OnInit {
       //Set lại biến kiểm tra chọn certificaton dropdown hay không
       this.isSelectedCerti = false;
       //Set lại form nếu bỏ phần Validator của certificationStartDate,EndDate,Score
-      this.addForm = this.fb.group(
-        {
-          employeeName: new FormControl(employeeAdd.employeeName, [
-            Validators.required,
-            Validators.maxLength(125),
-          ]),
-          employeeEmail: new FormControl(employeeAdd.employeeEmail, [
-            Validators.required,
-            Validators.maxLength(125),
-            Validators.email,
-          ]),
-          employeeLoginId: new FormControl(employeeAdd.employeeLoginId, [
-            Validators.required,
-            Validators.maxLength(125),
-            Validators.pattern(/^[a-zA-Z_][a-zA-Z0-9_]*$/),
-          ]),
-          employeeTelephone: new FormControl(employeeAdd.employeeTelephone, [
-            Validators.required,
-            Validators.maxLength(50),
-            Validators.pattern('[a-zA-Z0-9!-/:-@\\[-`{-~]+'),
-          ]),
-          employeeBirthDate: new FormControl(
-            employeeAdd.employeeBirthDate,
-            Validators.required
-          ),
-          employeeNameKana: new FormControl(employeeAdd.employeeNameKana, [
-            Validators.required,
-            Validators.maxLength(125),
-            Validators.pattern('[ぁ-んァ-ン一-龯々〆〤ー・｜｡-ﾟ]+'),
-          ]),
-          departmentId: new FormControl(
-            employeeAdd.departmentId,
-            Validators.required
-          ),
-          employeeLoginPassword: new FormControl(
-            employeeAdd.employeeLoginPassword,
-            [
-              Validators.required,
-              Validators.minLength(8),
-              Validators.maxLength(50),
-            ]
-          ),
-          employeeConfirmPassword: new FormControl(
-            employeeAdd.employeeConfirmPassword,
-            [
-              Validators.required,
-              Validators.minLength(8),
-              Validators.maxLength(50),
-            ]
-          ),
-          certifications: this.fb.array([
-            this.fb.group({
-              certificationId: new FormControl(''),
-              certificationStartDate: new FormControl(''),
-              certificationEndDate: new FormControl(''),
-              employeeCertificationScore: new FormControl(''),
-            }),
-          ]),
-        },
-        {
-          validator: PasswordValidator(
-            'employeeLoginPassword',
-            'employeeConfirmPassword'
-          ),
-        }
-      );
+
+
+      const certificationFormGroup = this.fb.group({
+        certificationId: new FormControl(''),
+        certificationStartDate: new FormControl(''),
+        certificationEndDate: new FormControl(''),
+        employeeCertificationScore: new FormControl(''),
+      });
+      certificationsForm.clear();
+      certificationsForm.push(certificationFormGroup);
 
       //disable các trường certificationStartDate,EndDate,Score
       this.addForm.controls['certifications']
@@ -472,4 +310,6 @@ export class AddEditComponent implements OnInit {
       this.departmentName = depart.departmentName;
     }
   }
+
+
 }
