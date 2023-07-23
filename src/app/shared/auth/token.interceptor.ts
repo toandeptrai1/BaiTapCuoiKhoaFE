@@ -43,12 +43,21 @@ export class AuthInterceptorService implements HttpInterceptor {
         if(error.status===500){
           if(error.error.message.code==="ERR021"){
               message="ソートは (ASC, DESC) でなければなりません。"
+              this.router.navigate(["/systemerror"],{state:{message:message}})
           }
           if(error.error.message.code==="ERR018"){
-            let param=error.error.message.params;
-            message=param+" phải là số halfsize."
+            let param=error.error.message.params?.[0];
+            message=param+" phải là số halfsize.";
+            this.router.navigate(["/systemerror"],{state:{message:message}})
           }
-          this.router.navigate(["/systemerror"],{state:{message:message}})
+          if(error.error.message.code==="ER003"){
+            let param=error.error.message.params?.[0];
+            message=param+" đã tồn tại."
+            this.router.navigate(["/user/add"],{state:{message:message}})
+          
+          }
+          
+        
 
         }
 

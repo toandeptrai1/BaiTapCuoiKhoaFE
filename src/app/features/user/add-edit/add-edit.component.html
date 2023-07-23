@@ -7,9 +7,9 @@
           <form class="c-form box-shadow was-validated" [formGroup]="addForm">
             <ul>
               <li class="title">会員情報編集</li>
-              <!-- <li class="box-err">
-                                <div class="box-err-content">Hiển thị lỗi chung lại đây</div>
-                            </li> -->
+              <li class="box-err" *ngIf="errMessage">
+                <div class="box-err-content">{{errMessage}}</div>
+              </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">カタカナ氏名:<span
                       class="note-red">*</span></i></label>
@@ -153,10 +153,12 @@
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">パスワード（確認）:</i></label>
                 <div class="col-sm col-sm-10"><input type="text" class="form-control"
-                    [ngClass]="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)&&addForm.get('employeeConfirmPassword')?.errors?'invalid_input':''"
+                    [ngClass]="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)
+                    &&addForm.get('employeeConfirmPassword')?.errors?'invalid_input':''"
                     formControlName="employeeConfirmPassword">
                   <div class="invalid-feedback"
-                    *ngIf="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)&&addForm.get('employeeConfirmPassword')?.errors?.['required']">
+                    *ngIf="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)
+                    &&addForm.get('employeeConfirmPassword')?.errors?.['required']">
                     Hãy nhập パスワード（確認）</div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)&&addForm.get('employeeConfirmPassword')?.errors?.['minlength']">
@@ -167,9 +169,10 @@
                   <div class="invalid_message" *ngIf="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)
                     &&addForm.get('employeeConfirmPassword')?.errors?.['mustMatch']
                     &&!addForm.get('employeeConfirmPassword')?.errors?.['minlength']
-                    &&!addForm.get('employeeConfirmPassword')?.errors?.['maxlength']">
+                    &&!addForm.get('employeeConfirmPassword')?.errors?.['maxlength']
+                    &&!addForm.get('employeeConfirmPassword')?.errors?.['required']">
                     Mật khẩu xác nhận không đúng.</div>
-
+                
 
                 </div>
               </li>
@@ -225,7 +228,9 @@
                           *ngIf="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?.['required']">
                           Hãy chọn 失効日</div>
                         <div class="invalid_message"
-                          *ngIf="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?.['dateInvalid']">
+                          *ngIf="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)
+                          &&!addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?.['required']
+                          &&addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?.['dateInvalid']">
                           失効日 phải lớn hơn 資格交付日.</div>
                       </div>
 
@@ -260,7 +265,7 @@
                 </div>
               </li>
             </ul>
-              <pre>{{addForm.value|json}}</pre>
+             
           </form>
         </div>
       </div>

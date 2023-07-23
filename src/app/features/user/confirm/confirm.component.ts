@@ -44,8 +44,12 @@ export class ConfirmComponent implements OnInit {
     this.employeeAdd.employeeBirthDate = this.parsDate(this.employeeAdd.employeeBirthDate + "");
     //Xử lý nếu ko có certification nào
     if (this.employeeAdd.certifications.length > 0) {
-      this.employeeAdd.certifications[0].certificationStartDate = this.parsDate(this.employeeAdd.certifications[0].certificationStartDate + "")
-      this.employeeAdd.certifications[0].certificationEndDate = this.parsDate(this.employeeAdd.certifications[0].certificationEndDate + "")
+      if (this.employeeAdd.certifications[0].certificationId) {
+        this.employeeAdd.certifications[0].certificationStartDate = this.parsDate(this.employeeAdd.certifications[0].certificationStartDate + "")
+        this.employeeAdd.certifications[0].certificationEndDate = this.parsDate(this.employeeAdd.certifications[0].certificationEndDate + "")
+
+      }
+  
       if (!this.employeeAdd.certifications[0].certificationId) {
         this.employeeAdd.certifications = [];
 

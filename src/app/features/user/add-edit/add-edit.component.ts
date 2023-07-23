@@ -42,6 +42,7 @@ export class AddEditComponent implements OnInit {
   departmentName: string = '';
   submitted: boolean = false;
   isSelectedCerti: boolean = false;
+  errMessage:string="";
 
   /**
    * Xử lý inject các service cần thiết
@@ -62,6 +63,10 @@ export class AddEditComponent implements OnInit {
    * khi component lần đầu được render
    */
   ngOnInit(): void {
+    //Kiểm tra xem có lỗi api không
+    if(history.state.message){
+      this.errMessage=history.state.message;
+    }
     this.bsConfig = {
       dateInputFormat: 'YYYY-MM-DD',
     };
