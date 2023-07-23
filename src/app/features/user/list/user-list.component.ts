@@ -37,13 +37,13 @@ export class UserListComponent {
   constructor(
     private employeeService: EmployeeService,
     private router: Router
-  ) {}
+  ) { }
   /**
    * Gán các giá trị cho các thuộc tính và xử lý các logic ban đầu khi
    * componen render lần đâu.
    */
   ngOnInit(): void {
-    
+
     this.employeeService
       .getEmployees(
         this.employeeName,

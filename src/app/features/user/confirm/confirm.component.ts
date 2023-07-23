@@ -7,6 +7,7 @@ import { EmployeeAdd } from './../../../models/EmployeeAdd';
 import { Component, OnInit } from '@angular/core';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { catchError } from 'rxjs';
+import { parse, format } from 'date-fns';
 
 @Component({
   selector: 'app-confirm',
@@ -19,15 +20,15 @@ import { catchError } from 'rxjs';
  */
 export class ConfirmComponent implements OnInit {
   employee!: EmployeeAdd;
-  employeeAdd!:EmployeeAdd;
+  employeeAdd!: EmployeeAdd;
   certificationName: string = '';
   departmentName: string = '';
-  errorMessage:string="";
+  errorMessage: string = "";
   /**
    * Inject các service cần thiết
    * @param router Router
    */
-  constructor(private router: Router, private employeeService: EmployeeService) {}
+  constructor(private router: Router, private employeeService: EmployeeService) { }
   /**
    * Gán giá trị cho các biến và xử lý các logic ban đầu khi
    * component render lần đầu
@@ -37,15 +38,20 @@ export class ConfirmComponent implements OnInit {
     this.employee = history.state.data;
     this.departmentName = history.state.departmentName;
     this.certificationName = history.state.certificationName;
-    this.employeeAdd=this.employee;
+    this.employeeAdd = this.employee;
+
+
+    this.employeeAdd.employeeBirthDate = this.parsDate(this.employeeAdd.employeeBirthDate + "");
     //Xử lý nếu ko có certification nào
-    if(this.employeeAdd.certifications.length>0){
-      if(!this.employeeAdd.certifications[0].certificationId){
-        this.employeeAdd.certifications=[];
-        
+    if (this.employeeAdd.certifications.length > 0) {
+      this.employeeAdd.certifications[0].certificationStartDate = this.parsDate(this.employeeAdd.certifications[0].certificationStartDate + "")
+      this.employeeAdd.certifications[0].certificationEndDate = this.parsDate(this.employeeAdd.certifications[0].certificationEndDate + "")
+      if (!this.employeeAdd.certifications[0].certificationId) {
+        this.employeeAdd.certifications = [];
+
       }
-    }else{
-      this.employeeAdd.certifications=[];
+    } else {
+      this.employeeAdd.certifications = [];
     }
     console.log("employ dung de add:");
     console.log(this.employeeAdd);
@@ -66,17 +72,28 @@ export class ConfirmComponent implements OnInit {
    * Xử lý việc sự kiện button Ok
    * Thực hiện add 1 employee
    */
-  addEmployee(){
-   this.employeeService.addEmployee(this.employeeAdd).pipe(
-    //Xử lý lỗi
-    catchError(()=>{
-      this.errorMessage="Có lỗi rồi đại vương ơi!";
-      throw new Error("Có lỗi rồi !")
+  addEmployee() {
+    this.employeeService.addEmployee(this.employeeAdd).pipe(
+      //Xử lý lỗi
+      catchError(() => {
+        this.errorMessage = "Có lỗi rồi đại vương ơi!";
+        throw new Error("Có lỗi rồi !")
+      })
+    ).subscribe(data => {
+      console.log("emplyee thêm được:")
+      console.log(data);
+      this.router.navigateByUrl("/user/complete")
     })
-   ).subscribe(data=>{
-    console.log("emplyee thêm được:")
-    console.log(data);
-    this.router.navigateByUrl("/user/complete")
-   })
+  }
+  /**
+   * Chuyển đổi thành chuỗi định dạng mới "yyyy/MM/dd"
+   */
+  parsDate(input: string): string {
+    const inputDate = new Date(input);
+
+    // Chuyển đổi thành chuỗi định dạng mới "yyyy/MM/dd"
+    let formattedDate = format(inputDate, 'yyyy/MM/dd');
+    console.log(formattedDate);
+    return formattedDate;
   }
 }
