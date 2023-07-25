@@ -13,3 +13,14 @@ export function PasswordValidator(formControll: AbstractControl): ValidationErro
 
 
 }
+
+export function checkEmployeeReLoginPassword(formGroup: FormGroup) {
+  const employeeLoginPassword = formGroup.get('employeeLoginPassword');
+  const employeeReLoginPassword = formGroup.get('employeeConfirmPassword');
+  // Kiểm tra employeeConfirmPassword trùng với EmployeeLoginPassword
+  if (employeeLoginPassword?.invalid || employeeReLoginPassword?.value === employeeLoginPassword?.value) {
+    employeeReLoginPassword?.setErrors(null);
+  } else {
+    employeeReLoginPassword?.setErrors({ mustMatch: true });
+  }
+}

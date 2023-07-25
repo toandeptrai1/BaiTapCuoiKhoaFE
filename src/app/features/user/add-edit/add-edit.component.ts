@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { EmployeeAdd } from 'src/app/models/EmployeeAdd';
-import { PasswordValidator } from 'src/app/validators/password.validator';
+import { PasswordValidator, checkEmployeeReLoginPassword } from 'src/app/validators/password.validator';
 import { CertificationValidator } from 'src/app/validators/certificationDatevalidator';
 
 @Component({
@@ -114,7 +114,7 @@ export class AddEditComponent implements OnInit {
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(50),
-          PasswordValidator
+          
         ]),
         certifications: this.fb.array([
           this.fb.group({
@@ -125,7 +125,7 @@ export class AddEditComponent implements OnInit {
           }),
         ]),
       }, 
-
+      { validator: checkEmployeeReLoginPassword }
     );
     //disable các trường certificationStartDate,EndDate,Score
     this.addForm.controls['certifications']
