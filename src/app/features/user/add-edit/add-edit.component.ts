@@ -63,10 +63,8 @@ export class AddEditComponent implements OnInit {
    * khi component lần đầu được render
    */
   ngOnInit(): void {
-    //Kiểm tra xem có lỗi api không
-    if(history.state.message){
-      this.errMessage=history.state.message;
-    }
+    
+   
     this.bsConfig = {
       dateInputFormat: 'YYYY-MM-DD',
     };
@@ -126,7 +124,7 @@ export class AddEditComponent implements OnInit {
             employeeCertificationScore: new FormControl(''),
           }),
         ]),
-      }
+      }, 
 
     );
     //disable các trường certificationStartDate,EndDate,Score
@@ -143,19 +141,27 @@ export class AddEditComponent implements OnInit {
       ?.get('employeeCertificationScore')
       ?.disable();
     /**
-     * Gán lại giá trị được truyền từ màn confirm
+     * Gán lại giá trị được truyền từ màn confirm 
      * cho form trong trường hợp back từ màn hình confirm về
+     * hoặc trường hợp backend trả về lỗi trùng loginId
      */
-    console.log(history.state)
-    if (history.state.employee) {
-
+    if (history.state.employee||(history.state.message&&JSON.parse(localStorage.getItem("employeeConfirmErr")||"null"))) {
+      let employee!: EmployeeAdd;
       this.isSelectedCerti = true;
+      if(history.state.employee){
       //gán giá trị được lấy từ router trả về
-      let employee: EmployeeAdd = history.state.employee;
+      employee = history.state.employee;
       this.departmentName = history.state.departmentName;
-
       //gán giá trị được lấy từ router trả về
       this.certificationName = history.state.certificationName;
+      }
+      //Gán lại giá trị trong trường hợp trả về lỗi trùng employee loginID
+      if(history.state.message&&JSON.parse(localStorage.getItem("employeeConfirmErr")||"null")){
+        this.errMessage=history.state.message;
+        employee=JSON.parse(localStorage.getItem("employeeConfirmErr")||"null").data;
+        this.departmentName = JSON.parse(localStorage.getItem("employeeConfirmErr")||"null").departmentName;
+        this.certificationName = JSON.parse(localStorage.getItem("employeeConfirmErr")||"null").certificationName;
+      }
       this.addForm.get("employeeName")?.setValue(employee.employeeName);
       this.addForm.get("employeeEmail")?.setValue(employee.employeeEmail);
       this.addForm.get("employeeLoginId")?.setValue(employee.employeeLoginId);
@@ -210,6 +216,7 @@ export class AddEditComponent implements OnInit {
           ?.disable();
       }
     }
+   
   }
   /**
    * Xử lý vệc navigate sang màn hình confirm với data được lấy
@@ -225,6 +232,11 @@ export class AddEditComponent implements OnInit {
           departmentName: this.departmentName,
         },
       });
+      localStorage.setItem("employeeConfirm",JSON.stringify( {
+        data: this.addForm.value,
+        certificationName: this.certificationName,
+        departmentName: this.departmentName,
+      }))
     }
   }
   /**

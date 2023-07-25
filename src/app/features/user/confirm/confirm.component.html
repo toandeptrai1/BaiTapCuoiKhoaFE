@@ -49,17 +49,17 @@
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">資格交付日</label>
-                <div class="col-sm col-sm-10">{{employee.certifications[0].certificationStartDate|date:'YYYY/MM/dd'}}
+                <div class="col-sm col-sm-10"><span *ngIf="employee.certifications">{{employee.certifications[0].certificationStartDate|date:'YYYY/MM/dd'}}</span>
                 </div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">失効日</label>
-                <div class="col-sm col-sm-10">{{employee.certifications[0].certificationEndDate|date:'YYYY/MM/dd'}}
+                <div class="col-sm col-sm-10"><span  *ngIf="employee.certifications">{{employee.certifications[0].certificationEndDate|date:'YYYY/MM/dd'}}</span>
                 </div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">点数</label>
-                <div class="col-sm col-sm-10">{{employee.certifications[0].employeeCertificationScore}}</div>
+                <div class="col-sm col-sm-10"><span  *ngIf="employee.certifications">{{employee.certifications[0].employeeCertificationScore}}</span></div>
               </li>
               <li class="form-group row d-flex">
                 <div class="btn-group col-sm col-sm-10 ml">

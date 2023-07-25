@@ -43,7 +43,18 @@ export class UserListComponent {
    * componen render lần đâu.
    */
   ngOnInit(): void {
+    console.log(history.state.employeeName)
+    //Kiểm tra xem có data trong router không trong trường hợp navigate từ màn complate về
+    if(history.state.employeeName){
+      this.employeeName=history.state.employeeName;
+      this.departmentId=history.state.departmentId;
+      this.sortByName=history.state.sortByName;
+      this.currentPage=history.state.currentPage;
+      this.sortByCertiName=history.state.sortByCertiName;
+      this.sortByEndDate=history.state.sortByEndDate;
 
+    }
+    //Thực hiện gọi api hiển thị danh sách employee lần đầu
     this.employeeService
       .getEmployees(
         this.employeeName,
@@ -75,18 +86,13 @@ export class UserListComponent {
   handleChange(value: any) {
     this.departmentId = value + '';
   }
-  /**
-   * Gán lại giá trị employeeName
-   * @param value giá trị mà người dùng nhập
-   */
-  handleInput(value: any) {
-    this.employeeName = value;
-  }
+ 
   /**
    * Xử lý sự kiện button search
    */
-  onSearch() {
+  onSearch(value:any) {
     this.currentPage = 1;
+    this.employeeName = value;
     this.employeeService
       .getEmployees(
         this.employeeName,
@@ -254,5 +260,20 @@ export class UserListComponent {
         this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
         console.log(this.totalPage);
       });
+  }
+  /**
+   * Xử lý navigate sang trang AddEdit
+   */
+  navigateToAddEdit(){
+    localStorage.setItem("employeeListState",JSON.stringify({
+      employeeName:this.employeeName,
+      departmentId: this.departmentId,
+      currentPage:this.currentPage,
+      itemsPerPage: this.itemsPerPage,
+      sortByName: this.sortByName,
+      sortByCertiName:this.sortByCertiName,
+      sortByEndDate:this.sortByEndDate
+    }))
+    this.router.navigateByUrl("/user/add")
   }
 }

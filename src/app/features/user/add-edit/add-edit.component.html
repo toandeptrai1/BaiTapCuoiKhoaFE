@@ -86,7 +86,7 @@
 
                     <input class="form-control" readonly="" type="text" bsDatepicker formControlName="employeeBirthDate"
                       [ngClass]="(addForm.get('employeeBirthDate')?.touched||addForm.get('employeeBirthDate')?.dirty||submitted)&&addForm.get('employeeBirthDate')?.errors?'invalidDate':''"
-                      [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }" #datepickerYMD="bsDatepicker">
+                      [bsConfig]="{ dateInputFormat:'YYYY/MM/DD' }" #datepickerYMD="bsDatepicker">
                     <span class="input-group-addon" (click)="datepickerYMD.toggle()">
                       <i class="glyphicon glyphicon-calendar"></i></span>
                   </div>
@@ -158,7 +158,7 @@
                     formControlName="employeeConfirmPassword">
                   <div class="invalid-feedback"
                     *ngIf="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)
-                    &&addForm.get('employeeConfirmPassword')?.errors?.['required']">
+                    &&addForm.get('employeeConfirmPassword')?.errors?.['required'] ||addForm.get('employeeConfirmPassword')?.errors?.['mustMatch']">
                     Hãy nhập パスワード（確認）</div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)&&addForm.get('employeeConfirmPassword')?.errors?.['minlength']">
@@ -201,7 +201,7 @@
                         <div class="input-group date datepicker">
                           <input class="form-control" readonly="" type="text" bsDatepicker
                             [ngClass]="(addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.errors?'invalidDate':''"
-                            formControlName="certificationStartDate" [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }"
+                            formControlName="certificationStartDate" [bsConfig]="{ dateInputFormat:'YYYY/MM/DD' }"
                             #startDatePicker="bsDatepicker">
                           <span class="input-group-addon" (click)="isSelectedCerti&&startDatePicker.toggle()"><i
                               class="glyphicon glyphicon-calendar"></i></span>
@@ -218,7 +218,7 @@
                         <div class="input-group date datepicker">
                           <input class="date form-control" type="text" bsDatepicker
                             [ngClass]="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?'invalidDate':''"
-                            formControlName="certificationEndDate" [bsConfig]="{ dateInputFormat:'YYYY-MM-DD' }"
+                            formControlName="certificationEndDate" [bsConfig]="{ dateInputFormat:'YYYY/MM/DD' }"
                             #endDatePicker="bsDatepicker">
                           <span class="input-group-addon" (click)="isSelectedCerti&&endDatePicker.toggle()"><i
                               class="glyphicon glyphicon-calendar"></i></span>

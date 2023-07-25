@@ -11,7 +11,7 @@
             <ul class="d-flex">
               <li class="form-group row">
                 <label class="col-form-label">氏名:</label>
-                <div class="col-sm"><input #name (keyup)="handleInput(name.value)" (change)="handleInput(name.value)" type="text"></div>
+                <div class="col-sm"><input #name  type="text" [value]="employeeName"></div>
               </li>
               <li class="form-group row">
                 <label class="col-form-label">グループ:</label>
@@ -25,8 +25,8 @@
               </li>
               <li class="form-group row">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-primary btn-sm" (click)="onSearch()">検索</button>
-                  <button type="button" class="btn btn-secondary btn-sm" routerLink="/user/add">新規追加</button>
+                  <button type="button" class="btn btn-primary btn-sm" (click)="onSearch(name.value)">検索</button>
+                  <button type="button" class="btn btn-secondary btn-sm"(click)="navigateToAddEdit()" >新規追加</button>
                 </div>
               </li>
             </ul>

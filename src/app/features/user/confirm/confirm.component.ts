@@ -34,10 +34,16 @@ export class ConfirmComponent implements OnInit {
    * component render lần đầu
    */
   ngOnInit(): void {
-    console.log(history.state);
+   
     this.employee = history.state.data;
     this.departmentName = history.state.departmentName;
     this.certificationName = history.state.certificationName;
+    
+    if(JSON.parse(localStorage.getItem("employeeConfirm")||'null')){
+       this.employee=JSON.parse(localStorage.getItem("employeeConfirm")||'null').data;
+       this.departmentName = JSON.parse(localStorage.getItem("employeeConfirm")||'null').departmentName;
+       this.certificationName = JSON.parse(localStorage.getItem("employeeConfirm")||'null').certificationName;
+    }
     this.employeeAdd = this.employee;
 
 
@@ -81,11 +87,18 @@ export class ConfirmComponent implements OnInit {
       //Xử lý lỗi
       catchError(() => {
         this.errorMessage = "Có lỗi rồi đại vương ơi!";
+        localStorage.setItem("employeeConfirmErr",JSON.stringify({
+          data: this.employee,
+          certificationName: this.certificationName,
+          departmentName: this.departmentName,
+        }));
         throw new Error("Có lỗi rồi !")
       })
     ).subscribe(data => {
       console.log("emplyee thêm được:")
       console.log(data);
+      localStorage.removeItem("employeeConfirm")
+      localStorage.removeItem("employeeConfirmErr")
       this.router.navigateByUrl("/user/complete")
     })
   }
