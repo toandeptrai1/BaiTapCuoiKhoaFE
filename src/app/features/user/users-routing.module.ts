@@ -6,11 +6,17 @@ import { AuthorizeGuard } from '../../shared/auth/authorize.guard';
 import { AddEditComponent } from './add-edit/add-edit.component';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { CompleteComponent } from './complete/complete.component';
+import { DetailComponent } from './detail/detail.component';
 
 const routes: Routes = [
   {
     path: 'user/add',
     component: AddEditComponent,
+    canActivate: [AuthorizeGuard],
+  },
+  {
+    path: 'user/detail/:id',
+    component: DetailComponent,
     canActivate: [AuthorizeGuard],
   },
   {
@@ -48,4 +54,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class UsersRoutingModule {}
+export class UsersRoutingModule { }
