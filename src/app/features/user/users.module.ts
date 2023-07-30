@@ -10,9 +10,10 @@ import { AddEditComponent } from './add-edit/add-edit.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { CompleteComponent } from './complete/complete.component';
+import { DetailComponent } from './detail/detail.component';
 
 @NgModule({
-  declarations: [UserListComponent, AddEditComponent, ConfirmComponent, CompleteComponent],
+  declarations: [UserListComponent, AddEditComponent, ConfirmComponent, CompleteComponent, DetailComponent],
   imports: [
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),
