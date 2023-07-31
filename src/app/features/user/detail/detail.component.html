@@ -9,48 +9,48 @@
               <li class="title">会員詳細</li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">アカウント名</label>
-                <div class="col-sm col-sm-10">ntmhuong</div>
+                <div class="col-sm col-sm-10">{{employee.employeeLoginId}}</div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">グループ</label>
-                <div class="col-sm col-sm-10">Nhóm 1</div>
+                <div class="col-sm col-sm-10">{{employee.departmentName}}</div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">氏名</label>
-                <div class="col-sm col-sm-10">Nguyễn Thị Mai Hương</div>
+                <div class="col-sm col-sm-10">{{employee.employeeName}}</div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">カタカナ氏名</label>
-                <div class="col-sm col-sm-10">名カナ</div>
+                <div class="col-sm col-sm-10">{{employee.employeeNameKana}}</div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">生年月日</label>
-                <div class="col-sm col-sm-10">1983/07/08</div>
+                <div class="col-sm col-sm-10">{{employee.employeeBirthDate}}</div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">メールアドレス</label>
-                <div class="col-sm col-sm-10"> ntmhuong@luvina.net</div>
+                <div class="col-sm col-sm-10">{{employee.employeeEmail}}</div>
               </li>
               <li class="form-group row d-flex  bor-none">
                 <label class="col-form-label col-sm-2">電話番号</label>
-                <div class="col-sm col-sm-10">0914326386</div>
+                <div class="col-sm col-sm-10">{{employee.employeeTelephone}}</div>
               </li>
               <li class="title mt-12"><a href="#!">日本語能力</a></li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">資格</label>
-                <div class="col-sm col-sm-10">Trình độ tiếng nhật cấp 1</div>
+                <div class="col-sm col-sm-10"><span *ngIf="employee.certifications.length>0">{{getCertificationById(employee.certifications[0].certificationId)}}</span></div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">資格交付日</label>
-                <div class="col-sm col-sm-10">2010/07/08</div>
+                <div class="col-sm col-sm-10"><span *ngIf="employee.certifications.length>0">{{employee.certifications[0].certificationStartDate}}</span></div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">失効日</label>
-                <div class="col-sm col-sm-10">2010/07/08</div>
+                <div class="col-sm col-sm-10"><span *ngIf="employee.certifications.length>0">{{employee.certifications[0].certificationEndDate}}</span></div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">点数</label>
-                <div class="col-sm col-sm-10">290</div>
+                <div class="col-sm col-sm-10"><span *ngIf="employee.certifications.length>0">{{employee.certifications[0].employeeCertificationScore}}</span></div>
               </li>
               <li class="form-group row d-flex">
                 <div class="btn-group col-sm col-sm-10 ml">
@@ -59,7 +59,7 @@
                   <button type="button" class="btn btn-secondary btn-sm"
                     onClick="location.href = './ADM006.html';return false;">削除</button>
                   <button type="button" class="btn btn-secondary btn-sm"
-                    onClick="location.href = './ADM002.html';return false;">戻る</button>
+                    (click)="navigateToListUser()">戻る</button>
                 </div>
               </li>
             </ul>

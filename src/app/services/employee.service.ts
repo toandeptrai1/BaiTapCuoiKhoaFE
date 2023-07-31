@@ -79,7 +79,7 @@ export class EmployeeService {
 
   }
   getEmployeeById(employeeId: number): Observable<EmployeeResponse> {
-    return this.http.get<EmployeeResponse>(this.urlEmployee + `/getEmployee/${employeeId}`)
+    return this.http.get<EmployeeResponse>(this.urlEmployee + `/${employeeId}`)
 
   }
 

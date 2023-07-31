@@ -276,4 +276,17 @@ export class UserListComponent {
     }))
     this.router.navigateByUrl("/user/add")
   }
+  navigateToDetail(employeeId:any){
+    localStorage.setItem("employeeListState",JSON.stringify({
+      employeeName:this.employeeName,
+      departmentId: this.departmentId,
+      currentPage:this.currentPage,
+      itemsPerPage: this.itemsPerPage,
+      sortByName: this.sortByName,
+      sortByCertiName:this.sortByCertiName,
+      sortByEndDate:this.sortByEndDate
+    }))
+    this.router.navigateByUrl("/user/detail/"+employeeId);
+
+  }
 }

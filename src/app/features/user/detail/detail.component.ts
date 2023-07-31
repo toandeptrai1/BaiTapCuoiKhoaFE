@@ -1,3 +1,4 @@
+import { Certification } from './../../../models/Certification';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,6 +12,8 @@ import { EmployeeResponse } from 'src/app/models/EmployeeResponse';
 })
 export class DetailComponent implements OnInit {
   employee!: EmployeeResponse;
+  certifications!:Certification[];
+ 
 
   constructor(private route: ActivatedRoute, private router: Router, private employeeService: EmployeeService) {
 
@@ -33,9 +36,39 @@ export class DetailComponent implements OnInit {
 
       }
     })
+    this.employeeService.getCertification().subscribe(data=>this.certifications=data.certifications)
 
   }
-
-
+  getCertificationById(id:any):string{
+    let certification:Certification|undefined;
+    certification=this.certifications.find(cer=>cer.certificationId==id);
+    
+    
+    if(certification){
+      return certification.certificationName;
+    }else{
+      return "";
+    }
+  
+  }
+  navigateToListUser(){
+    const employeeState=JSON.parse(localStorage.getItem("employeeListState")||"null");
+    if(employeeState){
+      this.router.navigate(['/user/list'],{state:{
+        currentPage: employeeState.currentPage,
+        departmentId: employeeState.departmentId,
+        employeeName: employeeState.employeeName,
+        itemsPerPage: employeeState.itemsPerPage,
+        sortByCertiName: employeeState.sortByCertiName,
+        sortByEndDate: employeeState.sortByEndDate,
+        sortByName: employeeState.sortByName,
+      }})
+    }
+    else{
+      this.router.navigate(['/user/list'])
+    }
+    localStorage.removeItem("employeeListState");
+    
+  }
 
 }

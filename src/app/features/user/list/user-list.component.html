@@ -63,7 +63,7 @@
 
               <ng-container  *ngFor="let emp of data.employees">
                   <div class="bor-l-none">
-                      <a routerLink="/user/detail">{{emp.employeeId}}</a>
+                      <a (click)="navigateToDetail(emp.employeeId)" routerLink="/user/detail/{{emp.employeeId}}">{{emp.employeeId}}</a>
                     </div>
                     <div class="wrap_text">{{emp.employeeName}}</div>
                     <div class="wrap_text">{{emp.employeeBirthDate}}</div>
