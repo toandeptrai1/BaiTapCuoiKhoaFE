@@ -1,14 +1,14 @@
 <main>
-    <div class="container">
-       <app-header></app-header>
-        <div class="content">
-            <div class="content-main">
-                <div class="notification-box">
-                    <h1 class="title">ユーザの更新が完了しました。</h1>
-                    <button type="button" class="btn btn-primary btn-sm" (click)="navigateToEmployeeList()">OK</button>
-                </div>
-            </div>
+  <div class="container">
+    <app-header></app-header>
+    <div class="content">
+      <div class="content-main">
+        <div class="notification-box">
+          <h1 class="title">{{message}}</h1>
+          <button type="button" class="btn btn-primary btn-sm" (click)="navigateToEmployeeList()">OK</button>
         </div>
-       <app-footer></app-footer>
+      </div>
     </div>
+    <app-footer></app-footer>
+  </div>
 </main>

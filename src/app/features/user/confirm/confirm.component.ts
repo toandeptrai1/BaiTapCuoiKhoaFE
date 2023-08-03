@@ -34,15 +34,15 @@ export class ConfirmComponent implements OnInit {
    * component render lần đầu
    */
   ngOnInit(): void {
-   
+
     this.employee = history.state.data;
     this.departmentName = history.state.departmentName;
     this.certificationName = history.state.certificationName;
-    
-    if(JSON.parse(localStorage.getItem("employeeConfirm")||'null')){
-       this.employee=JSON.parse(localStorage.getItem("employeeConfirm")||'null').data;
-       this.departmentName = JSON.parse(localStorage.getItem("employeeConfirm")||'null').departmentName;
-       this.certificationName = JSON.parse(localStorage.getItem("employeeConfirm")||'null').certificationName;
+
+    if (JSON.parse(localStorage.getItem("employeeConfirm") || 'null')) {
+      this.employee = JSON.parse(localStorage.getItem("employeeConfirm") || 'null').data;
+      this.departmentName = JSON.parse(localStorage.getItem("employeeConfirm") || 'null').departmentName;
+      this.certificationName = JSON.parse(localStorage.getItem("employeeConfirm") || 'null').certificationName;
     }
     this.employeeAdd = this.employee;
 
@@ -55,7 +55,7 @@ export class ConfirmComponent implements OnInit {
         this.employeeAdd.certifications[0].certificationEndDate = this.parsDate(this.employeeAdd.certifications[0].certificationEndDate + "")
 
       }
-  
+
       if (!this.employeeAdd.certifications[0].certificationId) {
         this.employeeAdd.certifications = [];
 
@@ -87,7 +87,7 @@ export class ConfirmComponent implements OnInit {
       //Xử lý lỗi
       catchError(() => {
         this.errorMessage = "Có lỗi rồi đại vương ơi!";
-        localStorage.setItem("employeeConfirmErr",JSON.stringify({
+        localStorage.setItem("employeeConfirmErr", JSON.stringify({
           data: this.employee,
           certificationName: this.certificationName,
           departmentName: this.departmentName,
@@ -99,7 +99,7 @@ export class ConfirmComponent implements OnInit {
       console.log(data);
       localStorage.removeItem("employeeConfirm")
       localStorage.removeItem("employeeConfirmErr")
-      this.router.navigateByUrl("/user/complete")
+      this.router.navigate(['/user/complete'], { state: { message: "ユーザの登録が完了しました。" } })
     })
   }
   /**

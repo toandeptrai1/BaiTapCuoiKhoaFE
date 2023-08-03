@@ -11,14 +11,15 @@
             <ul class="d-flex">
               <li class="form-group row">
                 <label class="col-form-label">氏名:</label>
-                <div class="col-sm"><input #name #inputRef  type="text" [value]="employeeName"></div>
+                <div class="col-sm"><input #name #inputRef type="text" [value]="employeeName"></div>
               </li>
               <li class="form-group row">
                 <label class="col-form-label">グループ:</label>
                 <div class="col-sm">
                   <select #select (change)="handleChange(select.value)">
                     <option value="">全て</option>
-                    <option *ngFor="let dep of departments" [value]="dep.departmentId" [selected]="departmentId==(dep.departmentId+'')">{{dep.departmentName}}</option>
+                    <option *ngFor="let dep of departments" [value]="dep.departmentId"
+                      [selected]="departmentId==(dep.departmentId+'')">{{dep.departmentName}}</option>
 
                   </select>
                 </div>
@@ -26,34 +27,35 @@
               <li class="form-group row">
                 <div class="btn-group">
                   <button type="button" class="btn btn-primary btn-sm" (click)="onSearch(name.value)">検索</button>
-                  <button type="button" class="btn btn-secondary btn-sm"(click)="navigateToAddEdit()" >新規追加</button>
+                  <button type="button" class="btn btn-secondary btn-sm" (click)="navigateToAddEdit()">新規追加</button>
                 </div>
               </li>
             </ul>
           </form>
         </div>
-        <div class="row row-table" >
+        <div class="row row-table">
           <div class="css-grid-table box-shadow">
             <div class="css-grid-table-header">
               <div>ID</div>
               <div (click)=" setSortByName()">氏名
-                <span *ngIf="isOrderASC(sortByName)">▲▽ </span>
-                <span *ngIf="!isOrderASC(sortByName)&&!isOrderDesc(sortByName)">△▽</span>
-                <span *ngIf="isOrderDesc(sortByName)">▼△</span>
+                <span style="cursor: pointer;" *ngIf="isOrderASC(sortByName)">▲▽ </span>
+                <span style="cursor: pointer;" *ngIf="!isOrderASC(sortByName)&&!isOrderDesc(sortByName)">△▽</span>
+                <span style="cursor: pointer;" *ngIf="isOrderDesc(sortByName)">▼△</span>
               </div>
               <div>生年月日</div>
               <div>グループ</div>
               <div>メールアドレス</div>
               <div>電話番号</div>
               <div (click)="setSortByCertiName()">日本語能力
-                <span *ngIf="isOrderASC(sortByCertiName)">▲▽ </span>
-                <span *ngIf="!isOrderASC(sortByCertiName)&&!isOrderDesc(sortByCertiName)">△▽</span>
-                <span *ngIf="isOrderDesc(sortByCertiName)">▼△</span>
+                <span style="cursor: pointer;" *ngIf="isOrderASC(sortByCertiName)">▲▽ </span>
+                <span style="cursor: pointer;"
+                  *ngIf="!isOrderASC(sortByCertiName)&&!isOrderDesc(sortByCertiName)">△▽</span>
+                <span style="cursor: pointer;" *ngIf="isOrderDesc(sortByCertiName)">▼△</span>
               </div>
               <div (click)="setSortByEndDate()">失効日
-                <span *ngIf="isOrderASC(sortByEndDate)">▲▽ </span>
-                <span *ngIf="!isOrderASC(sortByEndDate)&&!isOrderDesc(sortByEndDate)">△▽</span>
-                <span *ngIf="isOrderDesc(sortByEndDate)">▼△</span>
+                <span style="cursor: pointer;" *ngIf="isOrderASC(sortByEndDate)">▲▽ </span>
+                <span style="cursor: pointer;" *ngIf="!isOrderASC(sortByEndDate)&&!isOrderDesc(sortByEndDate)">△▽</span>
+                <span style="cursor: pointer;" *ngIf="isOrderDesc(sortByEndDate)">▼△</span>
               </div>
               <div>点数</div>
             </div>
@@ -61,41 +63,72 @@
 
             <div class="css-grid-table-body" *ngIf="data?.employees">
 
-              <ng-container  *ngFor="let emp of data.employees">
-                  <div class="bor-l-none">
-                      <a (click)="navigateToDetail(emp.employeeId)" >{{emp.employeeId}}</a>
-                    </div>
-                    <div class="wrap_text">{{emp.employeeName}}</div>
-                    <div class="wrap_text">{{emp.employeeBirthDate}}</div>
-                    <div class="wrap_text">{{emp.departmentName }}</div>
-                    <div class="wrap_text">{{emp.employeeEmail}}</div>
-                    <div class="wrap_text">{{emp.employeeTelephone}}</div>
-                    <div class="wrap_text">{{emp.certificationName}}</div>
-                    <div class="wrap_text">{{emp.endDate}}</div>
-                    <div class="wrap_text">{{emp.score}}</div>
+              <ng-container *ngFor="let emp of data.employees">
+                <div class="bor-l-none">
+                  <a (click)="navigateToDetail(emp.employeeId)" style="cursor: pointer;">{{emp.employeeId}}</a>
+                </div>
+                <div class="wrap_text">{{emp.employeeName}}</div>
+                <div class="wrap_text">{{emp.employeeBirthDate}}</div>
+                <div class="wrap_text">{{emp.departmentName }}</div>
+                <div class="wrap_text">{{emp.employeeEmail}}</div>
+                <div class="wrap_text">{{emp.employeeTelephone}}</div>
+                <div class="wrap_text">{{emp.certificationName}}</div>
+                <div class="wrap_text">{{emp.endDate}}</div>
+                <div class="wrap_text">{{emp.score}}</div>
 
               </ng-container>
 
 
             </div>
             <div class="pagin" *ngIf="totalPage>1&&(data.totalRecords>data.employees.length)">
-              <button class="btn btn-sm btn-pre btn-falcon-default" type="button" (click)="goToPage(currentPage-1)"  [disabled]="currentPage === 1">
-                <svg class="svg-inline--fa fa-chevron-left fa-w-10" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"></path></svg>
+              <button class="btn btn-sm btn-pre btn-falcon-default" type="button" (click)="goToPage(currentPage-1)"
+                [disabled]="currentPage === 1">
+                <svg class="svg-inline--fa fa-chevron-left fa-w-10" aria-hidden="true" focusable="false"
+                  data-prefix="fas" data-icon="chevron-left" role="img" xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 320 512" data-fa-i2svg="">
+                  <path fill="currentColor"
+                    d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z">
+                  </path>
+                </svg>
               </button>
-              <a class="btn btn-sm text-primary btn-falcon-default" *ngIf="currentPage - 1 >= 1" (click)="goToPage(1)" >1</a>
+              <a class="btn btn-sm text-primary btn-falcon-default" *ngIf="currentPage - 1 >= 1"
+                (click)="goToPage(1)">1</a>
               <a class="btn btn-sm text-primary btn-falcon-default" *ngIf="currentPage - 2 > 1">
-                <svg class="svg-inline--fa fa-ellipsis-h fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-h" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"></path></svg>
+                <svg class="svg-inline--fa fa-ellipsis-h fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas"
+                  data-icon="ellipsis-h" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                  data-fa-i2svg="">
+                  <path fill="currentColor"
+                    d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z">
+                  </path>
+                </svg>
               </a>
-              <a class="btn btn-sm text-primary btn-falcon-default"  *ngIf="currentPage - 1 > 1" (click)="goToPage(currentPage - 1)">{{currentPage - 1}}</a>
-              <a class="btn btn-sm text-primary btn-falcon-default"  (click)="goToPage(currentPage)" style="color:#38ac23">{{currentPage}}</a>
-              <a class="btn btn-sm text-primary btn-falcon-default"  *ngIf="currentPage +1 <totalPage" (click)="goToPage(currentPage +1)">{{currentPage +1}}</a>
+              <a class="btn btn-sm text-primary btn-falcon-default" *ngIf="currentPage - 1 > 1"
+                (click)="goToPage(currentPage - 1)">{{currentPage - 1}}</a>
+              <a class="btn btn-sm text-primary btn-falcon-default" (click)="goToPage(currentPage)"
+                style="color:#38ac23">{{currentPage}}</a>
+              <a class="btn btn-sm text-primary btn-falcon-default" *ngIf="currentPage +1 <totalPage"
+                (click)="goToPage(currentPage +1)">{{currentPage +1}}</a>
 
-              <a class="btn btn-sm text-primary btn-falcon-default" *ngIf="currentPage +2 <totalPage" >
-                <svg class="svg-inline--fa fa-ellipsis-h fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-h" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"></path></svg>
+              <a class="btn btn-sm text-primary btn-falcon-default" *ngIf="currentPage +2 <totalPage">
+                <svg class="svg-inline--fa fa-ellipsis-h fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas"
+                  data-icon="ellipsis-h" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                  data-fa-i2svg="">
+                  <path fill="currentColor"
+                    d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z">
+                  </path>
+                </svg>
               </a>
-              <a class="btn btn-sm text-primary btn-falcon-default"  *ngIf="currentPage +1 <=totalPage"  (click)="goToPage(totalPage)">{{totalPage}}</a>
-              <button class="btn btn-sm btn-next btn-falcon-default" type="button" (click)="goToPage(currentPage+1)"  [disabled]="currentPage === totalPage">
-                <svg class="svg-inline--fa fa-chevron-right fa-w-10" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path></svg>
+              <a class="btn btn-sm text-primary btn-falcon-default" *ngIf="currentPage +1 <=totalPage"
+                (click)="goToPage(totalPage)">{{totalPage}}</a>
+              <button class="btn btn-sm btn-next btn-falcon-default" type="button" (click)="goToPage(currentPage+1)"
+                [disabled]="currentPage === totalPage">
+                <svg class="svg-inline--fa fa-chevron-right fa-w-10" aria-hidden="true" focusable="false"
+                  data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 320 512" data-fa-i2svg="">
+                  <path fill="currentColor"
+                    d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z">
+                  </path>
+                </svg>
               </button>
             </div>
           </div>
@@ -106,5 +139,3 @@
     <app-footer></app-footer>
   </div>
 </main>
-
-

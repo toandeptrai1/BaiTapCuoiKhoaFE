@@ -7,6 +7,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { EmployeeResponse } from 'src/app/models/EmployeeResponse';
+import { th } from 'date-fns/locale';
 
 /**
  * Component view chi tiết nhân viên
@@ -19,8 +20,9 @@ import { EmployeeResponse } from 'src/app/models/EmployeeResponse';
 })
 export class DetailComponent implements OnInit {
   employee!: EmployeeResponse;
-  certifications!:Certification[];
- 
+  certifications!: Certification[];
+
+
   /**
    * Thực hiện inject các service cần thiết
    * @param route route
@@ -44,65 +46,83 @@ export class DetailComponent implements OnInit {
         this.employeeService.getEmployeeById(id).subscribe(emp => {
           this.employee = emp;
         });
-       
+
       } else {
         //chuyển về trang systemerror nếu xảy ra lỗi
-        this.router.navigate(["/systemerror"],{state:{message:"該当するユーザは存在していません。"}})
+        this.router.navigate(["/systemerror"], { state: { message: "該当するユーザは存在していません。" } })
       }
-      
 
-    }else{
+
+    } else {
       //Trường hợp F5
-      this.router.navigate(["/systemerror"],{state:{message:"該当するユーザは存在していません。"}})
+      this.router.navigate(["/systemerror"], { state: { message: "該当するユーザは存在していません。" } })
 
     }
-   
-    this.employeeService.getCertification().subscribe(data=>this.certifications=data.certifications)
+
+    this.employeeService.getCertification().subscribe(data => this.certifications = data.certifications)
 
   }
   /**
    * Xử lý get certificationName theo certificationId
-   * @param id id của certification 
+   * @param id id của certification
    * @returns certificationName tìm được
    */
-  getCertificationById(id:any):string{
-    let certification:Certification|undefined;
-    certification=this.certifications.find(cer=>cer.certificationId==id);
-    
-    
-    if(certification){
+  getCertificationById(id: any): string {
+    let certification: Certification | undefined;
+    certification = this.certifications.find(cer => cer.certificationId == id);
+
+
+    if (certification) {
       return certification.certificationName;
-    }else{
+    } else {
       return "";
     }
-  
+
   }
   /**
-   * Xử lý việc chuyển về trang user/list bằng router 
+   * Xử lý việc chuyển về trang user/list bằng router
    */
-  navigateToListUser(){
+  navigateToListUser() {
     //Get thông tin về thứ tự sort,giá trị tìm kiếm employeeName,departmentId từ localStorage
-    const employeeState=JSON.parse(localStorage.getItem("employeeListState")||"null");
+    const employeeState = JSON.parse(localStorage.getItem("employeeListState") || "null");
     //Kiểm tra xem employeeState có null hay không
-    if(employeeState){
+    if (employeeState) {
       //Thực hiện navigate sang trang user/list kèm theo data của employeeState
-      this.router.navigate(['/user/list'],{state:{
-        currentPage: employeeState.currentPage,
-        departmentId: employeeState.departmentId,
-        employeeName: employeeState.employeeName,
-        itemsPerPage: employeeState.itemsPerPage,
-        sortByCertiName: employeeState.sortByCertiName,
-        sortByEndDate: employeeState.sortByEndDate,
-        sortByName: employeeState.sortByName,
-      }})
-      
+      this.router.navigate(['/user/list'], {
+        state: {
+          currentPage: employeeState.currentPage,
+          departmentId: employeeState.departmentId,
+          employeeName: employeeState.employeeName,
+          itemsPerPage: employeeState.itemsPerPage,
+          sortByCertiName: employeeState.sortByCertiName,
+          sortByEndDate: employeeState.sortByEndDate,
+          sortByName: employeeState.sortByName,
+        }
+      })
+
     }
-    else{
+    else {
       this.router.navigate(['/user/list'])
     }
     //Xoá item employeeListState ở localStorage
     localStorage.removeItem("employeeListState");
-    
+
+  }
+  deleteUser(employeeId: number) {
+
+    let result = window.confirm("削除しますが、よろしいでしょうか。");
+
+    if (result) {
+
+      this.employeeService.deleteEmployeeById(employeeId).subscribe(
+        (response) => {
+          this.router.navigate(['/user/complete'], { state: { message: "ユーザの削除が完了しました。" } })
+        }
+      )
+
+    }
+
+
   }
 
 }

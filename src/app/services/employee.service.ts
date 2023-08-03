@@ -82,5 +82,9 @@ export class EmployeeService {
     return this.http.get<EmployeeResponse>(this.urlEmployee + `/${employeeId}`)
 
   }
+  deleteEmployeeById(employeeId: number): Observable<EmployeeResponse> {
+    return this.http.delete<EmployeeResponse>(this.urlEmployee + `/${employeeId}`)
+
+  }
 
 }
