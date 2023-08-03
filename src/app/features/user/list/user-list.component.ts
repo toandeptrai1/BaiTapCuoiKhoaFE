@@ -43,15 +43,15 @@ export class UserListComponent {
    * componen render lần đâu.
    */
   ngOnInit(): void {
-    console.log(history.state.employeeName)
+    console.log(history.state)
     //Kiểm tra xem có data trong router không trong trường hợp navigate từ màn complate về
-    if(history.state.employeeName){
-      this.employeeName=history.state.employeeName;
-      this.departmentId=history.state.departmentId;
-      this.sortByName=history.state.sortByName;
-      this.currentPage=history.state.currentPage;
-      this.sortByCertiName=history.state.sortByCertiName;
-      this.sortByEndDate=history.state.sortByEndDate;
+    if (history.state.currentPage) {
+      this.employeeName = history.state.employeeName;
+      this.departmentId = history.state.departmentId;
+      this.sortByName = history.state.sortByName;
+      this.currentPage = history.state.currentPage;
+      this.sortByCertiName = history.state.sortByCertiName;
+      this.sortByEndDate = history.state.sortByEndDate;
 
     }
     //Thực hiện gọi api hiển thị danh sách employee lần đầu
@@ -86,11 +86,11 @@ export class UserListComponent {
   handleChange(value: any) {
     this.departmentId = value + '';
   }
- 
+
   /**
    * Xử lý sự kiện button search
    */
-  onSearch(value:any) {
+  onSearch(value: any) {
     this.currentPage = 1;
     this.employeeName = value;
     this.employeeService
@@ -113,6 +113,7 @@ export class UserListComponent {
         this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
         console.log(this.totalPage);
       });
+
   }
   /**
    * Xử lý sự kiện người dùng click 1 page number
@@ -264,29 +265,29 @@ export class UserListComponent {
   /**
    * Xử lý navigate sang trang AddEdit
    */
-  navigateToAddEdit(){
-    localStorage.setItem("employeeListState",JSON.stringify({
-      employeeName:this.employeeName,
+  navigateToAddEdit() {
+    localStorage.setItem("employeeListState", JSON.stringify({
+      employeeName: this.employeeName,
       departmentId: this.departmentId,
-      currentPage:this.currentPage,
+      currentPage: this.currentPage,
       itemsPerPage: this.itemsPerPage,
       sortByName: this.sortByName,
-      sortByCertiName:this.sortByCertiName,
-      sortByEndDate:this.sortByEndDate
+      sortByCertiName: this.sortByCertiName,
+      sortByEndDate: this.sortByEndDate
     }))
     this.router.navigateByUrl("/user/add")
   }
-  navigateToDetail(employeeId:any){
-    localStorage.setItem("employeeListState",JSON.stringify({
-      employeeName:this.employeeName,
+  navigateToDetail(employeeId: any) {
+    localStorage.setItem("employeeListState", JSON.stringify({
+      employeeName: this.employeeName,
       departmentId: this.departmentId,
-      currentPage:this.currentPage,
+      currentPage: this.currentPage,
       itemsPerPage: this.itemsPerPage,
       sortByName: this.sortByName,
-      sortByCertiName:this.sortByCertiName,
-      sortByEndDate:this.sortByEndDate
+      sortByCertiName: this.sortByCertiName,
+      sortByEndDate: this.sortByEndDate
     }))
-    this.router.navigateByUrl("/user/detail/"+employeeId);
+    this.router.navigateByUrl("/user/detail/" + employeeId);
 
   }
 }
