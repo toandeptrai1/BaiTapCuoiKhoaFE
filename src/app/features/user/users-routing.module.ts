@@ -15,7 +15,7 @@ const routes: Routes = [
     canActivate: [AuthorizeGuard],
   },
   {
-    path: 'user/detail/:id',
+    path: 'user/detail',
     component: DetailComponent,
     canActivate: [AuthorizeGuard],
   },

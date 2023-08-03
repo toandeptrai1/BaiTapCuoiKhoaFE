@@ -2,7 +2,7 @@
  * Copyright(C) 2023 Luvina Software Company
  * UserListComponent.ts, July 15, 2023 Toannq
  */
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiResponse } from 'src/app/models/apiResponse';
 import { departments } from 'src/app/models/departments';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -85,6 +85,13 @@ export class UserListComponent {
    */
   handleChange(value: any) {
     this.departmentId = value + '';
+  }
+  /**
+   * Auto focus hạng mục đầu tiên
+   */
+  @ViewChild('inputRef') inputRef!: ElementRef;
+  ngAfterViewInit() {
+    this.inputRef.nativeElement.focus();
   }
 
   /**
@@ -277,7 +284,12 @@ export class UserListComponent {
     }))
     this.router.navigateByUrl("/user/add")
   }
+  /**
+   * Xử lý việc naviagte sang trang chi tiết nhân viên
+   * @param employeeId id của employee cần xem chi tiết
+   */
   navigateToDetail(employeeId: any) {
+    //Lưu lại thông tin về thứ tự sắp xếp,employee name,department Name 
     localStorage.setItem("employeeListState", JSON.stringify({
       employeeName: this.employeeName,
       departmentId: this.departmentId,
@@ -287,7 +299,8 @@ export class UserListComponent {
       sortByCertiName: this.sortByCertiName,
       sortByEndDate: this.sortByEndDate
     }))
-    this.router.navigateByUrl("/user/detail/" + employeeId);
+    //Chuyển trang kèm theo employeeID
+    this.router.navigate(['/user/detail'],{state:{employeeId:employeeId}})
 
   }
 }
