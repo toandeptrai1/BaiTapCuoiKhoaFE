@@ -120,36 +120,39 @@ export class DetailComponent implements OnInit {
     let result = window.confirm("削除しますが、よろしいでしょうか。");
     //Kiểm tra xem người dùng có click button ok ở hộp confirm không
     if (result) {
-      //Thực hiện gọi api xoá employee theo id 
-      this.employeeService.deleteEmployeeById(employeeId)
-      .pipe(
-        catchError((err)=>{
-          console.log(err)
-          if(err.message.code=="ER014"){
-            this.errorMessage="該当するユーザは存在していません。"
-          }else{
-            this.errorMessage="ID を入力してください"
-          }
-          throw new Error("loi roi");
-        })
-      )
-      .subscribe(
-        (response) => {
-        
-          const token=sessionStorage.getItem("access_token");
-          if(token){
-            const payload=TokenUtils.parseJwt(token);
-            if(employeeId===payload.employee.employeeId){
-              sessionStorage.removeItem("access_token");
-            }
-          }
-          //Chuyển sang trang complete với message
-          this.router.navigate(['user/complete'], { state: { message: "ユーザの削除が完了しました。" } })
-        
-        },
-      
-      )
-
+      const token=sessionStorage.getItem("access_token");
+      if(token){
+        const payload=TokenUtils.parseJwt(token);
+        //Thực hiện kiểm tra xem id cần xoá có phải là tài khoản đang đăng nhập
+        if(employeeId===payload.employee.employeeId){
+          this.errorMessage="Không xoá được vì bạn đang đăng nhập tài khoản này !"
+        }else{
+           //Thực hiện gọi api xoá employee theo id 
+          this.employeeService.deleteEmployeeById(employeeId)
+          .pipe(
+            catchError((err)=>{
+              console.log(err)
+              if(err.message.code=="ER014"){
+                this.errorMessage="該当するユーザは存在していません。"
+              }else{
+                this.errorMessage="ID を入力してください"
+              }
+              throw new Error("loi roi");
+            })
+          )
+          .subscribe(
+            (response) => {
+            
+            
+              //Chuyển sang trang complete với message
+              this.router.navigate(['user/complete'], { state: { message: "ユーザの削除が完了しました。" } })
+            
+            },
+          
+          )
+        }
+      }
+     
     }
 
 
