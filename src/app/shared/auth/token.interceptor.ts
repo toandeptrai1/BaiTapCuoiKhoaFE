@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HTTP_INTERCEPTORS,
 } from "@angular/common/http";
-import { Observable, throwError, } from "rxjs";
+import { Observable, of, throwError, } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { TokenUtils } from '../utils/token.utils';
 import { Router } from "@angular/router";
@@ -37,7 +37,8 @@ export class AuthInterceptorService implements HttpInterceptor {
 
     request = this.addContentType(request, 'application/json');
 
-    return next.handle(request).pipe(
+    return next.handle(request)
+    .pipe(
       catchError((error) => {
         let message = "";
         if(error.status===500){
@@ -50,6 +51,7 @@ export class AuthInterceptorService implements HttpInterceptor {
             message=param+" phải là số halfsize.";
             this.router.navigate(["/systemerror"],{state:{message:message}})
           }
+          //Xử lý lỗi ở màn add khi người dùng nhập employeeloginid trùng với employeeLoginId trong DB
           if(error.error.message.code==="ER003"){
             let param=error.error.message.params?.[0];
             message=param+" đã tồn tại."
@@ -61,7 +63,8 @@ export class AuthInterceptorService implements HttpInterceptor {
 
         }
 
-        return throwError(() => new Error(error?.message));
+        return throwError(error.error);
+       
       })
     );
   }

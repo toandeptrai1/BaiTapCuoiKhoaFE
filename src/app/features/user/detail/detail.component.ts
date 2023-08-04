@@ -8,6 +8,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { EmployeeResponse } from 'src/app/models/EmployeeResponse';
 import { th } from 'date-fns/locale';
+import { catchError } from 'rxjs';
+import { TokenUtils } from 'src/app/shared/utils/token.utils';
 
 /**
  * Component view chi tiết nhân viên
@@ -21,6 +23,7 @@ import { th } from 'date-fns/locale';
 export class DetailComponent implements OnInit {
   employee!: EmployeeResponse;
   certifications!: Certification[];
+  errorMessage:string="";
 
 
   /**
@@ -108,16 +111,43 @@ export class DetailComponent implements OnInit {
     localStorage.removeItem("employeeListState");
 
   }
+  /**
+   * Xử lý sự kiện click button [削除] và thực hiện gọi phương thức xoá employee
+   * @param employeeId employeeId cần xoá
+   */
   deleteUser(employeeId: number) {
-
+    //show hộp confirm xác nhận xoá
     let result = window.confirm("削除しますが、よろしいでしょうか。");
-
+    //Kiểm tra xem người dùng có click button ok ở hộp confirm không
     if (result) {
-
-      this.employeeService.deleteEmployeeById(employeeId).subscribe(
+      //Thực hiện gọi api xoá employee theo id 
+      this.employeeService.deleteEmployeeById(employeeId)
+      .pipe(
+        catchError((err)=>{
+          console.log(err)
+          if(err.message.code=="ER014"){
+            this.errorMessage="該当するユーザは存在していません。"
+          }else{
+            this.errorMessage="ID を入力してください"
+          }
+          throw new Error("loi roi");
+        })
+      )
+      .subscribe(
         (response) => {
-          this.router.navigate(['/user/complete'], { state: { message: "ユーザの削除が完了しました。" } })
-        }
+        
+          const token=sessionStorage.getItem("access_token");
+          if(token){
+            const payload=TokenUtils.parseJwt(token);
+            if(employeeId===payload.employee.employeeId){
+              sessionStorage.removeItem("access_token");
+            }
+          }
+          //Chuyển sang trang complete với message
+          this.router.navigate(['user/complete'], { state: { message: "ユーザの削除が完了しました。" } })
+        
+        },
+      
       )
 
     }
