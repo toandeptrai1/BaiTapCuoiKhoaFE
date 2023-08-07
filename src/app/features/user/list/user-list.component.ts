@@ -300,7 +300,7 @@ export class UserListComponent {
       sortByEndDate: this.sortByEndDate
     }))
     //Chuyển trang kèm theo employeeID
-    this.router.navigate(['/user/detail'],{state:{employeeId:employeeId}})
+    this.router.navigate(['/user/detail'],{state:{employeeId:48}})
 
   }
 }
