@@ -34,7 +34,7 @@ export class DetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private employeeService: EmployeeService
-  ) {}
+  ) { }
   /**
    * Xử lý các logic khi component render lần đầu
    */
@@ -47,13 +47,13 @@ export class DetailComponent implements OnInit {
       //Kiểm tra xem id có phải number không
       if (id) {
         this.employeeService.getEmployeeById(id).pipe(
-          catchError((err)=>{
-            this.errorMessage="該当するユーザは存在していません。";
-            console.log(this.errorMessage)
+          catchError((err) => {
+            this.errorMessage = '該当するユーザは存在していません。';
             throw new Error("lỗi rồi");
           })
         ).subscribe(
           (emp) => {
+
             this.employee = emp;
           }
         );
