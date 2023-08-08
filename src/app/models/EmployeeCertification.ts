@@ -3,4 +3,5 @@ export interface EmployeeCertification {
   certificationStartDate: string;
   certificationEndDate: string;
   employeeCertificationScore: number;
+  certificationName:string;
 }

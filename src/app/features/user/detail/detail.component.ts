@@ -161,4 +161,9 @@ export class DetailComponent implements OnInit {
       }
     }
   }
+
+  updateUser(employeeId:any){
+    this.router.navigate(['user/edit'],{state:{employeeIdEdit:employeeId}})
+
+  }
 }

@@ -15,6 +15,11 @@ const routes: Routes = [
     canActivate: [AuthorizeGuard],
   },
   {
+    path: 'user/edit',
+    component: AddEditComponent,
+    canActivate: [AuthorizeGuard],
+  },
+  {
     path: 'user/detail',
     component: DetailComponent,
     canActivate: [AuthorizeGuard],

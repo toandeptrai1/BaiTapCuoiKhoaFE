@@ -44,31 +44,31 @@
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">資格</label>
                 <div class="col-sm col-sm-10" *ngIf="employee"><span
-                    *ngIf="employee.certifications.length>0">{{getCertificationById(employee.certifications[employee.certifications.length-1].certificationId)}}</span>
+                    *ngIf="employee.certifications.length>0">{{getCertificationById(employee.certifications[0].certificationId)}}</span>
                 </div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">資格交付日</label>
                 <div class="col-sm col-sm-10" *ngIf="employee"><span
-                    *ngIf="employee.certifications.length>0">{{employee.certifications[employee.certifications.length-1].certificationStartDate}}</span>
+                    *ngIf="employee.certifications.length>0">{{employee.certifications[0].certificationStartDate}}</span>
                 </div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">失効日</label>
                 <div class="col-sm col-sm-10" *ngIf="employee"><span
-                    *ngIf="employee.certifications.length>0">{{employee.certifications[employee.certifications.length-1].certificationEndDate}}</span>
+                    *ngIf="employee.certifications.length>0">{{employee.certifications[0].certificationEndDate}}</span>
                 </div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">点数</label>
                 <div class="col-sm col-sm-10" *ngIf="employee"><span
-                    *ngIf="employee.certifications.length>0">{{employee.certifications[employee.certifications.length-1].employeeCertificationScore}}</span>
+                    *ngIf="employee.certifications.length>0">{{employee.certifications[0].employeeCertificationScore}}</span>
                 </div>
               </li>
               <li class="form-group row d-flex">
                 <div class="btn-group col-sm col-sm-10 ml">
                   <button type="button" class="btn btn-primary btn-sm"
-                    onClick="location.href = './ADM004.html';return false;">編集</button>
+                    (click)="updateUser(employee.employeeId)">編集</button>
                   <button type="button" class="btn btn-secondary btn-sm"
                     (click)="deleteUser(employee.employeeId)">削除</button>
                   <button type="button" class="btn btn-secondary btn-sm" (click)="navigateToListUser()">戻る</button>
