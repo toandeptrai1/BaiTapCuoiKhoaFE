@@ -93,8 +93,8 @@ export class EmployeeService {
    * @param employeeId employeeId cần lấy ra
    * @returns EmployeeResponse Thông tin của employee vừa lấy được
    */
-  getEmployeeById(employeeId: number): Observable<EmployeeResponse> {
-    return this.http.get<EmployeeResponse>(this.urlEmployee + `/${employeeId}`)
+  getEmployeeById(employeeId: number): Observable<any> {
+    return this.http.get<any>(this.urlEmployee + `/${employeeId}`)
 
   }
   /**

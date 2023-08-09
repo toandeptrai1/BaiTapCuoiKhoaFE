@@ -1,3 +1,4 @@
+import { employees } from './../../../models/Employees';
 import { EmployeeAdd } from './../../../models/EmployeeAdd';
 /**
  * Copyright(C) 2023 Luvina Software Company
@@ -48,6 +49,7 @@ export class AddEditComponent implements OnInit {
   editMode: boolean = false;
   addMode: boolean = false;
   employee!: any;
+
 
   /**
    * Xử lý inject các service cần thiết
@@ -186,6 +188,29 @@ export class AddEditComponent implements OnInit {
         })
 
       }
+      if (history.state.employeeIdEditConfirm) {
+        this.employeeService.getEmployeeById(history.state.employeeIdEditConfirm).subscribe(data => {
+        
+          employee = history.state.employee;
+          this.employee=data;
+          if(employee.employeeLoginPassword== data.employeeLoginPassword){
+            console.log("ko pass");
+           employee.employeeLoginPassword="";
+           this.addForm.get("employeeLoginPassword")?.setValue("");
+
+          }else{
+            console.log("co pass");
+            this.addForm.get("employeeLoginPassword")?.setValue(employee.employeeLoginPassword);
+          }
+          this.departmentName = this.employee?.departmentName;
+          this.certificationName = this.employee?.certifications[0]?.certificationName;
+          this.setValueForForm(employee,employee.employeeLoginPassword, employee.employeeLoginPassword);
+         
+         
+        })
+
+      }
+
 
 
 
@@ -240,12 +265,16 @@ export class AddEditComponent implements OnInit {
         certificationForm.get("certificationStartDate")?.patchValue("")
         certificationForm.get("certificationEndDate")?.patchValue("")
         certificationForm.get("employeeCertificationScore")?.patchValue("");
+        certificationForm.get("certificationStartDate")?.setValidators([Validators.required]);
+        certificationForm.get("certificationEndDate")?.setValidators([Validators.required, CertificationValidator]);
+        certificationForm.get("employeeCertificationScore")?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')]);
 
         for (let cer of this.employee.certifications) {
           if (cer.certificationId == id) {
-            certificationForm.get("certificationStartDate")?.patchValue(cer.certificationStartDate)
-            certificationForm.get("certificationEndDate")?.patchValue(cer.certificationEndDate)
+            certificationForm.get("certificationStartDate")?.patchValue(cer.certificationStartDate);
+            certificationForm.get("certificationEndDate")?.patchValue(cer.certificationEndDate);
             certificationForm.get("employeeCertificationScore")?.patchValue(cer.employeeCertificationScore);
+           
           }
 
         }
@@ -337,9 +366,12 @@ export class AddEditComponent implements OnInit {
    * @param employee thong tin ve employee set cho form
    */
   setValueForForm(employee: any, password: any, repassword: any) {
-    if (this.editMode) {
+   
+    console.log( employee.employeeLoginPassword);
+    if (this.editMode||history.state.employeeIdEditConfirm) {
       if (this.addForm.get("employeeLoginPassword")?.value &&
-        this.addForm.get("employeeLoginPassword")?.value !== employee.employeeLoginPassword) {
+        this.addForm.get("employeeLoginPassword")?.value != employee.employeeLoginPassword
+        ) {
         this.addForm = this.fb.group(
           {
             employeeId: new FormControl(""),
@@ -382,10 +414,10 @@ export class AddEditComponent implements OnInit {
             ]),
             certifications: this.fb.array([
               this.fb.group({
-                certificationId: new FormControl(''),
-                certificationStartDate: new FormControl(''),
-                certificationEndDate: new FormControl(''),
-                employeeCertificationScore: new FormControl(''),
+                certificationId: new FormControl(this.addForm.get("certifications.0.certificationId")?.value),
+                certificationStartDate: new FormControl(this.addForm.get("certifications.0.certificationStartDate")?.value),
+                certificationEndDate: new FormControl(this.addForm.get("certifications.0.certificationEndDate")?.value),
+                employeeCertificationScore: new FormControl(this.addForm.get("certifications.0.employeeCertificationScore")?.value),
               }),
             ]),
           },
@@ -427,10 +459,10 @@ export class AddEditComponent implements OnInit {
             employeeConfirmPassword: new FormControl(''),
             certifications: this.fb.array([
               this.fb.group({
-                certificationId: new FormControl(''),
-                certificationStartDate: new FormControl(''),
-                certificationEndDate: new FormControl(''),
-                employeeCertificationScore: new FormControl(''),
+                certificationId: new FormControl(this.addForm.get("certifications.0.certificationId")?.value),
+                certificationStartDate: new FormControl(this.addForm.get("certifications.0.certificationStartDate")?.value),
+                certificationEndDate: new FormControl(this.addForm.get("certifications.0.certificationEndDate")?.value),
+                employeeCertificationScore: new FormControl(this.addForm.get("certifications.0.employeeCertificationScore")?.value),
               }),
             ]),
           }
@@ -438,6 +470,7 @@ export class AddEditComponent implements OnInit {
 
       }
     }
+    //Gán lại giá trị cho form
     this.addForm.get("employeeId")?.setValue(employee.employeeId);
     this.addForm.get("employeeName")?.setValue(employee.employeeName);
     this.addForm.get("employeeEmail")?.setValue(employee.employeeEmail);
@@ -451,8 +484,8 @@ export class AddEditComponent implements OnInit {
     this.addForm.get("employeeLoginPassword")?.markAsTouched();
     this.addForm.get("employeeConfirmPassword")?.setValue(repassword);
     this.addForm.get("employeeConfirmPassword")?.markAsTouched();
-    if (this.editMode) {
-      if (employee.certifications.length > 0) {
+    if (this.editMode||history.state.employeeIdEditConfirm) {
+      if (employee.certifications.length &&employee.certifications.length > 0) {
         this.certifications.clear();
         for (let i = 0; i < employee.certifications.length; i++) {
           const certificationForm = this.fb.group({
@@ -487,10 +520,10 @@ export class AddEditComponent implements OnInit {
           ?.enable();
       } else {
         let certificationForm = this.certifications.at(0) as FormGroup;
-        certificationForm.get("certificationId")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationId : '')
-        certificationForm.get("certificationStartDate")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationStartDate : '')
-        certificationForm.get("certificationEndDate")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationEndDate : '')
-        certificationForm.get("employeeCertificationScore")?.patchValue(employee.certifications[0] ? employee.certifications[0].employeeCertificationScore : '');
+        certificationForm.get("certificationId")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationId : this.addForm.get("certifications.0.certificationId")?.value)
+        certificationForm.get("certificationStartDate")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationStartDate : this.addForm.get("certifications.0.certificationStartDate")?.value)
+        certificationForm.get("certificationEndDate")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationEndDate : this.addForm.get("certifications.0.certificationEndDate")?.value)
+        certificationForm.get("employeeCertificationScore")?.patchValue(employee.certifications[0] ? employee.certifications[0].employeeCertificationScore : this.addForm.get("certifications.0.employeeCertificationScore")?.value);
         this.isSelectedCerti = false;
         this.addForm.controls['certifications']
           ?.get(0 + '')
@@ -508,7 +541,7 @@ export class AddEditComponent implements OnInit {
       }
 
     }
-    if (this.addMode) {
+    if (this.addMode||history.state.employeeIdEditConfirm) {
       const certificationForm = this.certifications.at(0) as FormGroup;
       if (employee.certifications.length > 0) {
         certificationForm.get("certificationId")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationId : '')
@@ -556,13 +589,30 @@ export class AddEditComponent implements OnInit {
     }
 
   }
-
+  /**
+   * Xử lý sự kiện khi người dùng thay đổi giá trị của password
+   * @param password giá trị của password được thay đổi
+   */
   handlePassChange(password: any) {
     if (this.editMode) {
-      console.log("worked")
+      this.setValueForForm(this.employee, password, "");
+    }
+    if (history.state.employeeIdEditConfirm) {
+      console.log("worked");
       this.setValueForForm(this.employee, password, "");
     }
 
+  }
+  /**
+   * Xử lý việc click button Back màn ADM002 hoặc ADM003
+   * cho các trường hợp add,edit
+   */
+  handleBackAddEdit(){
+    if(this.editMode){
+      this.router.navigate(['/user/detail'],{state:{employeeId:this.employee.employeeId}});
+    }else{
+      this.router.navigate(['/user/list']);
+    }
   }
 
 

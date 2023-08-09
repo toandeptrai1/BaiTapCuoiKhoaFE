@@ -161,7 +161,10 @@ export class DetailComponent implements OnInit {
       }
     }
   }
-
+  /**
+   * Xử lý việc navigate sang trang edit kèm theo employeeId
+   * @param employeeId 
+   */
   updateUser(employeeId:any){
     this.router.navigate(['user/edit'],{state:{employeeIdEdit:employeeId}})
 

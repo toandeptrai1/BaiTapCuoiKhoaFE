@@ -13,7 +13,7 @@
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">カタカナ氏名:<span
                       class="note-red">*</span></i></label>
-                <div class="col-sm col-sm-10"><input type="text" class="form-control" autofocus
+                <div class="col-sm col-sm-10"><input type="text" class="form-control" autofocus [readOnly]="editMode"
                     [ngClass]="(addForm.get('employeeLoginId')?.touched||addForm.get('employeeLoginId')?.dirty||submitted)&&addForm.get('employeeLoginId')?.errors?'invalid_input':''"
                     formControlName="employeeLoginId">
                   <div class="invalid_message"
@@ -261,13 +261,13 @@
                 <div class="btn-group col-sm col-sm-10 ml">
                   <button class="btn btn-primary btn-sm" (click)="navigateToConfirm()">確認</button>
                   <button type="button" class="btn btn-secondary btn-sm"
-                    onClick="location.href = './ADM002.html';return false;">戻る</button>
+                   (click)="handleBackAddEdit()">戻る</button>
                 </div>
               </li>
             </ul>
 
           </form>
-          <pre>{{addForm.value|json}}</pre>
+          
         </div>
       </div>
 

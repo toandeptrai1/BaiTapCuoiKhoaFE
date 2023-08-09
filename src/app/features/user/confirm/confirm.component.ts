@@ -3,7 +3,6 @@
  * ConfirmComponent.ts, July 15, 2023 Toannq
  */
 import { Router } from '@angular/router';
-import { EmployeeAdd } from './../../../models/EmployeeAdd';
 import { Component, OnInit } from '@angular/core';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { catchError } from 'rxjs';
@@ -73,7 +72,7 @@ export class ConfirmComponent implements OnInit {
     if (this.employeeAdd.employeeId) {
       this.router.navigate(['/user/edit'], {
         state: {
-          employeeIdEdit: this.employeeAdd.employeeId,
+          employeeIdEditConfirm: this.employeeAdd.employeeId,
           employee: this.employee,
           departmentName: this.departmentName,
           certificationName: this.certificationName,
@@ -114,13 +113,13 @@ export class ConfirmComponent implements OnInit {
         console.log(data);
         localStorage.removeItem("employeeConfirm")
         localStorage.removeItem("employeeConfirmErr")
-        this.router.navigate(['/user/complete'], { state: { message: "ユーザの登録が完了しました。" } })
+        this.router.navigate(['/user/complete'], { state: { message: "ユーザの更新が完了しました。" } })
       })
     } else {
       this.employeeService.addEmployee(this.employeeAdd).pipe(
         //Xử lý lỗi
         catchError(() => {
-          this.errorMessage = "Có lỗi rồi đại vương ơi!";
+         
           localStorage.setItem("employeeConfirmErr", JSON.stringify({
             data: this.employee,
             certificationName: this.certificationName,
