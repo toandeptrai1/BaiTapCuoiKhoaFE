@@ -49,6 +49,7 @@ export class AddEditComponent implements OnInit {
   editMode: boolean = false;
   addMode: boolean = false;
   employee!: any;
+  userChangedPassword: boolean = false;
 
 
   /**
@@ -161,7 +162,7 @@ export class AddEditComponent implements OnInit {
     if (history.state.employee || (history.state.message && JSON.parse(localStorage.getItem("employeeConfirmErr") || "null")) || this.editMode) {
       let employee!: any;
       this.isSelectedCerti = true;
-      if (history.state.employee) {
+      if (history.state.employee && !history.state.employeeIdEditConfirm) {
         //gán giá trị được lấy từ router trả về
         employee = history.state.employee;
         this.departmentName = history.state.departmentName;
@@ -190,23 +191,24 @@ export class AddEditComponent implements OnInit {
       }
       if (history.state.employeeIdEditConfirm) {
         this.employeeService.getEmployeeById(history.state.employeeIdEditConfirm).subscribe(data => {
-        
-          employee = history.state.employee;
-          this.employee=data;
-          if(employee.employeeLoginPassword== data.employeeLoginPassword){
-            console.log("ko pass");
-           employee.employeeLoginPassword="";
-           this.addForm.get("employeeLoginPassword")?.setValue("");
 
-          }else{
+          employee = history.state.employee;
+          this.employee = data;
+          if (employee.employeeLoginPassword == data.employeeLoginPassword) {
+            console.log("ko pass");
+            employee.employeeLoginPassword = "";
+            this.addForm.get("employeeLoginPassword")?.setValue("");
+
+          } else {
             console.log("co pass");
             this.addForm.get("employeeLoginPassword")?.setValue(employee.employeeLoginPassword);
           }
-          this.departmentName = this.employee?.departmentName;
-          this.certificationName = this.employee?.certifications[0]?.certificationName;
-          this.setValueForForm(employee,employee.employeeLoginPassword, employee.employeeLoginPassword);
-         
-         
+          this.departmentName = history.state.departmentName;
+          //gán giá trị được lấy từ router trả về
+          this.certificationName = history.state.certificationName;
+          this.setValueForForm(employee, employee.employeeLoginPassword, employee.employeeLoginPassword);
+          this.employee = history.state.employee;
+
         })
 
       }
@@ -256,9 +258,6 @@ export class AddEditComponent implements OnInit {
         //Set lại biến kiểm tra chọn certificaton dropdown hay không
         this.isSelectedCerti = true;
         let certi = this.certificationList.find((x) => x.certificationId == id);
-        console.log(certi);
-        console.log(id);
-        console.log(this.employee.certifications);
         //thêm validator cho certificationStartDate,EndDate,Score nếu chọn tiếng Nhật
         this.certificationName = certi?.certificationName ? certi.certificationName : '';
         let certificationForm = certificationsForm.at(0) as FormGroup;
@@ -274,7 +273,7 @@ export class AddEditComponent implements OnInit {
             certificationForm.get("certificationStartDate")?.patchValue(cer.certificationStartDate);
             certificationForm.get("certificationEndDate")?.patchValue(cer.certificationEndDate);
             certificationForm.get("employeeCertificationScore")?.patchValue(cer.employeeCertificationScore);
-           
+
           }
 
         }
@@ -366,12 +365,16 @@ export class AddEditComponent implements OnInit {
    * @param employee thong tin ve employee set cho form
    */
   setValueForForm(employee: any, password: any, repassword: any) {
-   
-    console.log( employee.employeeLoginPassword);
-    if (this.editMode||history.state.employeeIdEditConfirm) {
+    console.log(employee);
+    const certificationsForm = this.addForm.get("certifications") as FormArray;
+    const formValue = this.addForm.value;
+    const cerForm = certificationsForm.at(0) as FormGroup;
+    //Thêm hoặc bỏ validate password
+    if (this.editMode || history.state.employeeIdEditConfirm) {
+
       if (this.addForm.get("employeeLoginPassword")?.value &&
         this.addForm.get("employeeLoginPassword")?.value != employee.employeeLoginPassword
-        ) {
+      ) {
         this.addForm = this.fb.group(
           {
             employeeId: new FormControl(""),
@@ -470,22 +473,40 @@ export class AddEditComponent implements OnInit {
 
       }
     }
-    //Gán lại giá trị cho form
-    this.addForm.get("employeeId")?.setValue(employee.employeeId);
-    this.addForm.get("employeeName")?.setValue(employee.employeeName);
-    this.addForm.get("employeeEmail")?.setValue(employee.employeeEmail);
-    this.addForm.get("employeeLoginId")?.setValue(employee.employeeLoginId);
-    this.addForm.get("employeeBirthDate")?.setValue(employee.employeeBirthDate);
-    this.addForm.get("departmentId")?.setValue(employee.departmentId);
-    this.addForm.get("employeeTelephone")?.setValue(employee.employeeTelephone);
-    this.addForm.get("employeeNameKana")?.setValue(employee.employeeNameKana);
 
+    if (!this.userChangedPassword) {
+      //Gán lại giá trị cho form
+      this.addForm.get("employeeId")?.setValue(employee.employeeId);
+      this.addForm.get("employeeName")?.setValue(employee.employeeName);
+      this.addForm.get("employeeEmail")?.setValue(employee.employeeEmail);
+      this.addForm.get("employeeLoginId")?.setValue(employee.employeeLoginId);
+      this.addForm.get("employeeBirthDate")?.setValue(employee.employeeBirthDate);
+      this.addForm.get("departmentId")?.setValue(employee.departmentId);
+      this.addForm.get("employeeTelephone")?.setValue(employee.employeeTelephone);
+      this.addForm.get("employeeNameKana")?.setValue(employee.employeeNameKana);
+
+
+
+    } else {
+      //Gán lại giá trị cho form
+      this.addForm.get("employeeId")?.setValue(formValue.employeeId);
+      this.addForm.get("employeeName")?.setValue(formValue.employeeName);
+      this.addForm.get("employeeEmail")?.setValue(formValue.employeeEmail);
+      this.addForm.get("employeeLoginId")?.setValue(formValue.employeeLoginId);
+      this.addForm.get("employeeBirthDate")?.setValue(formValue.employeeBirthDate);
+      this.addForm.get("departmentId")?.setValue(formValue.departmentId);
+      this.addForm.get("employeeTelephone")?.setValue(formValue.employeeTelephone);
+      this.addForm.get("employeeNameKana")?.setValue(formValue.employeeNameKana);
+
+
+
+    }
     this.addForm.get("employeeLoginPassword")?.setValue(password);
     this.addForm.get("employeeLoginPassword")?.markAsTouched();
     this.addForm.get("employeeConfirmPassword")?.setValue(repassword);
     this.addForm.get("employeeConfirmPassword")?.markAsTouched();
-    if (this.editMode||history.state.employeeIdEditConfirm) {
-      if (employee.certifications.length &&employee.certifications.length > 0) {
+    if (this.editMode || history.state.employeeIdEditConfirm) {
+      if (employee.certifications.length && employee.certifications.length > 0) {
         this.certifications.clear();
         for (let i = 0; i < employee.certifications.length; i++) {
           const certificationForm = this.fb.group({
@@ -494,10 +515,17 @@ export class AddEditComponent implements OnInit {
             certificationEndDate: new FormControl("", [Validators.required, CertificationValidator]),
             employeeCertificationScore: new FormControl("", [Validators.required, Validators.pattern('^[0-9]+$')]),
           });
-          certificationForm.get("certificationId")?.patchValue(employee.certifications[i] ? employee.certifications[i].certificationId : '')
-          certificationForm.get("certificationStartDate")?.patchValue(employee.certifications[i] ? employee.certifications[i].certificationStartDate : '')
-          certificationForm.get("certificationEndDate")?.patchValue(employee.certifications[i] ? employee.certifications[i].certificationEndDate : '')
-          certificationForm.get("employeeCertificationScore")?.patchValue(employee.certifications[i] ? employee.certifications[i].employeeCertificationScore : '')
+          if (!this.userChangedPassword) {
+            certificationForm.get("certificationId")?.patchValue(employee.certifications[i] ? employee.certifications[i].certificationId : '')
+            certificationForm.get("certificationStartDate")?.patchValue(employee.certifications[i] ? employee.certifications[i].certificationStartDate : '')
+            certificationForm.get("certificationEndDate")?.patchValue(employee.certifications[i] ? employee.certifications[i].certificationEndDate : '')
+            certificationForm.get("employeeCertificationScore")?.patchValue(employee.certifications[i] ? employee.certifications[i].employeeCertificationScore : '')
+          } else {
+            certificationForm.get("certificationId")?.patchValue(cerForm.get("certificationId")?.value)
+            certificationForm.get("certificationStartDate")?.patchValue(cerForm.get("certificationStartDate")?.value)
+            certificationForm.get("certificationEndDate")?.patchValue(cerForm.get("certificationEndDate")?.value)
+            certificationForm.get("employeeCertificationScore")?.patchValue(cerForm.get("employeeCertificationScore")?.value);
+          }
           certificationForm.get("certificationStartDate")?.setValidators([Validators.required])
           certificationForm.get("certificationEndDate")?.setValidators([Validators.required, CertificationValidator])
           certificationForm.get("employeeCertificationScore")?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')])
@@ -541,7 +569,7 @@ export class AddEditComponent implements OnInit {
       }
 
     }
-    if (this.addMode||history.state.employeeIdEditConfirm) {
+    if (this.addMode) {
       const certificationForm = this.certifications.at(0) as FormGroup;
       if (employee.certifications.length > 0) {
         certificationForm.get("certificationId")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationId : '')
@@ -594,11 +622,12 @@ export class AddEditComponent implements OnInit {
    * @param password giá trị của password được thay đổi
    */
   handlePassChange(password: any) {
+    this.userChangedPassword = true;
     if (this.editMode) {
       this.setValueForForm(this.employee, password, "");
     }
     if (history.state.employeeIdEditConfirm) {
-      console.log("worked");
+
       this.setValueForForm(this.employee, password, "");
     }
 
@@ -607,10 +636,10 @@ export class AddEditComponent implements OnInit {
    * Xử lý việc click button Back màn ADM002 hoặc ADM003
    * cho các trường hợp add,edit
    */
-  handleBackAddEdit(){
-    if(this.editMode){
-      this.router.navigate(['/user/detail'],{state:{employeeId:this.employee.employeeId}});
-    }else{
+  handleBackAddEdit() {
+    if (this.editMode) {
+      this.router.navigate(['/user/detail'], { state: { employeeId: this.employee.employeeId } });
+    } else {
       this.router.navigate(['/user/list']);
     }
   }
