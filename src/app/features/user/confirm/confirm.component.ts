@@ -19,8 +19,8 @@ import { parse, format } from 'date-fns';
  * @author Toannq
  */
 export class ConfirmComponent implements OnInit {
-  employee!: EmployeeAdd;
-  employeeAdd!: EmployeeAdd;
+  employee!: any;
+  employeeAdd!: any;
   certificationName: string = '';
   departmentName: string = '';
   errorMessage: string = "";
@@ -70,37 +70,72 @@ export class ConfirmComponent implements OnInit {
    * Chuyển về mà EditAdd với data đã được nhận từ màn EditAdd
    */
   navigateToEditAdd() {
-    this.router.navigate(['/user/add'], {
-      state: {
-        employee: this.employee,
-        departmentName: this.departmentName,
-        certificationName: this.certificationName,
-      },
-    });
+    if (this.employeeAdd.employeeId) {
+      this.router.navigate(['/user/edit'], {
+        state: {
+          employeeIdEdit: this.employeeAdd.employeeId,
+          employee: this.employee,
+          departmentName: this.departmentName,
+          certificationName: this.certificationName,
+        },
+      });
+
+    } else {
+      this.router.navigate(['/user/add'], {
+        state: {
+          employee: this.employee,
+          departmentName: this.departmentName,
+          certificationName: this.certificationName,
+        },
+      });
+
+    }
+
   }
   /**
    * Xử lý việc sự kiện button Ok
    * Thực hiện add 1 employee
    */
   addEmployee() {
-    this.employeeService.addEmployee(this.employeeAdd).pipe(
-      //Xử lý lỗi
-      catchError(() => {
-        this.errorMessage = "Có lỗi rồi đại vương ơi!";
-        localStorage.setItem("employeeConfirmErr", JSON.stringify({
-          data: this.employee,
-          certificationName: this.certificationName,
-          departmentName: this.departmentName,
-        }));
-        throw new Error("Có lỗi rồi !")
+    if (this.employeeAdd.employeeId) {
+      this.employeeService.editEmployee(this.employeeAdd).pipe(
+        //Xử lý lỗi
+        catchError(() => {
+
+          localStorage.setItem("employeeConfirmErr", JSON.stringify({
+            data: this.employee,
+            certificationName: this.certificationName,
+            departmentName: this.departmentName,
+          }));
+          throw new Error("Có lỗi rồi !")
+        })
+      ).subscribe(data => {
+        console.log("emplyee edit được:")
+        console.log(data);
+        localStorage.removeItem("employeeConfirm")
+        localStorage.removeItem("employeeConfirmErr")
+        this.router.navigate(['/user/complete'], { state: { message: "ユーザの登録が完了しました。" } })
       })
-    ).subscribe(data => {
-      console.log("emplyee thêm được:")
-      console.log(data);
-      localStorage.removeItem("employeeConfirm")
-      localStorage.removeItem("employeeConfirmErr")
-      this.router.navigate(['/user/complete'], { state: { message: "ユーザの登録が完了しました。" } })
-    })
+    } else {
+      this.employeeService.addEmployee(this.employeeAdd).pipe(
+        //Xử lý lỗi
+        catchError(() => {
+          this.errorMessage = "Có lỗi rồi đại vương ơi!";
+          localStorage.setItem("employeeConfirmErr", JSON.stringify({
+            data: this.employee,
+            certificationName: this.certificationName,
+            departmentName: this.departmentName,
+          }));
+          throw new Error("Có lỗi rồi !")
+        })
+      ).subscribe(data => {
+        console.log("emplyee thêm được:")
+        console.log(data);
+        localStorage.removeItem("employeeConfirm")
+        localStorage.removeItem("employeeConfirmErr")
+        this.router.navigate(['/user/complete'], { state: { message: "ユーザの登録が完了しました。" } })
+      })
+    }
   }
   /**
    * Chuyển đổi thành chuỗi định dạng mới "yyyy/MM/dd"

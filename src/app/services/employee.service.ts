@@ -78,6 +78,16 @@ export class EmployeeService {
     return this.http.post<any>(this.urlEmployee + "/add", employee);
 
   }
+
+  /**
+  * Xử lý việc gọi api thêm mới 1 employee
+  * @param employee dữ liệu employee cần add
+  * @returns api được server trả về
+  */
+  editEmployee(employee: any): Observable<any> {
+    return this.http.put<any>(this.urlEmployee + "/edit", employee);
+
+  }
   /**
    * Xử lý việc get employee theo id
    * @param employeeId employeeId cần lấy ra
@@ -87,11 +97,11 @@ export class EmployeeService {
     return this.http.get<EmployeeResponse>(this.urlEmployee + `/${employeeId}`)
 
   }
-   /**
-   * Xử lý việc delete 1 employee theo id
-   * @param employeeId employeeId cần xoá
-   * @returns employeeId,code,message được trả về từ server
-   */
+  /**
+  * Xử lý việc delete 1 employee theo id
+  * @param employeeId employeeId cần xoá
+  * @returns employeeId,code,message được trả về từ server
+  */
   deleteEmployeeById(employeeId: any): Observable<any> {
     return this.http.delete<any>(this.urlEmployee + `/${employeeId}`)
 

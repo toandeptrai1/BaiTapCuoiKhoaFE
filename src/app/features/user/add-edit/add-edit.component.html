@@ -135,7 +135,8 @@
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">パスワード:<span
                       class="note-red">*</span></i></label>
-                <div class="col-sm col-sm-10"><input type="text" class="form-control"
+                <div class="col-sm col-sm-10"><input type="text" class="form-control" #password
+                    (keyup)="handlePassChange(password.value)"
                     [ngClass]="(addForm.get('employeeLoginPassword')?.touched||addForm.get('employeeLoginPassword')?.dirty||submitted)&&addForm.get('employeeLoginPassword')?.errors?'invalid_input':''"
                     formControlName="employeeLoginPassword">
                   <div class="invalid_message"
@@ -152,8 +153,7 @@
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">パスワード（確認）:</i></label>
-                <div class="col-sm col-sm-10"><input type="text" class="form-control"
-                    [ngClass]="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)
+                <div class="col-sm col-sm-10"><input type="text" class="form-control" [ngClass]="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)
                     &&addForm.get('employeeConfirmPassword')?.errors?'invalid_input':''"
                     formControlName="employeeConfirmPassword">
                   <div class="invalid-feedback"
@@ -172,14 +172,14 @@
                     &&!addForm.get('employeeConfirmPassword')?.errors?.['maxlength']
                     &&!addForm.get('employeeConfirmPassword')?.errors?.['required']">
                     Mật khẩu xác nhận không đúng.</div>
-                
+
 
                 </div>
               </li>
               <li class="title mt-12"><a href="#!">日本語能力</a></li>
               <ng-container formArrayName="certifications">
                 <ng-container *ngFor="let certi of  certifications.controls,let item=index">
-                  <ng-container [formGroupName]="item">
+                  <ng-container [formGroupName]="item" *ngIf="item==0">
                     <li class="form-group row d-flex">
                       <label class="col-form-label col-sm-2"><i class="relative">資格:</i></label>
                       <div class="col-sm col-sm-10">
@@ -265,8 +265,9 @@
                 </div>
               </li>
             </ul>
-             
+
           </form>
+          <pre>{{addForm.value|json}}</pre>
         </div>
       </div>
 
