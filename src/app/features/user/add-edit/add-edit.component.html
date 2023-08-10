@@ -18,13 +18,13 @@
                     formControlName="employeeLoginId">
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeLoginId')?.touched||addForm.get('employeeLoginId')?.dirty||submitted)&&addForm.get('employeeLoginId')?.errors?.['required']">
-                    Hãy nhập カタカナ氏名</div>
+                    アカウント名を入力してください</div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeLoginId')?.touched||addForm.get('employeeLoginId')?.dirty||submitted)&&addForm.get('employeeLoginId')?.errors?.['maxlength']">
-                    カタカナ氏名 không được vượt quá 50 ký tự.</div>
+                    50桁以内のアカウント名を入力してください</div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeLoginId')?.touched||addForm.get('employeeLoginId')?.dirty||submitted)&&addForm.get('employeeLoginId')?.errors?.['pattern']">
-                    カタカナ氏名 chi chấp nhận các ký tự (a-z, A-Z, 0-9 và _). Ký tự đầu tiên không phải là số.</div>
+                    アカウント名は(a-z, A-Z, 0-9 と _)の桁のみです。最初の桁は数字ではない。</div>
 
 
                 </div>
@@ -42,7 +42,7 @@
                   </select>
                   <div class="invalid-feedback"
                     *ngIf="(addForm.get('departmentId')?.touched||addForm.get('departmentId')?.dirty||submitted)&&addForm.get('departmentId')?.errors?.['required']">
-                    Hãy chọn グループ</div>
+                    グループを入力してください</div>
                 </div>
               </li>
               <li class="form-group row d-flex">
@@ -53,10 +53,10 @@
                     class="form-control" formControlName="employeeName">
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeName')?.touched||addForm.get('employeeName')?.dirty||submitted)&&addForm.get('employeeName')?.errors?.['required']">
-                    Hãy nhập 氏名</div>
+                    氏名を入力してください</div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeName')?.touched||addForm.get('employeeName')?.dirty||submitted)&&addForm.get('employeeName')?.errors?.['maxlength']">
-                    氏名 không được vượt quá 125 ký tự.</div>
+                    50桁以内の氏名を入力してください</div>
 
                 </div>
               </li>
@@ -69,13 +69,13 @@
                     formControlName="employeeNameKana">
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeNameKana')?.touched||addForm.get('employeeNameKana')?.dirty||submitted)&&addForm.get('employeeNameKana')?.errors?.['required']">
-                    Hãy nhập カタカナ氏名</div>
+                    カタカナ氏名を入力してください</div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeNameKana')?.touched||addForm.get('employeeNameKana')?.dirty||submitted)&&addForm.get('employeeNameKana')?.errors?.['maxlength']">
-                    カタカナ氏名 không được vượt quá 125 ký tự.</div>
+                    125桁以内のカタカナ氏名を入力してください</div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeNameKana')?.touched||addForm.get('employeeNameKana')?.dirty||submitted)&&addForm.get('employeeNameKana')?.errors?.['pattern']">
-                    カタカナ氏名 phải là ký tự kana.</div>
+                    カタカナ氏名をカタカナで入力してください</div>
                 </div>
               </li>
               <li class="form-group row d-flex">
@@ -92,7 +92,7 @@
                   </div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeBirthDate')?.touched||addForm.get('employeeBirthDate')?.dirty||submitted)&&addForm.get('employeeBirthDate')?.errors?.['required']">
-                    Hãy chọn 生年月日</div>
+                    生年月日を入力してください</div>
 
                 </div>
               </li>
@@ -104,13 +104,13 @@
                     formControlName="employeeEmail">
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeEmail')?.touched||addForm.get('employeeEmail')?.dirty||submitted)&&addForm.get('employeeEmail')?.errors?.['required']">
-                    Hãy nhập メールアドレス</div>
+                    メールアドレスを入力してください</div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeEmail')?.touched||addForm.get('employeeEmail')?.dirty||submitted)&&addForm.get('employeeEmail')?.errors?.['maxlength']">
-                    メールアドレス không được vượt quá 125 ký tự.</div>
+                    125桁以内のメールアドレスを入力してください</div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeEmail')?.touched||addForm.get('employeeEmail')?.dirty||submitted)&&addForm.get('employeeEmail')?.errors?.['email']">
-                    メールアドレス phải là email.</div>
+                    メールアドレスをカタカナで入力してください</div>
 
                 </div>
               </li>
@@ -122,13 +122,13 @@
                     formControlName="employeeTelephone">
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeTelephone')?.touched||addForm.get('employeeTelephone')?.dirty||submitted)&&addForm.get('employeeTelephone')?.errors?.['required']">
-                    Hãy nhập 電話番号</div>
+                    電話番号を入力してください</div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeTelephone')?.touched||addForm.get('employeeTelephone')?.dirty||submitted)&&addForm.get('employeeTelephone')?.errors?.['maxlength']">
-                    電話番号 không được vượt quá 50 ký tự.</div>
+                    50桁以内の電話番号を入力してください</div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeTelephone')?.touched||addForm.get('employeeTelephone')?.dirty||submitted)&&addForm.get('employeeTelephone')?.errors?.['pattern']">
-                    電話番号 chỉ chấp nhận ký tự 1 byte.</div>
+                    電話番号をカタカナで入力してください</div>
 
                 </div>
               </li>
@@ -141,13 +141,13 @@
                     formControlName="employeeLoginPassword">
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeLoginPassword')?.touched||addForm.get('employeeLoginPassword')?.dirty||submitted)&&addForm.get('employeeLoginPassword')?.errors?.['required']">
-                    Hãy nhập パスワード</div>
+                    パスワードを入力してください</div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeLoginPassword')?.touched||addForm.get('employeeLoginPassword')?.dirty||submitted)&&addForm.get('employeeLoginPassword')?.errors?.['minlength']">
-                    パスワード phải lớn hơn hoặc bằng 8 và nhỏ hơn hoặc bằng 50 ký tự.</div>
+                    パスワードを8＜＝桁数、＜＝50桁で入力してください</div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeLoginPassword')?.touched||addForm.get('employeeLoginPassword')?.dirty||submitted)&&addForm.get('employeeLoginPassword')?.errors?.['maxlength']">
-                    パスワード phải lớn hơn hoặc bằng 8 và nhỏ hơn hoặc bằng 50 ký tự.</div>
+                    パスワードを8＜＝桁数、＜＝50桁で入力してください</div>
 
                 </div>
               </li>
@@ -171,7 +171,7 @@
                     &&!addForm.get('employeeConfirmPassword')?.errors?.['minlength']
                     &&!addForm.get('employeeConfirmPassword')?.errors?.['maxlength']
                     &&!addForm.get('employeeConfirmPassword')?.errors?.['required']">
-                    Mật khẩu xác nhận không đúng.</div>
+                    パスワード（確認)が不正です。</div>
 
 
                 </div>
@@ -208,7 +208,7 @@
                         </div>
                         <div class="invalid_message"
                           *ngIf="(addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.errors?.['required']">
-                          Hãy chọn 資格交付日</div>
+                          資格交付日を入力してください</div>
                       </div>
                     </li>
                     <li class="form-group row d-flex">
@@ -226,12 +226,12 @@
 
                         <div class="invalid_message"
                           *ngIf="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?.['required']">
-                          Hãy chọn 失効日</div>
+                          失効日を入力してください</div>
                         <div class="invalid_message"
                           *ngIf="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)
                           &&!addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?.['required']
                           &&addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?.['dateInvalid']">
-                          失効日 phải lớn hơn 資格交付日.</div>
+                          失効日は資格交付日より未来の日で入力してください。</div>
                       </div>
 
                     </li>
@@ -243,10 +243,10 @@
                           class="form-control">
                         <div class="invalid_message"
                           *ngIf="(addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.touched||addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.dirty||submitted)&&addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.errors?.['required']">
-                          Hãy nhập 点数</div>
+                          点数を入力してください</div>
                         <div class="invalid_message"
                           *ngIf="(addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.touched||addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.dirty||submitted)&&addForm.get('certifications')?.get(item+'')?.get('employeeCertificationScore')?.errors?.['pattern']">
-                          点数 phải là số halfsize.</div>
+                          点数は半角で入力してください。</div>
 
                       </div>
                     </li>

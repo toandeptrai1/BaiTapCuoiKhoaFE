@@ -69,6 +69,7 @@ export class ConfirmComponent implements OnInit {
    * Chuyển về mà EditAdd với data đã được nhận từ màn EditAdd
    */
   navigateToEditAdd() {
+    //Trường hợp có id trong router thì chuyển về trang edit
     if (this.employeeAdd.employeeId) {
       this.router.navigate(['/user/edit'], {
         state: {
@@ -80,6 +81,7 @@ export class ConfirmComponent implements OnInit {
       });
 
     } else {
+    //Trường hợp ko có id trong router thì chuyển về trang add
       this.router.navigate(['/user/add'], {
         state: {
           employee: this.employee,
@@ -93,9 +95,10 @@ export class ConfirmComponent implements OnInit {
   }
   /**
    * Xử lý việc sự kiện button Ok
-   * Thực hiện add 1 employee
+   * Thực hiện add 1 employee hoặc edit 1 employee
    */
   addEmployee() {
+    //Kiểm tra router có employeeId không.
     if (this.employeeAdd.employeeId) {
       this.employeeService.editEmployee(this.employeeAdd).pipe(
         //Xử lý lỗi
