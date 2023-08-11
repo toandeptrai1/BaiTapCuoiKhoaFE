@@ -1,3 +1,8 @@
+
+/**
+ * Copyright(C) 2023 Luvina Software Company
+ * AddEditComponent.ts, July 15, 2023 Toannq
+ */
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -6,6 +11,12 @@ import { Router } from '@angular/router';
   templateUrl: './complete.component.html',
   styleUrls: ['./complete.component.css']
 })
+/**
+ * Xử lý các logic và khai báo các tham số cần thiết cho
+ * CompleteComponent
+ * @author Toannq
+ *
+ */
 export class CompleteComponent implements OnInit {
   message: string = "";
   constructor(private router: Router) {

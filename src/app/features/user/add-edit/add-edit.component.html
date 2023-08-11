@@ -136,7 +136,7 @@
                 <label class="col-form-label col-sm-2"><i class="relative">パスワード:<span
                       class="note-red">*</span></i></label>
                 <div class="col-sm col-sm-10"><input type="text" class="form-control" #password
-                    (keyup)="handlePassChange(password.value)"
+                    (keyup)="handlePassChange(password.value)" type="password"
                     [ngClass]="(addForm.get('employeeLoginPassword')?.touched||addForm.get('employeeLoginPassword')?.dirty||submitted)&&addForm.get('employeeLoginPassword')?.errors?'invalid_input':''"
                     formControlName="employeeLoginPassword">
                   <div class="invalid_message"
@@ -153,7 +153,7 @@
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">パスワード（確認）:</i></label>
-                <div class="col-sm col-sm-10"><input type="text" class="form-control" [ngClass]="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)
+                <div class="col-sm col-sm-10"><input type="password" class="form-control" [ngClass]="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)
                     &&addForm.get('employeeConfirmPassword')?.errors?'invalid_input':''"
                     formControlName="employeeConfirmPassword">
                   <div class="invalid-feedback"
@@ -216,7 +216,7 @@
                           <span class="note-red" *ngIf="isSelectedCerti">*</span></i></label>
                       <div class="col-sm col-sm-10 d-flex">
                         <div class="input-group date datepicker">
-                          <input class="date form-control" type="text" bsDatepicker
+                          <input class="date form-control" type="text" bsDatepicker readonly=""
                             [ngClass]="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?'invalidDate':''"
                             formControlName="certificationEndDate" [bsConfig]="{ dateInputFormat:'YYYY/MM/DD' }"
                             #endDatePicker="bsDatepicker">

@@ -217,10 +217,6 @@ export class AddEditComponent implements OnInit {
         })
 
       }
-
-
-
-
     }
 
   }
@@ -234,10 +230,7 @@ export class AddEditComponent implements OnInit {
     if (this.addForm.valid) {
       if (!this.addForm.get("employeeLoginPassword")?.value&&!this.userChangedPassword) {
         this.addForm.get("employeeLoginPassword")?.setValue(this.employee.employeeLoginPassword);
-
       }
-
-     
       this.router.navigate(['/user/confirm'], {
         state: {
           data: this.addForm.value,
@@ -260,7 +253,6 @@ export class AddEditComponent implements OnInit {
   handleCertichange(id: any) {
     let employeeAdd: EmployeeAdd = this.addForm.value;
     const certificationsForm = this.addForm.get("certifications") as FormArray;
-
     if (id) {
       if (this.editMode) {
         //Set lại biến kiểm tra chọn certificaton dropdown hay không
@@ -285,8 +277,6 @@ export class AddEditComponent implements OnInit {
           }
 
         }
-
-
       }
       if (this.addMode) {
         //Set lại biến kiểm tra chọn certificaton dropdown hay không
@@ -542,9 +532,6 @@ export class AddEditComponent implements OnInit {
           certificationForm.get("certificationEndDate")?.setValidators([Validators.required, CertificationValidator])
           certificationForm.get("employeeCertificationScore")?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')])
           this.certifications.push(certificationForm);
-
-
-
         }
         this.addForm.controls['certifications']
           ?.get(0 + '')
@@ -577,7 +564,6 @@ export class AddEditComponent implements OnInit {
           ?.get(0 + '')
           ?.get('employeeCertificationScore')
           ?.disable();
-
       }
 
     }
@@ -612,7 +598,6 @@ export class AddEditComponent implements OnInit {
         certificationForm.get("certificationStartDate")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationStartDate : '')
         certificationForm.get("certificationEndDate")?.patchValue(employee.certifications[0] ? employee.certifications[0].certificationEndDate : '')
         certificationForm.get("employeeCertificationScore")?.patchValue(employee.certifications[0] ? employee.certifications[0].employeeCertificationScore : '')
-
         //disable các trường certification
         this.isSelectedCerti = false;
         this.addForm.controls['certifications']
@@ -627,7 +612,6 @@ export class AddEditComponent implements OnInit {
           ?.get(0 + '')
           ?.get('employeeCertificationScore')
           ?.disable();
-
       }
     }
 
@@ -661,6 +645,4 @@ export class AddEditComponent implements OnInit {
       this.router.navigate(['/user/list']);
     }
   }
-
-
 }
