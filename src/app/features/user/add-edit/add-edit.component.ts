@@ -309,6 +309,9 @@ export class AddEditComponent implements OnInit {
    * @param password giá trị của password được thay đổi
    */
   handlePassChange(password: any) {
+    if( this.addForm.get("employeeLoginPassword")?.valid){
+      this.addForm.get("employeeConfirmPassword")?.markAsTouched();
+    }
     if (this.editMode || history.state.employeeIdEditConfirm) {
 
       if (password) {
