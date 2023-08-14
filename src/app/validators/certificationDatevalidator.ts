@@ -1,10 +1,13 @@
 import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export function CertificationValidator(formControll: AbstractControl): ValidationErrors | null {
+export function CertificationValidator(formGroup: AbstractControl) {
 
-  const controllCompare = formControll.parent?.get("certificationStartDate");
-  if (new Date(formControll?.value) <= new Date(controllCompare?.value)) {
-    return { dateInvalid: true };
+  const startDate = formGroup.get("certifications.0.certificationStartDate");
+  const endDate = formGroup.get("certifications.0.certificationEndDate");
+  if (startDate?.valid && new Date(endDate?.value) <= new Date(startDate?.value)) {
+    endDate?.setErrors({ dateInvalid: true });
+  } else {
+    endDate?.setErrors(null);
   }
-  return null;
+
 }

@@ -17,10 +17,23 @@ export function PasswordValidator(formControll: AbstractControl): ValidationErro
 export function checkEmployeeReLoginPassword(formGroup: FormGroup) {
   const employeeLoginPassword = formGroup.get('employeeLoginPassword');
   const employeeReLoginPassword = formGroup.get('employeeConfirmPassword');
-  // Kiểm tra employeeConfirmPassword trùng với EmployeeLoginPassword
-  if (employeeLoginPassword?.invalid || employeeReLoginPassword?.value === employeeLoginPassword?.value) {
-    employeeReLoginPassword?.setErrors(null);
+  const employeeId = formGroup.get("employeeId")?.value;
+  if (!employeeId) {
+    // Kiểm tra employeeConfirmPassword trùng với EmployeeLoginPassword
+    if (employeeLoginPassword?.invalid || employeeReLoginPassword?.value === employeeLoginPassword?.value) {
+      employeeReLoginPassword?.setErrors(null);
+    } else {
+      employeeReLoginPassword?.setErrors({ mustMatch: true });
+    }
   } else {
-    employeeReLoginPassword?.setErrors({ mustMatch: true });
+    if (!employeeLoginPassword?.value) {
+      employeeReLoginPassword?.setErrors(null);
+    } else {
+      if (employeeLoginPassword?.invalid || employeeReLoginPassword?.value === employeeLoginPassword?.value) {
+        employeeReLoginPassword?.setErrors(null);
+      } else {
+        employeeReLoginPassword?.setErrors({ mustMatch: true });
+      }
+    }
   }
 }

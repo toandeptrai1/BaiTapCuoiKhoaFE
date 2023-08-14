@@ -4,7 +4,7 @@
     <div class="content">
       <div class="content-main">
         <div class="row">
-          <form class="c-form box-shadow was-validated" [formGroup]="addForm">
+          <form id="addForm" class="c-form box-shadow was-validated" [formGroup]="addForm">
             <ul>
               <li class="title">会員情報編集</li>
               <li class="box-err" *ngIf="errMessage">
@@ -13,7 +13,8 @@
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">カタカナ氏名:<span
                       class="note-red">*</span></i></label>
-                <div class="col-sm col-sm-10"><input type="text" class="form-control" autofocus [readOnly]="editMode"
+                <div class="col-sm col-sm-10"><input type="text" class="form-control" autofocus
+                    [readOnly]="editMode||editConfirm"
                     [ngClass]="(addForm.get('employeeLoginId')?.touched||addForm.get('employeeLoginId')?.dirty||submitted)&&addForm.get('employeeLoginId')?.errors?'invalid_input':''"
                     formControlName="employeeLoginId">
                   <div class="invalid_message"
@@ -56,7 +57,7 @@
                     氏名を入力してください</div>
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeName')?.touched||addForm.get('employeeName')?.dirty||submitted)&&addForm.get('employeeName')?.errors?.['maxlength']">
-                    50桁以内の氏名を入力してください</div>
+                    125桁以内の氏名を入力してください</div>
 
                 </div>
               </li>
@@ -133,10 +134,11 @@
                 </div>
               </li>
               <li class="form-group row d-flex">
-                <label class="col-form-label col-sm-2"><i class="relative">パスワード:<span
-                      class="note-red">*</span></i></label>
+                <label class="col-form-label col-sm-2"><i class="relative">パスワード:<span class="note-red"
+                      *ngIf="addMode||((editMode||editConfirm)&&addForm.get('employeeLoginPassword')?.value)">*</span></i></label>
                 <div class="col-sm col-sm-10"><input type="text" class="form-control" #password
-                    (keyup)="handlePassChange(password.value)" type="password"
+                    (keyup)="handlePassChange(password.value)" (change)="handlePassChange(password.value)"
+                    type="password"
                     [ngClass]="(addForm.get('employeeLoginPassword')?.touched||addForm.get('employeeLoginPassword')?.dirty||submitted)&&addForm.get('employeeLoginPassword')?.errors?'invalid_input':''"
                     formControlName="employeeLoginPassword">
                   <div class="invalid_message"
@@ -152,7 +154,8 @@
                 </div>
               </li>
               <li class="form-group row d-flex">
-                <label class="col-form-label col-sm-2"><i class="relative">パスワード（確認）:</i></label>
+                <label class="col-form-label col-sm-2"><i class="relative">パスワード（確認）:<span class="note-red" *ngIf="(addMode&&addForm.get('employeeLoginPassword')?.valid)||((editMode||editConfirm)&&addForm.get('employeeLoginPassword')?.value)
+                      &&addForm.get('employeeLoginPassword')?.valid">*</span></i></label>
                 <div class="col-sm col-sm-10"><input type="password" class="form-control" [ngClass]="(addForm.get('employeeConfirmPassword')?.touched||addForm.get('employeeConfirmPassword')?.dirty||submitted)
                     &&addForm.get('employeeConfirmPassword')?.errors?'invalid_input':''"
                     formControlName="employeeConfirmPassword">
@@ -260,14 +263,13 @@
               <li class="form-group row d-flex">
                 <div class="btn-group col-sm col-sm-10 ml">
                   <button class="btn btn-primary btn-sm" (click)="navigateToConfirm()">確認</button>
-                  <button type="button" class="btn btn-secondary btn-sm"
-                   (click)="handleBackAddEdit()">戻る</button>
+                  <button type="button" class="btn btn-secondary btn-sm" (click)="handleBackAddEdit()">戻る</button>
                 </div>
               </li>
             </ul>
 
           </form>
-          
+
         </div>
       </div>
 
