@@ -423,7 +423,7 @@ export class AddEditComponent implements OnInit {
     let form = document.getElementById('addForm');
     if (form) {
       let firstInvalidControl = form.getElementsByClassName('ng-invalid')[0];
-      firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       (firstInvalidControl as HTMLElement).focus();
     }
   }

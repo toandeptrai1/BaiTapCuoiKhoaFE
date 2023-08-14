@@ -40,8 +40,9 @@ export class LoginComponent {
             }
           },
           error: (error) => {
-            console.error(error);
-            this.router.navigate(['error'])
+            this.router.navigate(['/systemerror'], {
+              state: { message: 'システムエラーが発生しました。' },
+            });
           }
         }
       );
