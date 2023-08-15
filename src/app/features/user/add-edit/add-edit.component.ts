@@ -128,7 +128,7 @@ export class AddEditComponent implements OnInit {
         employeeNameKana: new FormControl('', [
           Validators.required,
           Validators.maxLength(125),
-          Validators.pattern('[ぁ-んァ-ン一-龯々〆〤ー・｜｡-ﾟ]+'),
+          Validators.pattern(/^[\u30A0-\u30FFー]+$/),
         ]),
         departmentId: new FormControl('', Validators.required),
         employeeLoginPassword: new FormControl('', [
