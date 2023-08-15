@@ -74,6 +74,7 @@ export class AddEditComponent implements OnInit {
    * khi component lần đầu được render
    */
   ngOnInit(): void {
+
     //Kiểm tra xem trong router có employeeIdEdit không
     if (history.state.employeeIdEdit) {
 
@@ -309,7 +310,7 @@ export class AddEditComponent implements OnInit {
    * @param password giá trị của password được thay đổi
    */
   handlePassChange(password: any) {
-    if( this.addForm.get("employeeLoginPassword")?.valid){
+    if (this.addForm.get("employeeLoginPassword")?.valid) {
       this.addForm.get("employeeConfirmPassword")?.markAsTouched();
     }
     if (this.editMode || history.state.employeeIdEditConfirm) {

@@ -12,59 +12,62 @@
                 <p>入力された情報をＯＫボタンクリックでＤＢへ保存してください</p>
               </li>
               <li class="box-err" *ngIf="errorMessage">
-                  <div class="box-err-content">{{errorMessage}}</div>
+                <div class="box-err-content">{{errorMessage}}</div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">アカウント名</label>
-                <div class="col-sm col-sm-10">{{employee.employeeLoginId}}</div>
+                <div class="col-sm col-sm-10 wrap_text">{{employee.employeeLoginId}}</div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">グループ</label>
-                <div class="col-sm col-sm-10">{{departmentName}}</div>
+                <div class="col-sm col-sm-10 wrap_text">{{departmentName}}</div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">氏名</label>
-                <div class="col-sm col-sm-10">{{employee.employeeName}}</div>
+                <div class="col-sm col-sm-10 wrap_text">{{employee.employeeName}}</div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">カタカナ氏名</label>
-                <div class="col-sm col-sm-10">{{employee.employeeNameKana}}</div>
+                <div class="col-sm col-sm-10 wrap_text">{{employee.employeeNameKana}}</div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">生年月日</label>
-                <div class="col-sm col-sm-10">{{employee.employeeBirthDate|date:'YYYY/MM/dd'}}</div>
+                <div class="col-sm col-sm-10 wrap_text">{{employee.employeeBirthDate|date:'YYYY/MM/dd'}}</div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">メールアドレス</label>
-                <div class="col-sm col-sm-10">{{employee.employeeEmail}}</div>
+                <div class="col-sm col-sm-10 wrap_text">{{employee.employeeEmail}}</div>
               </li>
               <li class="form-group row d-flex  bor-none">
                 <label class="col-form-label col-sm-2">電話番号</label>
-                <div class="col-sm col-sm-10">{{employee.employeeTelephone}}</div>
+                <div class="col-sm col-sm-10 wrap_text">{{employee.employeeTelephone}}</div>
               </li>
               <li class="title mt-12"><a href="#!">日本語能力</a></li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">資格</label>
-                <div class="col-sm col-sm-10">{{certificationName}}</div>
+                <div class="col-sm col-sm-10 wrap_text">{{certificationName}}</div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">資格交付日</label>
-                <div class="col-sm col-sm-10"><span *ngIf="employee.certifications.length>0">{{employee.certifications[0].certificationStartDate|date:'YYYY/MM/dd'}}</span>
+                <div class="col-sm col-sm-10"><span class="wrap_text"
+                    *ngIf="employee.certifications.length>0">{{employee.certifications[0].certificationStartDate|date:'YYYY/MM/dd'}}</span>
                 </div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">失効日</label>
-                <div class="col-sm col-sm-10"><span  *ngIf="employee.certifications.length>0">{{employee.certifications[0].certificationEndDate|date:'YYYY/MM/dd'}}</span>
+                <div class="col-sm col-sm-10"><span class="wrap_text"
+                    *ngIf="employee.certifications.length>0">{{employee.certifications[0].certificationEndDate|date:'YYYY/MM/dd'}}</span>
                 </div>
               </li>
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2">点数</label>
-                <div class="col-sm col-sm-10"><span  *ngIf="employee.certifications.length>0">{{employee.certifications[0].employeeCertificationScore}}</span></div>
+                <div class="col-sm col-sm-10"><span class="wrap_text"
+                    *ngIf="employee.certifications.length>0">{{employee.certifications[0].employeeCertificationScore}}</span>
+                </div>
               </li>
               <li class="form-group row d-flex">
                 <div class="btn-group col-sm col-sm-10 ml">
-                  <button type="button" class="btn btn-primary btn-sm"
-                   (click)="addEmployee()">OK</button>
+                  <button type="button" class="btn btn-primary btn-sm" (click)="addEmployee()">OK</button>
                   <button type="button" class="btn btn-secondary btn-sm" (click)="navigateToEditAdd()">戻る</button>
                 </div>
               </li>

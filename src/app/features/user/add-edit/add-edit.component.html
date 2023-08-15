@@ -37,8 +37,9 @@
                   <select class="form-control"
                     [required]="(addForm.get('departmentId')?.touched||addForm.get('departmentId')?.dirty||submitted)&&addForm.get('departmentId')?.errors!== undefined"
                     formControlName="departmentId" #depart (change)="handleDepartChange(depart.value)">
-                    <option  value="">選択してください</option>
-                    <option  *ngFor="let dep of departments" [value]="dep.departmentId">{{dep.departmentName}}</option>
+                    <option value="">選択してください</option>
+                    <option *ngFor="let dep of departments" [value]="dep.departmentId">
+                      {{dep.departmentName}}</option>
 
                   </select>
                   <div class="invalid-feedback"
@@ -109,8 +110,7 @@
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeEmail')?.touched||addForm.get('employeeEmail')?.dirty||submitted)&&addForm.get('employeeEmail')?.errors?.['maxlength']">
                     125桁以内のメールアドレスを入力してください</div>
-                  <div class="invalid_message"
-                    *ngIf="(addForm.get('employeeEmail')?.touched||addForm.get('employeeEmail')?.dirty||submitted)&&addForm.get('employeeEmail')?.errors?.['email']
+                  <div class="invalid_message" *ngIf="(addForm.get('employeeEmail')?.touched||addForm.get('employeeEmail')?.dirty||submitted)&&addForm.get('employeeEmail')?.errors?.['email']
                     &&!addForm.get('employeeEmail')?.errors?.['maxlength']">
                     メールアドレスをカタカナで入力してください</div>
 
