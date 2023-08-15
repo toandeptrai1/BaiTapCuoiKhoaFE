@@ -13,7 +13,7 @@
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">カタカナ氏名:<span
                       class="note-red">*</span></i></label>
-                <div class="col-sm col-sm-10"><input type="text" class="form-control" autofocus
+                <div class="col-sm col-sm-10"><input tabindex="1" type="text" class="form-control" autofocus
                     [readOnly]="editMode||editConfirm"
                     [ngClass]="(addForm.get('employeeLoginId')?.touched||addForm.get('employeeLoginId')?.dirty||submitted)&&addForm.get('employeeLoginId')?.errors?'invalid_input':''"
                     formControlName="employeeLoginId">
