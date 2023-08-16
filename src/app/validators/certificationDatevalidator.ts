@@ -7,7 +7,7 @@ export function CertificationValidator(formGroup: AbstractControl) {
   if (startDate?.valid && new Date(endDate?.value) <= new Date(startDate?.value)) {
     endDate?.setErrors({ dateInvalid: true });
   } else {
-    endDate?.setErrors(null);
+    
   }
 
 }
