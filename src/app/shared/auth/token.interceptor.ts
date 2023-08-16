@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   intercept(
     request: HttpRequest<any>,
@@ -58,6 +58,13 @@ export class AuthInterceptorService implements HttpInterceptor {
             let param = error.error.message.params?.[0];
             message = param + ' đã tồn tại.';
             this.router.navigate(['/user/add'], {
+              state: { message: message },
+            });
+          }
+          //Xử lý lỗi không không kết nối được DB
+          if (error.error.message.code === 'ER023') {
+            message = 'システムエラーが発生しました。';
+            this.router.navigate(['/systemerror'], {
               state: { message: message },
             });
           }

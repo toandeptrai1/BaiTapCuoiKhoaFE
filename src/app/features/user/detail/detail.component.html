@@ -69,8 +69,8 @@
                 <div class="btn-group col-sm col-sm-10 ml">
                   <button type="button" class="btn btn-primary btn-sm"
                     (click)="updateUser(employee.employeeId)">編集</button>
-                  <button type="button" class="btn btn-secondary btn-sm"
-                    (click)="deleteUser(employee.employeeId)">削除</button>
+                  <button type="button" class="btn btn-secondary btn-sm" appDebounceClick
+                    (appDebounceClick)="deleteUser(employee.employeeId)" [debounceTime]="500">削除</button>
                   <button type="button" class="btn btn-secondary btn-sm" (click)="navigateToListUser()">戻る</button>
                 </div>
               </li>

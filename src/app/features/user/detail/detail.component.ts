@@ -80,16 +80,19 @@ export class DetailComponent implements OnInit {
    * @returns certificationName tìm được
    */
   getCertificationById(id: any): string {
-    let certification: Certification | undefined;
-    certification = this.certifications.find(
-      (cer) => cer.certificationId == id
-    );
+    if (id) {
+      let certification: Certification | undefined;
+      certification = this.certifications.find(
+        (cer) => cer.certificationId == id
+      );
 
-    if (certification) {
-      return certification.certificationName;
-    } else {
-      return '';
+      if (certification) {
+        return certification.certificationName;
+      } else {
+        return '';
+      }
     }
+    return "";
   }
   /**
    * Xử lý việc chuyển về trang user/list bằng router
@@ -163,10 +166,10 @@ export class DetailComponent implements OnInit {
   }
   /**
    * Xử lý việc navigate sang trang edit kèm theo employeeId
-   * @param employeeId 
+   * @param employeeId
    */
-  updateUser(employeeId:any){
-    this.router.navigate(['user/edit'],{state:{employeeIdEdit:employeeId}})
+  updateUser(employeeId: any) {
+    this.router.navigate(['user/edit'], { state: { employeeIdEdit: employeeId } })
 
   }
 }

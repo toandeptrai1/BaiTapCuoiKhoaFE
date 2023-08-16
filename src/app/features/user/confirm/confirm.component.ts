@@ -81,7 +81,7 @@ export class ConfirmComponent implements OnInit {
       });
 
     } else {
-    //Trường hợp ko có id trong router thì chuyển về trang add
+      //Trường hợp ko có id trong router thì chuyển về trang add
       this.router.navigate(['/user/add'], {
         state: {
           employee: this.employee,
@@ -98,17 +98,23 @@ export class ConfirmComponent implements OnInit {
    * Thực hiện add 1 employee hoặc edit 1 employee
    */
   addEmployee() {
+
     //Kiểm tra router có employeeId không.
     if (this.employeeAdd.employeeId) {
       this.employeeService.editEmployee(this.employeeAdd).pipe(
         //Xử lý lỗi
-        catchError(() => {
+        catchError((err) => {
+          if (err.message.code == 'ER013') {
+            this.router.navigate(['/systemerror'], {
+              state: { message: '該当するユーザは存在していません。' },
+            });
+          }
+          if (err.message.code == 'ER003') {
+            this.router.navigate(['/systemerror'], {
+              state: { message: 'アカウント名 は既に存在しています。' },
+            });
+          }
 
-          localStorage.setItem("employeeConfirmErr", JSON.stringify({
-            data: this.employee,
-            certificationName: this.certificationName,
-            departmentName: this.departmentName,
-          }));
           throw new Error("Có lỗi rồi !")
         })
       ).subscribe(data => {
@@ -122,7 +128,7 @@ export class ConfirmComponent implements OnInit {
       this.employeeService.addEmployee(this.employeeAdd).pipe(
         //Xử lý lỗi
         catchError(() => {
-         
+
           localStorage.setItem("employeeConfirmErr", JSON.stringify({
             data: this.employee,
             certificationName: this.certificationName,

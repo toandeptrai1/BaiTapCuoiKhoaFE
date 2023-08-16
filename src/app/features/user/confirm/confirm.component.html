@@ -67,7 +67,8 @@
               </li>
               <li class="form-group row d-flex">
                 <div class="btn-group col-sm col-sm-10 ml">
-                  <button type="button" class="btn btn-primary btn-sm" (click)="addEmployee()">OK</button>
+                  <button type="button" appDebounceClick (appDebounceClick)="addEmployee()" [debounceTime]="500"
+                    class="btn btn-primary btn-sm">OK</button>
                   <button type="button" class="btn btn-secondary btn-sm" (click)="navigateToEditAdd()">戻る</button>
                 </div>
               </li>

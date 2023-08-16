@@ -11,9 +11,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { CompleteComponent } from './complete/complete.component';
 import { DetailComponent } from './detail/detail.component';
+import { DebounceClickDirective } from '../directives/debounce-click.directive';
+
 
 @NgModule({
-  declarations: [UserListComponent, AddEditComponent, ConfirmComponent, CompleteComponent, DetailComponent],
+  declarations: [UserListComponent, AddEditComponent, ConfirmComponent, CompleteComponent, DetailComponent, DebounceClickDirective],
   imports: [
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),
@@ -24,4 +26,4 @@ import { DetailComponent } from './detail/detail.component';
     ReactiveFormsModule,
   ],
 })
-export class UsersModule {}
+export class UsersModule { }

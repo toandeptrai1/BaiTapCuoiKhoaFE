@@ -345,7 +345,7 @@ export class AddEditComponent implements OnInit {
     //Back về trường hợp mode Edit
     if (this.editMode) {
       this.router.navigate(['/user/detail'], { state: { employeeId: this.employee.employeeId } });
-    }else if(history.state.employeeIdEditConfirm){
+    } else if (history.state.employeeIdEditConfirm) {
       this.router.navigate(['/user/detail'], { state: { employeeId: history.state.employeeIdEditConfirm } });
     } else {
       //Back về trường hợp mode Add
