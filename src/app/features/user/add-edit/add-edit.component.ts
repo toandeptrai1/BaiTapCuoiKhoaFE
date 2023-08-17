@@ -66,6 +66,7 @@ export class AddEditComponent implements OnInit {
     private employeeService: EmployeeService,
     private fb: FormBuilder,
     private router: Router
+    
   ) { }
   get certifications(): FormArray {
     return this.addForm.get('certifications') as FormArray;
@@ -76,6 +77,8 @@ export class AddEditComponent implements OnInit {
   @ViewChild('inputRef') inputRef!: ElementRef;
   ngAfterViewInit() {
     this.inputRef.nativeElement.focus();
+   
+   
   }
 
   /**
@@ -107,6 +110,7 @@ export class AddEditComponent implements OnInit {
     this.employeeService.getDepartments().subscribe((data) => {
       this.departments = data.departments;
     });
+   
     /**
      * Khởi tạo các form và các trường của form
      */
@@ -212,7 +216,16 @@ export class AddEditComponent implements OnInit {
           this.employee = data;
           employee = this.employee;
           this.departmentName = this.employee?.departmentName;
-          this.certificationName = this.employee?.certifications[0]?.certificationName;
+          
+    
+          this.employeeService.getCertification().subscribe((Cerlist) => {
+            let certi = Cerlist.certifications.find((x) => x.certificationId ==  this.employee?.certifications[0]?.certificationId);
+        
+           
+            this.certificationName = certi?.certificationName ? certi.certificationName : '';
+            console.log( this.certificationName);
+          });
+         
           employee.employeeLoginPassword = "";
           //Gán lại giá trị cho form
           this.setValueForForm(employee);
@@ -381,6 +394,9 @@ export class AddEditComponent implements OnInit {
    */
   setValueForForm(employee: any) {
     this.addForm.get("employeeId")?.setValue(employee.employeeId);
+    if (history.state.employeeIdEdit || history.state.employeeIdEditConfirm) {
+      document.getElementById("departmentID")?.focus();
+    }
     this.addForm.get("employeeName")?.setValue(employee.employeeName);
     this.addForm.get("employeeEmail")?.setValue(employee.employeeEmail);
     this.addForm.get("employeeLoginId")?.setValue(employee.employeeLoginId);
