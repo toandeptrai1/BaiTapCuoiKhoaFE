@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { Certification } from './../../../models/Certification';
 import { EmployeeService } from './../../../services/employee.service';
 import { departments } from './../../../models/departments';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -21,6 +21,7 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 import { checkEmployeeReLoginPassword } from 'src/app/validators/password.validator';
 import { CertificationValidator } from 'src/app/validators/certificationDatevalidator';
+import { dateValidator } from 'src/app/validators/date.validator';
 
 
 @Component({
@@ -70,6 +71,14 @@ export class AddEditComponent implements OnInit {
     return this.addForm.get('certifications') as FormArray;
   }
   /**
+   * Focus hạng mục đầu tiên
+   */
+  @ViewChild('inputRef') inputRef!: ElementRef;
+  ngAfterViewInit() {
+    this.inputRef.nativeElement.focus();
+  }
+
+  /**
    * Xử lý gán các giá trị hoặc xử lý các logic
    * khi component lần đầu được render
    */
@@ -81,10 +90,12 @@ export class AddEditComponent implements OnInit {
       this.editMode = true;
 
     }
+    //Check các trường hợp để check xem đây là add hay edit
     if (!history.state.employeeIdEdit && !history.state.employeeIdEditConfirm) {
       this.addMode = true;
 
     }
+    //Check các trường hợp để check xem đây là add hay edit
     if (history.state.employeeIdEditConfirm) {
       this.editConfirm = true;
     }
@@ -92,7 +103,7 @@ export class AddEditComponent implements OnInit {
     if (!history.state.employeeIdEdit && !history.state.employeeIdEditConfirm) {
       this.router.navigateByUrl("/user/add")
     }
-
+    //Check các trường hợp để check xem đây là add hay edit
     this.employeeService.getDepartments().subscribe((data) => {
       this.departments = data.departments;
     });
@@ -124,7 +135,7 @@ export class AddEditComponent implements OnInit {
           Validators.maxLength(50),
           Validators.pattern('^[0-9]+$'),
         ]),
-        employeeBirthDate: new FormControl('', Validators.required),
+        employeeBirthDate: new FormControl('', [Validators.required, dateValidator]),
         employeeNameKana: new FormControl('', [
           Validators.required,
           Validators.maxLength(125),
@@ -251,11 +262,22 @@ export class AddEditComponent implements OnInit {
 
       //thêm validator cho certificationStartDate,EndDate,Score nếu chọn tiếng Nhật
       this.certificationName = certi?.certificationName ? certi.certificationName : '';
+
       certificationsForm.get("certificationStartDate")?.patchValue("");
       certificationsForm.get("certificationEndDate")?.patchValue("");
       certificationsForm.get("employeeCertificationScore")?.patchValue("");
-      certificationsForm.get("certificationStartDate")?.setValidators([Validators.required]);
-      certificationsForm.get("certificationEndDate")?.setValidators([Validators.required]);
+      //Trường hợp edit gán lại giá trị cho form nếu certiId=certiId của employee
+      if (this.editMode && this.employee.certifications.length > 0) {
+        for (let cer of this.employee.certifications) {
+          if (cer.certificationId == id) {
+            certificationsForm.get("certificationStartDate")?.patchValue(cer.certificationStartDate);
+            certificationsForm.get("certificationEndDate")?.patchValue(cer.certificationEndDate);
+            certificationsForm.get("employeeCertificationScore")?.patchValue(cer.employeeCertificationScore);
+          }
+        }
+      }
+      certificationsForm.get("certificationStartDate")?.setValidators([Validators.required, dateValidator]);
+      certificationsForm.get("certificationEndDate")?.setValidators([Validators.required, dateValidator]);
       certificationsForm.get("employeeCertificationScore")?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')]);
       //enable các trường certificationStartDate,EndDate,Score
       this.addForm.controls['certifications']
@@ -383,8 +405,8 @@ export class AddEditComponent implements OnInit {
       certificationsForm.get("certificationStartDate")?.patchValue(employee.certifications[0].certificationStartDate);
       certificationsForm.get("certificationEndDate")?.patchValue(employee.certifications[0].certificationEndDate);
       certificationsForm.get("employeeCertificationScore")?.patchValue(employee.certifications[0].employeeCertificationScore);
-      certificationsForm.get("certificationStartDate")?.setValidators([Validators.required]);
-      certificationsForm.get("certificationEndDate")?.setValidators([Validators.required]);
+      certificationsForm.get("certificationStartDate")?.setValidators([Validators.required, dateValidator]);
+      certificationsForm.get("certificationEndDate")?.setValidators([Validators.required, dateValidator]);
       certificationsForm.get("employeeCertificationScore")?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')]);
       //enable các trường certificationStartDate,EndDate,Score
       this.addForm.controls['certifications']

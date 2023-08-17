@@ -13,7 +13,7 @@
               <li class="form-group row d-flex">
                 <label class="col-form-label col-sm-2"><i class="relative">カタカナ氏名:<span
                       class="note-red">*</span></i></label>
-                <div class="col-sm col-sm-10"><input tabindex="1" type="text" class="form-control" autofocus
+                <div class="col-sm col-sm-10"><input tabindex="1" type="text" class="form-control" #inputRef
                     [readOnly]="editMode||editConfirm"
                     [ngClass]="(addForm.get('employeeLoginId')?.touched||addForm.get('employeeLoginId')?.dirty||submitted)&&addForm.get('employeeLoginId')?.errors?'invalid_input':''"
                     formControlName="employeeLoginId">
@@ -34,7 +34,7 @@
                 <label class="col-form-label col-sm-2"><i class="relative">グループ:<span
                       class="note-red">*</span></i></label>
                 <div class="col-sm col-sm-10">
-                  <select class="form-control"
+                  <select class="form-control" [autofocus]="editMode||editConfirm"
                     [required]="(addForm.get('departmentId')?.touched||addForm.get('departmentId')?.dirty||submitted)&&addForm.get('departmentId')?.errors!== undefined"
                     formControlName="departmentId" #depart (change)="handleDepartChange(depart.value)">
                     <option value="">選択してください</option>
@@ -86,7 +86,7 @@
                 <div class="col-sm col-sm-10 d-flex">
                   <div class="input-group date datepicker">
 
-                    <input class="form-control" readonly="" type="text" bsDatepicker formControlName="employeeBirthDate"
+                    <input class="form-control" type="text" bsDatepicker formControlName="employeeBirthDate"
                       [ngClass]="(addForm.get('employeeBirthDate')?.touched||addForm.get('employeeBirthDate')?.dirty||submitted)&&addForm.get('employeeBirthDate')?.errors?'invalidDate':''"
                       [bsConfig]="{ dateInputFormat:'YYYY/MM/DD' }" #datepickerYMD="bsDatepicker">
                     <span class="input-group-addon" (click)="datepickerYMD.toggle()">
@@ -95,6 +95,9 @@
                   <div class="invalid_message"
                     *ngIf="(addForm.get('employeeBirthDate')?.touched||addForm.get('employeeBirthDate')?.dirty||submitted)&&addForm.get('employeeBirthDate')?.errors?.['required']">
                     生年月日を入力してください</div>
+                  <div class="invalid_message"
+                    *ngIf="(addForm.get('employeeBirthDate')?.touched||addForm.get('employeeBirthDate')?.dirty||submitted)&&addForm.get('employeeBirthDate')?.errors?.['invalidDate']">
+                    生年月日は無効になっています。</div>
 
                 </div>
               </li>
@@ -202,7 +205,7 @@
                             *ngIf="isSelectedCerti">*</span></i></label>
                       <div class="col-sm col-sm-10 d-flex">
                         <div class="input-group date datepicker">
-                          <input class="form-control" readonly="" type="text" bsDatepicker
+                          <input class="form-control" type="text" bsDatepicker
                             [ngClass]="(addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.errors?'invalidDate':''"
                             formControlName="certificationStartDate" [bsConfig]="{ dateInputFormat:'YYYY/MM/DD' }"
                             #startDatePicker="bsDatepicker">
@@ -211,7 +214,10 @@
                         </div>
                         <div class="invalid_message"
                           *ngIf="(addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.errors?.['required']">
-                          資格交付日を入力してください</div>
+                          資格交付日を入力してください。</div>
+                        <div class="invalid_message"
+                          *ngIf="(addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationStartDate')?.errors?.['invalidDate']">
+                          資格交付日は無効になっています。</div>
                       </div>
                     </li>
                     <li class="form-group row d-flex">
@@ -219,7 +225,7 @@
                           <span class="note-red" *ngIf="isSelectedCerti">*</span></i></label>
                       <div class="col-sm col-sm-10 d-flex">
                         <div class="input-group date datepicker">
-                          <input class="date form-control" type="text" bsDatepicker readonly=""
+                          <input class="date form-control" type="text" bsDatepicker
                             [ngClass]="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?'invalidDate':''"
                             formControlName="certificationEndDate" [bsConfig]="{ dateInputFormat:'YYYY/MM/DD' }"
                             #endDatePicker="bsDatepicker">
@@ -230,6 +236,9 @@
                         <div class="invalid_message"
                           *ngIf="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?.['required']">
                           失効日を入力してください</div>
+                        <div class="invalid_message"
+                          *ngIf="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)&&addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?.['invalidDate']">
+                          失効日は無効になっています。</div>
                         <div class="invalid_message"
                           *ngIf="(addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.touched||submitted)
                           &&!addForm.get('certifications')?.get(item+'')?.get('certificationEndDate')?.errors?.['required']
