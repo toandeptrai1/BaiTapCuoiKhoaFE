@@ -23,6 +23,7 @@ export class DetailComponent implements OnInit {
   employee!: EmployeeResponse;
   certifications!: Certification[];
   errorMessage: string = '';
+  certificationName:String=""
 
   /**
    * Thực hiện inject các service cần thiết
@@ -33,7 +34,8 @@ export class DetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+   
   ) { }
   /**
    * Xử lý các logic khi component render lần đầu
@@ -53,8 +55,8 @@ export class DetailComponent implements OnInit {
           })
         ).subscribe(
           (emp) => {
-
             this.employee = emp;
+           
           }
         );
       } else {
@@ -72,7 +74,10 @@ export class DetailComponent implements OnInit {
 
     this.employeeService
       .getCertification()
-      .subscribe((data) => (this.certifications = data.certifications));
+      .subscribe((data) => {
+        this.certifications = data.certifications;
+        this.certificationName=this.getCertificationById(this.employee.certifications[0].certificationId);
+      });
   }
   /**
    * Xử lý get certificationName theo certificationId
@@ -83,7 +88,7 @@ export class DetailComponent implements OnInit {
     if (id) {
       let certification: Certification | undefined;
       certification = this.certifications.find(
-        (cer) => cer.certificationId == id
+        (cer) => cer.certificationId === id
       );
 
       if (certification) {
@@ -136,15 +141,13 @@ export class DetailComponent implements OnInit {
         const payload = TokenUtils.parseJwt(token);
         //Thực hiện kiểm tra xem id cần xoá có phải là tài khoản đang đăng nhập
         if (employeeId === payload.employee.employeeId) {
-          this.errorMessage =
-            'Không xoá được vì bạn đang đăng nhập tài khoản này !';
+          this.errorMessage ='管理者ユーザを削除することはできません。';
         } else {
           //Thực hiện gọi api xoá employee theo id
           this.employeeService
             .deleteEmployeeById(employeeId)
             .pipe(
               catchError((err) => {
-                console.log(err);
                 if (err.message.code == 'ER014') {
                   this.errorMessage = '該当するユーザは存在していません。';
                 } else {

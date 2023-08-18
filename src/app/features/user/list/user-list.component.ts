@@ -43,7 +43,6 @@ export class UserListComponent {
    * componen render lần đâu.
    */
   ngOnInit(): void {
-    console.log(history.state)
     //Kiểm tra xem có data trong router không trong trường hợp navigate từ màn complate về
     if (history.state.currentPage) {
       this.employeeName = history.state.employeeName;
@@ -73,7 +72,6 @@ export class UserListComponent {
       .subscribe((data) => {
         this.data = data;
         this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
-        console.log(this.totalPage);
       });
     this.employeeService.getDepartments().subscribe((data) => {
       this.departments = data.departments;
@@ -118,7 +116,6 @@ export class UserListComponent {
       .subscribe((data) => {
         this.data = data;
         this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
-        console.log(this.totalPage);
       });
 
   }
@@ -147,7 +144,6 @@ export class UserListComponent {
       .subscribe((data) => {
         this.data = data;
         this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
-        console.log(this.totalPage);
       });
   }
   /**
@@ -198,7 +194,6 @@ export class UserListComponent {
       .subscribe((data) => {
         this.data = data;
         this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
-        console.log(this.totalPage);
       });
   }
   /**
@@ -232,7 +227,6 @@ export class UserListComponent {
       .subscribe((data) => {
         this.data = data;
         this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
-        console.log(this.totalPage);
       });
   }
   /**
@@ -266,7 +260,6 @@ export class UserListComponent {
       .subscribe((data) => {
         this.data = data;
         this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
-        console.log(this.totalPage);
       });
   }
   /**

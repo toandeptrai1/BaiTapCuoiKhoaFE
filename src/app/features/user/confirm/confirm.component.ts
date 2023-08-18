@@ -62,8 +62,7 @@ export class ConfirmComponent implements OnInit {
     } else {
       this.employeeAdd.certifications = [];
     }
-    console.log("employ dung de add:");
-    console.log(this.employeeAdd);
+  
   }
   /**
    * Chuyển về mà EditAdd với data đã được nhận từ màn EditAdd
@@ -118,8 +117,7 @@ export class ConfirmComponent implements OnInit {
           throw new Error("Có lỗi rồi !")
         })
       ).subscribe(data => {
-        console.log("emplyee edit được:")
-        console.log(data);
+    
         localStorage.removeItem("employeeConfirm")
         localStorage.removeItem("employeeConfirmErr")
         this.router.navigate(['/user/complete'], { state: { message: "ユーザの更新が完了しました。" } })
@@ -137,8 +135,6 @@ export class ConfirmComponent implements OnInit {
           throw new Error("Có lỗi rồi !")
         })
       ).subscribe(data => {
-        console.log("emplyee thêm được:")
-        console.log(data);
         localStorage.removeItem("employeeConfirm")
         localStorage.removeItem("employeeConfirmErr")
         this.router.navigate(['/user/complete'], { state: { message: "ユーザの登録が完了しました。" } })
@@ -150,10 +146,8 @@ export class ConfirmComponent implements OnInit {
    */
   parsDate(input: string): string {
     const inputDate = new Date(input);
-
     // Chuyển đổi thành chuỗi định dạng mới "yyyy/MM/dd"
     let formattedDate = format(inputDate, 'yyyy/MM/dd');
-    console.log(formattedDate);
     return formattedDate;
   }
 }

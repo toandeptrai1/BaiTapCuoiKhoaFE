@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { Certification } from './../../../models/Certification';
 import { EmployeeService } from './../../../services/employee.service';
 import { departments } from './../../../models/departments';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -65,7 +65,8 @@ export class AddEditComponent implements OnInit {
   constructor(
     private employeeService: EmployeeService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private cd:ChangeDetectorRef
     
   ) { }
   get certifications(): FormArray {
@@ -77,6 +78,7 @@ export class AddEditComponent implements OnInit {
   @ViewChild('inputRef') inputRef!: ElementRef;
   ngAfterViewInit() {
     this.inputRef.nativeElement.focus();
+    this.cd.detectChanges();
    
    
   }
@@ -223,7 +225,7 @@ export class AddEditComponent implements OnInit {
         
            
             this.certificationName = certi?.certificationName ? certi.certificationName : '';
-            console.log( this.certificationName);
+          
           });
          
           employee.employeeLoginPassword = "";
@@ -394,9 +396,7 @@ export class AddEditComponent implements OnInit {
    */
   setValueForForm(employee: any) {
     this.addForm.get("employeeId")?.setValue(employee.employeeId);
-    if (history.state.employeeIdEdit || history.state.employeeIdEditConfirm) {
-      document.getElementById("departmentID")?.focus();
-    }
+
     this.addForm.get("employeeName")?.setValue(employee.employeeName);
     this.addForm.get("employeeEmail")?.setValue(employee.employeeEmail);
     this.addForm.get("employeeLoginId")?.setValue(employee.employeeLoginId);
@@ -404,6 +404,9 @@ export class AddEditComponent implements OnInit {
     this.addForm.get("departmentId")?.setValue(employee.departmentId);
     this.addForm.get("employeeTelephone")?.setValue(employee.employeeTelephone);
     this.addForm.get("employeeNameKana")?.setValue(employee.employeeNameKana);
+    if (history.state.employeeIdEdit || history.state.employeeIdEditConfirm) {
+      document.getElementById("departmentID")?.focus();
+    }
     if (employee.employeeId && !employee.employeeLoginPassword) {
       this.addForm.get("employeeLoginPassword")?.clearValidators();
       this.addForm.get("employeeConfirmPassword")?.clearValidators();
@@ -469,6 +472,7 @@ export class AddEditComponent implements OnInit {
       let firstInvalidControl = form.getElementsByClassName('ng-invalid')[0];
       firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       (firstInvalidControl as HTMLElement).focus();
+      window.scrollBy(0,-50);
     }
   }
 }
