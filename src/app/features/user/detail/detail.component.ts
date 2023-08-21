@@ -23,7 +23,8 @@ export class DetailComponent implements OnInit {
   employee!: EmployeeResponse;
   certifications!: Certification[];
   errorMessage: string = '';
-  certificationName:String=""
+  certificationName: String = "";
+  isLoading: boolean = true;
 
   /**
    * Thực hiện inject các service cần thiết
@@ -35,7 +36,7 @@ export class DetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private employeeService: EmployeeService,
-   
+
   ) { }
   /**
    * Xử lý các logic khi component render lần đầu
@@ -48,15 +49,22 @@ export class DetailComponent implements OnInit {
       id = parseInt(history.state.employeeId || 'null');
       //Kiểm tra xem id có phải number không
       if (id) {
+        this.isLoading = true;
         this.employeeService.getEmployeeById(id).pipe(
           catchError((err) => {
+            this.isLoading = false;
             this.errorMessage = '該当するユーザは存在していません。';
             throw new Error("lỗi rồi");
           })
         ).subscribe(
           (emp) => {
+            this.isLoading = false;
             this.employee = emp;
-           
+            this.employeeService.getCertification().subscribe((data) => {
+              this.certifications = data.certifications;
+              this.certificationName = this.getCertificationById(this.employee.certifications[0].certificationId);
+            });
+
           }
         );
       } else {
@@ -72,12 +80,7 @@ export class DetailComponent implements OnInit {
       });
     }
 
-    this.employeeService
-      .getCertification()
-      .subscribe((data) => {
-        this.certifications = data.certifications;
-        this.certificationName=this.getCertificationById(this.employee.certifications[0].certificationId);
-      });
+
   }
   /**
    * Xử lý get certificationName theo certificationId
@@ -141,7 +144,7 @@ export class DetailComponent implements OnInit {
         const payload = TokenUtils.parseJwt(token);
         //Thực hiện kiểm tra xem id cần xoá có phải là tài khoản đang đăng nhập
         if (employeeId === payload.employee.employeeId) {
-          this.errorMessage ='管理者ユーザを削除することはできません。';
+          this.errorMessage = '管理者ユーザを削除することはできません。';
         } else {
           //Thực hiện gọi api xoá employee theo id
           this.employeeService

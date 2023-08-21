@@ -52,7 +52,7 @@ export class AddEditComponent implements OnInit {
   addMode: boolean = false;
   editConfirm: boolean = false;
   employee!: any;
-
+  isLoading: boolean = true;
 
 
 
@@ -66,8 +66,8 @@ export class AddEditComponent implements OnInit {
     private employeeService: EmployeeService,
     private fb: FormBuilder,
     private router: Router,
-    private cd:ChangeDetectorRef
-    
+    private cd: ChangeDetectorRef
+
   ) { }
   get certifications(): FormArray {
     return this.addForm.get('certifications') as FormArray;
@@ -79,8 +79,8 @@ export class AddEditComponent implements OnInit {
   ngAfterViewInit() {
     this.inputRef.nativeElement.focus();
     this.cd.detectChanges();
-   
-   
+
+
   }
 
   /**
@@ -97,7 +97,11 @@ export class AddEditComponent implements OnInit {
     }
     //Check các trường hợp để check xem đây là add hay edit
     if (!history.state.employeeIdEdit && !history.state.employeeIdEditConfirm) {
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400)
       this.addMode = true;
+      this.router.navigateByUrl("/user/add")
 
     }
     //Check các trường hợp để check xem đây là add hay edit
@@ -105,14 +109,12 @@ export class AddEditComponent implements OnInit {
       this.editConfirm = true;
     }
 
-    if (!history.state.employeeIdEdit && !history.state.employeeIdEditConfirm) {
-      this.router.navigateByUrl("/user/add")
-    }
+
     //Check các trường hợp để check xem đây là add hay edit
     this.employeeService.getDepartments().subscribe((data) => {
       this.departments = data.departments;
     });
-   
+
     /**
      * Khởi tạo các form và các trường của form
      */
@@ -193,6 +195,7 @@ export class AddEditComponent implements OnInit {
       this.isSelectedCerti = true;
       //Thực hiện gán giá trị trong trường hợp back từ ADM005 về
       if (history.state.employee) {
+        this.isLoading = false;
         //gán giá trị được lấy từ router trả về
         employee = history.state.employee;
         this.departmentName = history.state.departmentName;
@@ -204,6 +207,7 @@ export class AddEditComponent implements OnInit {
       }
       //Gán lại giá trị trong trường hợp trả về lỗi trùng employee loginID
       if (history.state.message && JSON.parse(localStorage.getItem("employeeConfirmErr") || "null")) {
+        this.isLoading = false;
         this.errMessage = history.state.message;
         employee = JSON.parse(localStorage.getItem("employeeConfirmErr") || "null").data;
         this.departmentName = JSON.parse(localStorage.getItem("employeeConfirmErr") || "null").departmentName;
@@ -214,20 +218,22 @@ export class AddEditComponent implements OnInit {
       }
       //Gán lại giá trị trong trường hợp edit
       if (this.editMode) {
+        this.isLoading = true;
         this.employeeService.getEmployeeById(history.state.employeeIdEdit).subscribe(data => {
+          this.isLoading = false;
           this.employee = data;
           employee = this.employee;
           this.departmentName = this.employee?.departmentName;
-          
-    
+
+
           this.employeeService.getCertification().subscribe((Cerlist) => {
-            let certi = Cerlist.certifications.find((x) => x.certificationId ==  this.employee?.certifications[0]?.certificationId);
-        
-           
+            let certi = Cerlist.certifications.find((x) => x.certificationId == this.employee?.certifications[0]?.certificationId);
+
+
             this.certificationName = certi?.certificationName ? certi.certificationName : '';
-          
+
           });
-         
+
           employee.employeeLoginPassword = "";
           //Gán lại giá trị cho form
           this.setValueForForm(employee);
@@ -472,7 +478,7 @@ export class AddEditComponent implements OnInit {
       let firstInvalidControl = form.getElementsByClassName('ng-invalid')[0];
       firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       (firstInvalidControl as HTMLElement).focus();
-      window.scrollBy(0,-50);
+      window.scrollBy(0, -50);
     }
   }
 }

@@ -11,7 +11,7 @@ export function CertificationValidator(formGroup: AbstractControl) {
 
   const startDate = formGroup.get("certifications.0.certificationStartDate");
   const endDate = formGroup.get("certifications.0.certificationEndDate");
-  if (startDate?.valid && endDate?.valid) {
+  if (startDate?.valid && endDate?.valid || endDate?.hasError("dateInvalid")) {
     if (new Date(endDate?.value) <= new Date(startDate?.value)) {
       endDate?.setErrors({ dateInvalid: true });
     } else {

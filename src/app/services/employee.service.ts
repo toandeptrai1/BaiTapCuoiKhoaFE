@@ -8,7 +8,7 @@ import { departments } from './../models/departments';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, delay } from 'rxjs';
 import { ApiResponse } from '../models/apiResponse';
 import { DepartmentResponse } from '../models/DepartmentResponse';
 import { CertificationsResponse } from '../models/CertificationsResponse';
@@ -46,7 +46,7 @@ export class EmployeeService {
    */
   getEmployees(employeeName: string = "", departmentId: string = "", page: number = 0, size: number = 4, sortByName: string = "", sortByCertiName: string = "", sortByEndDate: string = ""): Observable<ApiResponse> {
 
-    return this.http.get<ApiResponse>(this.urlEmployee + `?employee_name=${employeeName}&department_id=${departmentId}&ord_employee_name=${sortByName}&ord_end_date=${sortByEndDate}&offset=${page}&limit=${size}&ord_certification_name=${sortByCertiName}`);
+    return this.http.get<ApiResponse>(this.urlEmployee + `?employee_name=${employeeName}&department_id=${departmentId}&ord_employee_name=${sortByName}&ord_end_date=${sortByEndDate}&offset=${page}&limit=${size}&ord_certification_name=${sortByCertiName}`).pipe(delay(500));
   }
   // getEmployees(url:string):Observable<ApiResponse>{
 
@@ -94,7 +94,7 @@ export class EmployeeService {
    * @returns EmployeeResponse Thông tin của employee vừa lấy được
    */
   getEmployeeById(employeeId: number): Observable<any> {
-    return this.http.get<any>(this.urlEmployee + `/${employeeId}`)
+    return this.http.get<any>(this.urlEmployee + `/${employeeId}`).pipe(delay(500))
 
   }
   /**

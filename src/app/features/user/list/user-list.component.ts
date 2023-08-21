@@ -29,6 +29,7 @@ export class UserListComponent {
   sortByName: string = 'asc';
   sortByCertiName: string = 'asc';
   sortByEndDate: string = 'asc';
+  isLoading: boolean = true;
   /**
    * Inject các service cần thiết
    * @param employeeService employeeService
@@ -54,25 +55,7 @@ export class UserListComponent {
 
     }
     //Thực hiện gọi api hiển thị danh sách employee lần đầu
-    this.employeeService
-      .getEmployees(
-        this.employeeName,
-        this.departmentId,
-        this.currentPage - 1,
-        this.itemsPerPage,
-        this.sortByName,
-        this.sortByCertiName,
-        this.sortByEndDate
-      )
-      .pipe(
-        catchError(() => {
-          throw new Error('Đã xảy ra lỗi');
-        })
-      )
-      .subscribe((data) => {
-        this.data = data;
-        this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
-      });
+    this.getEmployees();
     this.employeeService.getDepartments().subscribe((data) => {
       this.departments = data.departments;
     });
@@ -91,13 +74,11 @@ export class UserListComponent {
   ngAfterViewInit() {
     this.inputRef.nativeElement.focus();
   }
-
   /**
-   * Xử lý sự kiện button search
+   * Phương thức call api lấy ra danh sách employee
    */
-  onSearch(value: any) {
-    this.currentPage = 1;
-    this.employeeName = value;
+  getEmployees() {
+    this.isLoading = true
     this.employeeService
       .getEmployees(
         this.employeeName,
@@ -114,9 +95,19 @@ export class UserListComponent {
         })
       )
       .subscribe((data) => {
+        this.isLoading = false;
         this.data = data;
         this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
       });
+  }
+
+  /**
+   * Xử lý sự kiện button search
+   */
+  onSearch(value: any) {
+    this.currentPage = 1;
+    this.employeeName = value;
+    this.getEmployees();
 
   }
   /**
@@ -126,25 +117,7 @@ export class UserListComponent {
    */
   goToPage(page: number) {
     this.currentPage = page;
-    this.employeeService
-      .getEmployees(
-        this.employeeName,
-        this.departmentId,
-        this.currentPage - 1,
-        this.itemsPerPage,
-        this.sortByName,
-        this.sortByCertiName,
-        this.sortByEndDate
-      )
-      .pipe(
-        catchError(() => {
-          throw new Error('Đã xảy ra lỗi');
-        })
-      )
-      .subscribe((data) => {
-        this.data = data;
-        this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
-      });
+    this.getEmployees();
   }
   /**
    *
@@ -175,26 +148,7 @@ export class UserListComponent {
       this.sortByName = 'asc';
     }
 
-    this.employeeService;
-    this.employeeService
-      .getEmployees(
-        this.employeeName,
-        this.departmentId,
-        this.currentPage - 1,
-        this.itemsPerPage,
-        this.sortByName,
-        this.sortByCertiName,
-        this.sortByEndDate
-      )
-      .pipe(
-        catchError(() => {
-          throw new Error('Đã xảy ra lỗi');
-        })
-      )
-      .subscribe((data) => {
-        this.data = data;
-        this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
-      });
+    this.getEmployees();
   }
   /**
    * gán lại thứ tự sắp xếp của SortByCertiName
@@ -208,26 +162,7 @@ export class UserListComponent {
     } else {
       this.sortByCertiName = 'asc';
     }
-
-    this.employeeService
-      .getEmployees(
-        this.employeeName,
-        this.departmentId,
-        this.currentPage - 1,
-        this.itemsPerPage,
-        this.sortByName,
-        this.sortByCertiName,
-        this.sortByEndDate
-      )
-      .pipe(
-        catchError(() => {
-          throw new Error('Đã xảy ra lỗi');
-        })
-      )
-      .subscribe((data) => {
-        this.data = data;
-        this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
-      });
+    this.getEmployees();
   }
   /**
    * gán lại thứ tự sắp xếp của SortByEndDate
@@ -241,26 +176,7 @@ export class UserListComponent {
     } else {
       this.sortByEndDate = 'asc';
     }
-
-    this.employeeService
-      .getEmployees(
-        this.employeeName,
-        this.departmentId,
-        this.currentPage - 1,
-        this.itemsPerPage,
-        this.sortByName,
-        this.sortByCertiName,
-        this.sortByEndDate
-      )
-      .pipe(
-        catchError(() => {
-          throw new Error('Đã xảy ra lỗi');
-        })
-      )
-      .subscribe((data) => {
-        this.data = data;
-        this.totalPage = Math.ceil(data.totalRecords / this.itemsPerPage);
-      });
+    this.getEmployees();
   }
   /**
    * Xử lý navigate sang trang AddEdit
@@ -282,7 +198,7 @@ export class UserListComponent {
    * @param employeeId id của employee cần xem chi tiết
    */
   navigateToDetail(employeeId: any) {
-    //Lưu lại thông tin về thứ tự sắp xếp,employee name,department Name 
+    //Lưu lại thông tin về thứ tự sắp xếp,employee name,department Name
     localStorage.setItem("employeeListState", JSON.stringify({
       employeeName: this.employeeName,
       departmentId: this.departmentId,
@@ -293,7 +209,7 @@ export class UserListComponent {
       sortByEndDate: this.sortByEndDate
     }))
     //Chuyển trang kèm theo employeeID
-    this.router.navigate(['/user/detail'],{state:{employeeId:employeeId}})
+    this.router.navigate(['/user/detail'], { state: { employeeId: employeeId } })
 
   }
 }

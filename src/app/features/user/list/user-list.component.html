@@ -1,8 +1,7 @@
 <main>
   <div class="container">
     <app-header></app-header>
-
-
+    <app-overlay [isShowLoading]="isLoading"></app-overlay>
     <div class="content">
       <div class="content-main">
         <div class="search-memb">
@@ -26,7 +25,8 @@
               </li>
               <li class="form-group row">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-primary btn-sm" (appDebounceClick)="onSearch(name.value)" [debounceTime]="300">検索</button>
+                  <button type="button" class="btn btn-primary btn-sm" (appDebounceClick)="onSearch(name.value)"
+                    [debounceTime]="200">検索</button>
                   <button type="button" class="btn btn-secondary btn-sm" (click)="navigateToAddEdit()">新規追加</button>
                 </div>
               </li>
